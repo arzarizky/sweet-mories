@@ -13,6 +13,11 @@ class Booking extends Model
     use HasFactory, UUIDAsPrimaryKey;
     protected $table = 'bookings';
 
+    public function userbook(): HasMany
+    {
+        return $this->hasMany(User::class, 'user_id', 'id');
+    }
+
     public function bookingDetail(): HasMany
     {
         return $this->hasMany(ProductBooking::class, 'book_id', 'book_id');

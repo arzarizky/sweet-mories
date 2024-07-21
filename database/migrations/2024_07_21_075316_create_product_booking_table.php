@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('product_booking', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('invoice_id')->unique();
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('book_id');
             $table->foreign('book_id')->references('book_id')->on('bookings');
-            $table->enum('status', ['PENDING', 'PAID', 'CANCELLED', 'EXP'])->default('PENDING');
+            $table->uuid('products_id');
+            $table->foreign('products_id')->references('id')->on('products');
+            $table->integer('quantity_product');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('product_booking');
     }
 };

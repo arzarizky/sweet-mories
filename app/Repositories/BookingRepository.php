@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Auth;
 class BookingRepository implements BookingRepositoryInterface
 {
     protected $relations = [
-        'userBook',
-        'productDetail',
-        'bookingDetail'
+        'bookingDetail',
+        'userbook'
     ];
 
     private static function generateBookId()
@@ -31,7 +30,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getAll($search, $page)
     {
-        $model = ProductBooking::with($this->relations);
+        $model = Booking::with($this->relations);
 
         if ($search === null) {
             $query = $model->orderBy('updated_at','desc');
@@ -50,7 +49,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getById($dataId)
     {
-        return ProductBooking::where('book_id', $dataId)->get();
+        return Booking::where('book_id', $dataId)->get();
     }
 
     public function create($dataDetails)
