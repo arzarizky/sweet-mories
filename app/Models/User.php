@@ -65,4 +65,14 @@ class User extends Authenticatable
     {
         return url('images/picture/avatar/'.$this->avatar);
     }
+
+    public function bookings()
+    {
+        return $this->belongsTo(Booking::class, 'user_id', 'id');
+    }
+
+    public function invoices()
+    {
+        return $this->belongsTo(Invoice::class, 'user_id', 'id');
+    }
 }

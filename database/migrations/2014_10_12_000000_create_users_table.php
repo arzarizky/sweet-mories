@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('no_tlp');
+            $table->string('no_tlp')->nullable();
             $table->string('avatar')->nullable();
             $table->string('password');
             $table->rememberToken();

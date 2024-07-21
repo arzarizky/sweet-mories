@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Auth;
 class BookingRepository implements BookingRepositoryInterface
 {
     protected $relations = [
-        'bookingDetail',
-        'userbook'
+        'users',
+        'productBookings.products'
     ];
 
     private static function generateBookId()
@@ -37,7 +37,7 @@ class BookingRepository implements BookingRepositoryInterface
             return $query->paginate($page);
         } else {
             $query = $model
-            ->whereHas('userBook', function ($query) use($search){
+            ->whereHas('users', function ($query) use($search){
                 $query->where('email', 'like', '%'.$search.'%');
             })
             ->orWhere('book_id', 'like', '%'.$search.'%')
@@ -56,29 +56,29 @@ class BookingRepository implements BookingRepositoryInterface
     {
         $bookId = $this->generateBookId();
         $totalPrice = 0;
-
-        foreach ($dataDetails['items'] as $item) {
-            $product = Product::where('name', $item['product_name'])->firstOrFail();
-            $totalPrice += $product->price * $item['quantity'];
-            ProductBooking::create([
-                'book_id' => $bookId,
-                'products_id' => $product->id,
-                'quantity_product' => $item['quantity'],
-            ]);
-        }
-
-        Booking::create([
+        $booking = Booking::create([
             'user_id' => Auth::id(),
             'book_id' => $bookId,
             'total_price' => $totalPrice,
             'booking_date' => $dataDetails['booking_date'],
             'booking_time' => $dataDetails['booking_time'],
         ]);
+
+        foreach ($dataDetails['items'] as $item) {
+            $product = Product::where('name', $item['product_name'])->firstOrFail();
+            $totalPrice += $product->price * $item['quantity'];
+            ProductBooking::create([
+                'book_id' => $bookId,
+                'product_id' => $product->id,
+                'quantity_product' => $item['quantity'],
+            ]);
+        }
+
+        Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
     }
 
     public function updateStatusBook($dataId, $newDetailsData)
     {
-        $id = Booking::findOrFail($dataId);
-        $id->update($newDetailsData);
+        Booking::where('id', $dataId)->update(['status' => $newDetailsData['status']]);
     }
 }

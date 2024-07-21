@@ -2,49 +2,149 @@
     <div class="table-responsive text-nowrap">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th>Nama</th>
+                <tr class="text-center">
+                    <th>BOOK ID</th>
                     <th>Mail</th>
-                    <th>No Tlp</th>
-                    <th>Booking Product</th>
-                    <th>Total Price</th>
-                    <th>Book Date</th>
-                    <th>Book Time</th>
+                    <th>Booking Detail</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($datas as $data)
                     <tr>
                         <td>
-                            {{ $data->book_id }}
+                            {{ $data->book_id ?? 'Data Tidak Ada' }}
                         </td>
                         <td>
-                            {{ $data->userBook->name }}
+                            {{ $data->users->email ?? 'Data Tidak Ada' }}
                         </td>
                         <td>
-                            {{ $data->userBook->email }}
-                        </td>
-                        <td>
-                            <ul>
-                                @foreach ($data->productDetail as $product)
+                            Book Schedule : {{ $data->booking_date }} | {{ $data->booking_time }}
+                            <ul class="pt-2">
+                                @foreach ($data->productBookings as $product)
                                     <li>
-                                        {{ $product->name }} x {{ $data->quantity_product }}
+                                        {{ $product->products->name ?? 'Data Tidak Ada' }} :
+                                        {{ $product->products->price ?? 'Data Tidak Ada' }} x
+                                        {{ $product->quantity_product ?? 'Data Tidak Ada' }}
                                     </li>
                                 @endforeach
-
                             </ul>
+                            Total Price : {{ $data->total_price }}
                         </td>
                         <td>
-                            {{ $data->bookingDetail->total_price }}
-                        </td>
-                        <td>
-                            {{ $data->bookingDetail->booking_date }}
-                        </td>
-                        <td>
-                            {{ $data->bookingDetail->booking_time }}
-                        </td>
-                        <td>
-                            {{ $data->bookingDetail->status }}
+                            @if ($data->status === 'PENDING')
+                                <span style="cursor: pointer;" class="badge rounded-pill bg-primary"
+                                    data-bs-toggle="dropdown" aria-expanded="false">{{ $data->status }}</span>
+                                <ul class="dropdown-menu" style="">
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="PENDING">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-primary">PENDING</span>
+                                            </button>
+                                        </form>
+
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="ON PROCESS">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-warning">ON PROCESS</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="DONE">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-success">DONE</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            @elseif ($data->status === 'ON PROCESS')
+                                <span style="cursor: pointer;" class="badge rounded-pill bg-warning"
+                                    data-bs-toggle="dropdown" aria-expanded="false">{{ $data->status }}</span>
+                                <ul class="dropdown-menu" style="">
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="PENDING">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-primary">PENDING</span>
+                                            </button>
+                                        </form>
+
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="ON PROCESS">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-warning">ON PROCESS</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="DONE">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-success">DONE</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            @elseif ($data->status == 'DONE')
+                                <span style="cursor: pointer;" class="badge rounded-pill bg-success"
+                                    data-bs-toggle="dropdown" aria-expanded="false">{{ $data->status }}</span>
+                                <ul class="dropdown-menu" style="">
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="PENDING">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-primary">PENDING</span>
+                                            </button>
+                                        </form>
+
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="ON PROCESS">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-warning">ON PROCESS</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="POST"
+                                            action="{{ route('booking-manager-update-status', $data->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="status" value="DONE">
+                                            <button class="dropdown-item" type="submit">
+                                                <span class="badge rounded-pill bg-success">DONE</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            @else
+                                <span class="badge rounded-pill bg-dark">{{ $data->status ?? 'NOT DEF' }}</span>
+                            @endif
+
+
                         </td>
                     </tr>
                 @empty
@@ -65,7 +165,7 @@
     </div>
 
     <div>
-        {{ $users->appends(['search' => $search, 'per_page' => $perPage])->links('layouts.pagination') }}
+        {{ $datas->appends(['search' => $search, 'per_page' => $perPage])->links('layouts.pagination') }}
 
     </div>
 </div>

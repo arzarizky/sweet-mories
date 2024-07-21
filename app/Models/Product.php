@@ -16,4 +16,9 @@ class Product extends Model
         'name',
         'price',
     ];
+
+    public function productBookings()
+    {
+        return $this->belongsTo(ProductBooking::class, 'id', 'products_id');
+    }
 }

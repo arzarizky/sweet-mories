@@ -4,26 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Interfaces\BookingRepositoryInterface;
+use Illuminate\Support\Arr;
 
 class BookingController extends Controller
 {
-    protected $BookingRepository;
+    protected $bookingRepository;
 
-    public function __construct(BookingRepositoryInterface $BookingRepository)
+    public function __construct(BookingRepositoryInterface $bookingRepository)
     {
-        $this->BookingRepository = $BookingRepository;
+        $this->bookingRepository = $bookingRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $search = $request->input('search');
         $perPage = $request->input('per_page', 5);
         $page = $request->input('page', 1);
 
-        $datas = $this->userManagerRepository->getAll($search, $perPage);
+        $datas = $this->bookingRepository->getAll($search, $perPage);
 
         if ($datas->isEmpty() && $page > 1) {
-            return redirect()->route('user-manager', [
+            return redirect()->route('booking-manager', [
                 'search' => $search,
                 'per_page' => $perPage,
                 'page' => 1
@@ -31,6 +32,14 @@ class BookingController extends Controller
         }
 
         // Pass parameters to the view
-        return view('pages.user-manager.index', compact('datas', 'search', 'perPage', 'page'));
+        return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page'));
+    }
+
+    public function updateBookStatus(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(),['_token', '_method']);
+        $this->bookingRepository->updateStatusBook($id, $newDetails);
+
+        return redirect()->back()->with('success',  'Status berhasil diubah');
     }
 }

@@ -13,8 +13,13 @@ class ProductBooking extends Model
 
     protected $table = 'products_bookings';
 
-    public function productDetail(): HasMany
+    public function booking()
     {
-        return $this->hasMany(Product::class, 'id', 'products_id');
+        return $this->belongsTo(Booking::class, 'book_id', 'book_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

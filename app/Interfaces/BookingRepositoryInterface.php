@@ -8,5 +8,4 @@ interface BookingRepositoryInterface
     public function getById($dataId);
     public function create($detailsData);
     public function updateStatusBook($dataId, $newDetailsData);
-    public function updatePassword($dataId, $newDetailsData);
 }
