@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserManagerRepositoryInterface;
 use App\Repositories\UserManagerRepository;
+use App\Interfaces\BookingRepositoryInterface;
+use App\Repositories\BookingRepository;
+use App\Interfaces\InvoiceRepositoryInterface;
+use App\Repositories\InvoiceRepository;
 
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -15,6 +19,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserManagerRepositoryInterface::class, UserManagerRepository::class);
+        $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
+        $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
     }
 
     /**
