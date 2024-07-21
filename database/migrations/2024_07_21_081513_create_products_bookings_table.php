@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pivot_users_products_bookings', function (Blueprint $table) {
+        Schema::create('products_bookings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->string('book_id');
             $table->foreign('book_id')->references('book_id')->on('bookings');
             $table->uuid('products_id');
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pivot_users_products_bookings');
+        Schema::dropIfExists('products_bookings');
     }
 };

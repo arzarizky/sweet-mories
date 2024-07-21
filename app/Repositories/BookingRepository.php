@@ -6,7 +6,7 @@ use App\Interfaces\BookingRepositoryInterface;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\PivotUserProductBooking;
+use App\Models\ProductBooking;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -31,7 +31,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getAll($search, $page)
     {
-        $model = PivotUserProductBooking::with($this->relations);
+        $model = ProductBooking::with($this->relations);
 
         if ($search === null) {
             $query = $model->orderBy('updated_at','desc');
@@ -50,7 +50,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getById($dataId)
     {
-        return PivotUserProductBooking::where('book_id', $dataId)->get();
+        return ProductBooking::where('book_id', $dataId)->get();
     }
 
     public function create($dataDetails)
@@ -61,8 +61,7 @@ class BookingRepository implements BookingRepositoryInterface
         foreach ($dataDetails['items'] as $item) {
             $product = Product::where('name', $item['product_name'])->firstOrFail();
             $totalPrice += $product->price * $item['quantity'];
-            PivotUserProductBooking::create([
-                'user_id' => Auth::id(),
+            ProductBooking::create([
                 'book_id' => $bookId,
                 'products_id' => $product->id,
                 'quantity_product' => $item['quantity'],
@@ -70,6 +69,7 @@ class BookingRepository implements BookingRepositoryInterface
         }
 
         Booking::create([
+            'user_id' => Auth::id(),
             'book_id' => $bookId,
             'total_price' => $totalPrice,
             'booking_date' => $dataDetails['booking_date'],

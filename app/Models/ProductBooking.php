@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Traits\UUIDAsPrimaryKey;
 
-
-class Booking extends Model
+class ProductBooking extends Model
 {
     use HasFactory, UUIDAsPrimaryKey;
-    protected $table = 'bookings';
 
-    public function bookingDetail(): HasMany
+    protected $table = 'products_bookings';
+
+    public function productDetail(): HasMany
     {
-        return $this->hasMany(ProductBooking::class, 'book_id', 'book_id');
+        return $this->hasMany(Product::class, 'id', 'products_id');
     }
 }
