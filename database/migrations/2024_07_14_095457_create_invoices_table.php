@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('book_id');
             $table->foreign('book_id')->references('book_id')->on('bookings');
-            $table->decimal('amount', 8, 2);
+            $table->enum('status', ['PENDING', 'PAID', 'CANCELLED'])->default('PENDING');
             $table->timestamps();
         });
     }

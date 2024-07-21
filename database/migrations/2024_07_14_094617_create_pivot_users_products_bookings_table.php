@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('book_id')->references('book_id')->on('bookings');
             $table->uuid('products_id');
             $table->foreign('products_id')->references('id')->on('products');
+            $table->integer('quantity_product');
             $table->timestamps();
         });
     }
