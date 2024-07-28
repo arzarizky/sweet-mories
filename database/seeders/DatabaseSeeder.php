@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Booking;
+use App\Models\Invoice;
 use App\Models\ProductBooking;
 
 use App\Models\Product;
@@ -16,13 +17,90 @@ class DatabaseSeeder extends Seeder
     private static function generateBookId()
     {
             $prefix = 'BOOK-';
-            $timestamp = now()->format('YmdHis');
+            $timestamp = now()->format('dmYHis');
             $randomNumber = mt_rand(1000, 9999);
-            return $prefix . $timestamp . '-' . $randomNumber;
+            return $prefix . $randomNumber . '-' . $timestamp;
     }
-    /**
-     * Seed the application's database.
-     */
+
+    private static function generateInvoiceId()
+    {
+        $prefix = 'INV-';
+        $timestamp = now()->format('dmYHis');
+        $randomNumber = mt_rand(1000, 9999);
+        return $prefix . $randomNumber . '-' . $timestamp;
+    }
+
+    private static function validatorBook($userId, $bookId)
+    {
+        $bookQuery = Booking::where('user_id', $userId)->where('book_id',  $bookId);
+        $statusBook = $bookQuery->first('status');
+        $priceBook = $bookQuery->first('total_price');
+
+         if (!$statusBook) {
+            return [
+                'success' => false,
+                'message' => 'Booking not found or user does not have access.',
+            ];
+         }
+
+         if ($statusBook->status === 'DONE') {
+             return[
+                'success' => false,
+                'message' => 'Booking is already DONE.',
+             ];
+
+         } elseif ($statusBook->status === 'ON PROCESS') {
+             return[
+                'success' => false,
+                'message' => 'Booking is ON PROCESS.',
+             ];
+
+         } elseif ($statusBook->status === 'PENDING') {
+            return[
+                'success' => true,
+                'message' => 'Book Valid',
+                'price_book' => $priceBook->total_price
+            ];
+
+        } else {
+            return[
+                'success' => false,
+                'message' => 'Booking status not definition or user does not have access.',
+            ];
+        }
+    }
+
+    public function createInv($dataDetails)
+    {
+        $userId = $dataDetails['user_id'];
+        $bookId = $dataDetails['book_id'];
+        $bookAmnt = $dataDetails['total_price'];
+        $validatorBook = $this->validatorBook($userId, $bookId);
+
+        if ($validatorBook['success'] === false) {
+            return [
+                'success' => $validatorBook['success'],
+                'message' => $validatorBook['message'],
+            ];
+        } else {
+            $invId = $this->generateInvoiceId();
+            $Invc = Invoice::create([
+                'invoice_id' => $invId,
+                'user_id' => $userId,
+                'book_id' => $bookId,
+                'amount' => $validatorBook['price_book']
+            ]);
+            return [
+                'success' => $validatorBook['success'],
+                'invoice_id' => $invId,
+                'user_id' => $userId,
+                'book_id' => $bookId,
+                'amount'  => $validatorBook['price_book'],
+                'message' => $validatorBook['message'],
+            ];
+        }
+    }
+
     public function run(): void
     {
         // seed role admin
@@ -126,6 +204,7 @@ class DatabaseSeeder extends Seeder
             'booking_time' => $dataDetails['booking_time'],
         ]);
 
+
         foreach ($dataDetails['items'] as $item) {
             $product = Product::where('name', $item['product_name'])->firstOrFail();
             $totalPrice += $product->price * $item['quantity'];
@@ -137,6 +216,8 @@ class DatabaseSeeder extends Seeder
         }
 
         Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
 
         $bookId = $this->generateBookId();
         $totalPrice = 0;
@@ -186,6 +267,9 @@ class DatabaseSeeder extends Seeder
         }
 
         Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+
 
         $bookId = $this->generateBookId();
         $totalPrice = 0;
@@ -239,6 +323,9 @@ class DatabaseSeeder extends Seeder
         }
 
         Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+
 
 
 

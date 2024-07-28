@@ -10,8 +10,8 @@ use App\Models\Booking;
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
     protected $relations = [
-        'userbook',
-        'bookingDetail',
+        'users',
+        'bookings',
     ];
 
     public function getAll($search, $page)
@@ -23,15 +23,13 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             return $query->paginate($page);
         } else {
             $query = $model
-            ->whereHas('userBook', function ($query) use($search){
+            ->whereHas('users', function ($query) use($search){
                 $query->where('email', 'like', '%'.$search.'%');
             })
-            ->orWhere('book_id', 'like', '%'.$search.'%')
             ->orWhere('invoice_id', 'like', '%'.$search.'%')
             ->orderBy('updated_at','desc');
             return $query->paginate($page);
         }
-
     }
 
     public function getById($dataId)
@@ -43,50 +41,44 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     private static function generateInvoiceId()
     {
         $prefix = 'INV-';
-        $timestamp = now()->format('YmdHis');
+        $timestamp = now()->format('dmYHis');
         $randomNumber = mt_rand(1000, 9999);
-        return $prefix . $timestamp . '-' . $randomNumber;
+        return $prefix . $randomNumber . '-' . $timestamp;
     }
 
     // Use $this->validatorBook($userId, $bookId) for check booking user
     private static function validatorBook($userId, $bookId)
     {
-        // Cari status booking berdasarkan user_id dan booking_id
         $bookQuery = Booking::where('user_id', $userId)->where('book_id',  $bookId);
         $statusBook = $bookQuery->first('status');
         $priceBook = $bookQuery->first('total_price');
 
-        // Jika tidak ditemukan status booking
-        if (!$statusBook) {
+         if (!$statusBook) {
             return [
                 'success' => false,
                 'message' => 'Booking not found or user does not have access.',
             ];
-        }
+         }
 
-        // Jika status booking adalah 'DONE'
-        if ($statusBook->status === 'DONE') {
-            return[
+         if ($statusBook->status === 'DONE') {
+             return[
                 'success' => false,
                 'message' => 'Booking is already DONE.',
-            ];
+             ];
 
-        // Jika status booking adalah 'ON PROCESS'
-        } elseif ($statusBook->status === 'ON PROCESS') {
-            return[
+         } elseif ($statusBook->status === 'ON PROCESS') {
+             return[
                 'success' => false,
                 'message' => 'Booking is ON PROCESS.',
-            ];
+             ];
 
-        // Jika status booking adalah 'PENDING'
-        } elseif ($statusBook->status === 'PENDING') {
+         } elseif ($statusBook->status === 'PENDING') {
             return[
                 'success' => true,
                 'message' => 'Book Valid',
-                'price_book' => $priceBook
+                'price_book' => $priceBook->total_price
             ];
 
-        // Jika tidak ada yang sesuai definisi table booking
         } else {
             return[
                 'success' => false,
@@ -102,9 +94,30 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $validatorBook = $this->validatorBook($userId, $bookId);
 
         if ($validatorBook['success'] === false) {
-            # code...
+
+            return [
+                'success' => $validatorBook['success'],
+                'message' => $validatorBook['message'],
+            ];
+
         } else {
-           // ISIKAN MAI
+
+            $invId = $this->generateInvoiceId();
+            $Invc = Invoice::create([
+                'invoice_id'    => $invId,
+                'user_id'       => $userId,
+                'book_id'       => $bookId,
+                'amount'        => $validatorBook['price_book']
+            ]);
+
+            return [
+                'success'       => $validatorBook['success'],
+                'invoice_id'    => $invId,
+                'user_id'       => $userId,
+                'book_id'       => $bookId,
+                'amount'        => $validatorBook['price_book'],
+                'message'       => $validatorBook['message'],
+            ];
         }
     }
 }

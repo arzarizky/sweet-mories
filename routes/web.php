@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InvoiceController;
 
 
 
@@ -49,6 +50,15 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('booking-manager')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('booking-manager');
             Route::post('update-status/{id}', [BookingController::class, 'updateBookStatus'])->name('booking-manager-update-status');
+            // Route::post('/', [UserManagerController::class, 'store'])->name('booking-manager-store');
+            // Route::post('/{id}', [UserManagerController::class, 'update'])->name('booking-manager-update');
+            // Route::post('update-password/{id}', [UserManagerController::class, 'updatePassword'])->name('booking-manager-update-password');
+            // Route::post('delete/{id}', [UserManagerController::class, 'destroy'])->name('booking-manager-delete');
+        });
+
+        // prefix invoice manager
+        Route::prefix('invoice-manager')->group(function () {
+            Route::get('/', [InvoiceController::class, 'index'])->name('invoice-manager');
             // Route::post('/', [UserManagerController::class, 'store'])->name('booking-manager-store');
             // Route::post('/{id}', [UserManagerController::class, 'update'])->name('booking-manager-update');
             // Route::post('update-password/{id}', [UserManagerController::class, 'updatePassword'])->name('booking-manager-update-password');

@@ -13,12 +13,12 @@ class Invoice extends Model
     use HasFactory, UUIDAsPrimaryKey;
     protected $table = 'invoices';
 
-    public function userbook(): HasMany
+    public function users()
     {
-        return $this->hasMany(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function bookingDetail(): HasMany
+    public function bookings()
     {
         return $this->hasMany(Booking::class, 'book_id', 'book_id');
     }

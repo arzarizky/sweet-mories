@@ -20,6 +20,15 @@
 </li>
 {{-- / Booking Manager --}}
 
+{{-- Invoice Manager --}}
+<li class="menu-item {{ request()->segment(1) == 'invoice-manager' ? 'active' : '' }}">
+    <a href="{{ route('invoice-manager') }}" class="menu-link">
+        <i class='menu-icon tf-icons bx bxs-receipt'></i>
+        <div data-i18n="User Manager">Invoice Manager</div>
+    </a>
+</li>
+{{-- / Invoice Manager --}}
+
 {{-- User Manager --}}
 <li class="menu-item {{ request()->segment(1) == 'user-manager' ? 'active' : '' }}">
     <a href="{{ route('user-manager') }}" class="menu-link">

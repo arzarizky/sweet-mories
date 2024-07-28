@@ -21,9 +21,9 @@ class BookingRepository implements BookingRepositoryInterface
     private static function generateBookId()
     {
         $prefix = 'BOOK-';
-        $timestamp = now()->format('YmdHis');
+        $timestamp = now()->format('dmYHis');
         $randomNumber = mt_rand(1000, 9999);
-        return $prefix . $timestamp . '-' . $randomNumber;
+        return $prefix . $randomNumber . '-' . $timestamp;
     }
 
     // Use $this->generateBookId() for booking id
