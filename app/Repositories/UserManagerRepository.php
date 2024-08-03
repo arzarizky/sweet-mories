@@ -57,7 +57,11 @@ class UserManagerRepository implements UserManagerRepositoryInterface
 
     public function create($dataDetails)
     {
-        if ($dataDetails['avatar']) {
+        $dataDetails['avatar'] = $dataDetails['avatar'] ?? null;
+
+        $avatar = $dataDetails['avatar'];
+
+        if ($avatar != null) {
             $file = $dataDetails['avatar'];
             $filename = $this->generateFilename($file);
             $file->move(public_path('images/picture/avatar'), $filename);
@@ -73,8 +77,6 @@ class UserManagerRepository implements UserManagerRepositoryInterface
 
     public function update($dataId, $newDetailsData)
     {
-        $newDetailsData['avatar'] = $newDetailsData['avatar'] ?? null;
-
         $id = User::find($dataId);
 
         $newDetailsData['avatar'] = $newDetailsData['avatar'] ?? $id->avatar;
