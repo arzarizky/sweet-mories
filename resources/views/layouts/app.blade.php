@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/fonts/boxicons.css" />
-    <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/izitoast/dist/css/IziToast.min.css">
+    <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/izitoast/dist/css/iziToast.min.css">
     {{-- / Vendors CSS --}}
 
     {{-- Page CSS --}}
@@ -131,7 +131,7 @@
 
     {{-- Vendors JS --}}
     <script src="{{ asset('template') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
-    <script src="{{ asset('template') }}/assets/vendor/izitoast/dist/js/IziToast.min.js" type="text/javascript"></script>
+    <script src="{{ asset('template') }}/assets/vendor/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
 
     {{-- / Vendors JS --}}
 
