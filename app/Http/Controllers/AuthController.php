@@ -16,15 +16,29 @@ class AuthController extends Controller
     public function login(LoginRequest $request) {
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('dashboard')->with('success', 'Sukses login sesi telah dibuat');
+
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('dashboard')->with('success', 'Sukses login sesi telah dibuat');
+            } elseif (Auth::user()->isClient()) {
+                return redirect()->route('client-dashboard', ['email' =>  $request->email])->with('success', 'Sukses login sesi telah dibuat');
+            } else {
+                return redirect()->route('auth.login')->with('error', 'Login Gagal');
+            }
         }
 
         return redirect()->route('auth.login')->with('error', 'Email atau password yang anda masukan salah');
     }
 
     public function logout() {
-        Session::flush();
-        Auth::logout();
-        return redirect()->route('auth.login')->with('success', 'Sukses logout sesi telah dihapus');
+        if (Auth::check() == true) {
+            Session::flush();
+            Auth::logout();
+            return redirect()->route('auth.login')->with('success', 'Sukses logout sesi telah dihapus');
+        } else {
+
+            Session::flush();
+            Auth::logout();
+            return redirect()->route('auth.login')->with('error', 'Silahkan login terlebih dahulu untuk logout');
+        }
     }
 }

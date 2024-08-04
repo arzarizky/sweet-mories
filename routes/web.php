@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ClientDashboardController;
 
 
 
@@ -21,19 +22,18 @@ use App\Http\Controllers\InvoiceController;
 */
 
 // prefix login
-Route::prefix('/')->group(function () {
+Route::prefix('login')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('auth.login');
     Route::post('/', [AuthController::class, 'login'])->name('auth.login-post');
 });
 
-
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
-    // middleware only admin
-    Route::middleware(['admin'])->group(function () {
+     // middleware only admin
+     Route::middleware(['admin'])->group(function () {
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -66,7 +66,14 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    // middleware client
+    Route::middleware(['client'])->group(function () {
+        Route::prefix('{email}')->group(function () {
+            Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
+            Route::post('/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
+            Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');
 
-    // logout
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+            // Route::post('/', [ClientDashboard::class, 'login'])->name('auth.login-post');
+        });
+    });
 });

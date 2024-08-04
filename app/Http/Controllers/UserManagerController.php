@@ -49,7 +49,7 @@ class UserManagerController extends Controller
         $newDetails = Arr::except($request->all(),['_token', '_method']);
         $this->userManagerRepository->update($id, $newDetails);
 
-        return redirect()->back()->with('success',  'Admin '.$request->name.' berhasil diubah');
+        return redirect()->back()->with('success', $request->name.' berhasil diubah');
     }
 
     public function updatePassword(UserUpdate $request, $id)
@@ -57,12 +57,12 @@ class UserManagerController extends Controller
         $newDetails = Arr::except($request->all(),['_token', '_method']);
         $this->userManagerRepository->updatePassword($id, $newDetails);
 
-        return redirect()->back()->with('success',  'Password Admin '.$request->name.' berhasil diubah');
+        return redirect()->back()->with('success',  'Password '.$request->name.' berhasil diubah');
     }
 
     public function destroy(Request $request, $id)
     {
         $this->userManagerRepository->delete($id);
-        return redirect()->back()->with('success',  'Admin '.$request->name.' berhasil dihapus');
+        return redirect()->back()->with('success',  $request->name.' berhasil dihapus');
     }
 }

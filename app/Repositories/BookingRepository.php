@@ -46,6 +46,24 @@ class BookingRepository implements BookingRepositoryInterface
         }
     }
 
+    public function getClient($search, $page)
+    {
+        $model = Booking::with($this->relations);
+
+        if ($search === null) {
+            $query = $model
+            ->where('user_id', 'like', '%'.Auth::user()->id.'%')
+            ->orderBy('updated_at','desc');
+            return $query->paginate($page);
+        } else {
+            $query = $model
+            ->where('user_id', 'like', '%'.Auth::user()->id.'%')
+            ->where('book_id', 'like', '%'.$search.'%')
+            ->orderBy('updated_at','desc');
+            return $query->paginate($page);
+        }
+    }
+
 
     public function getById($dataId)
     {
