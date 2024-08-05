@@ -7,8 +7,7 @@ use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ClientDashboardController;
-
-
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +31,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
-     // middleware only admin
-     Route::middleware(['admin'])->group(function () {
+    // middleware only admin
+    Route::middleware(['admin'])->group(function () {
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
