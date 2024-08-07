@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Invoice;
 use App\Models\PaymentHistory;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -20,55 +21,6 @@ class PaymentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function createPayment(Request $request)
-    {
-        $curl = curl_init();
-
-        $book = Booking::where('book_id', $request->order_id)->where('status', 'PENDING')->first();
-
-        // dd($book);
-        $payload = [
-            "payment_type" => "qris",
-            "transaction_details" => [
-                "order_id" => $request->order_id,
-                "gross_amount" => $book->total_price,
-            ],
-            "qris" => [
-                "acquirer" => "airpay shopee"
-            ]
-        ];
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/charge',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic U0ItTWlkLXNlcnZlci14a2MtOHpoS193YnUxSW1zSVBJV2JyTUs6',
-                'Content-Type: application/json'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        Booking::where('book_id', $request->order_id)->where('status', 'PENDING')->update([
-            'payment_link' => json_encode($response),
-            'status' => 'ON PROCESS',
-        ]);
-
-
-        return response()->json([
-            'message' => 'Payment link has been created',
-            'data' => ['qr_string' => $response['qr_string']],
-        ]);
-    }
 
     public function callback(Request $request)
     {
@@ -79,8 +31,8 @@ class PaymentController extends Controller
 
 
         if ($payload['transaction_status'] = "settlement") {
-            Booking::where('book_id', $payload['order_id'])->where('status', 'ON PROCESS')->update([
-                'status' => 'DONE',
+            Invoice::where('invoice_id', $payload['order_id'])->where('status', 'PENDING')->update([
+                'status' => 'PAID',
             ]);
         }
 

@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'transaction'], function () {
-    Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create-payment');
+    // Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create-payment');
     Route::post('/callback', [PaymentController::class, 'callback'])->name('callback-payment');
 });

@@ -103,12 +103,15 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         } else {
 
             $invId = $this->generateInvoiceId();
+            $payment = $this->createPayment($invId);
             $Invc = Invoice::create([
                 'invoice_id'    => $invId,
                 'user_id'       => $userId,
                 'book_id'       => $bookId,
-                'amount'        => $validatorBook['price_book']
+                'amount'        => $validatorBook['price_book'],
+                'payment_link'  => $payment,
             ]);
+
 
             return [
                 'success'       => $validatorBook['success'],
@@ -117,7 +120,59 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'book_id'       => $bookId,
                 'amount'        => $validatorBook['price_book'],
                 'message'       => $validatorBook['message'],
+                'qr_string'       => $payment['qr_string'],
             ];
         }
     }
+
+    public function createPayment($invId)
+    {
+        $curl = curl_init();
+
+        $Invoice = Invoice::where('invoice_id', $invId)->where('status','PENDING')->first();
+
+        $payload = [
+            "payment_type" => "qris",
+            "transaction_details" => [
+                "order_id" => $invId,
+                "gross_amount" => $Invoice->amount,
+            ],
+            "qris" => [
+                "acquirer" => "airpay shopee"
+            ]
+        ];
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/charge',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic U0ItTWlkLXNlcnZlci14a2MtOHpoS193YnUxSW1zSVBJV2JyTUs6',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        // Invoice::where('invoice_id', $invId)->where('status', 'PENDING')->update([
+        //     'payment_link' => json_encode($response),
+        //     'status' => 'ON PROCESS',
+        // ]);
+
+
+        return $response;
+        // return response()->json([
+        //     'message' => 'Payment link has been created',
+        //     'data' => ['qr_string' => $response['qr_string']],
+        // ]);
+    }
+
 }
