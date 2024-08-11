@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('book_id');
             $table->foreign('book_id')->references('book_id')->on('bookings');
             $table->decimal('amount', 10, 2);
+            $table->json('payment_link')->nullable();
             $table->enum('status', ['PENDING', 'PAID', 'CANCELLED', 'EXP'])->default('PENDING');
             $table->timestamps();
         });
