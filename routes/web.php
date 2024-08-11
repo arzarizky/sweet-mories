@@ -20,6 +20,33 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
+// prefix landing page
+Route::prefix('/')->group(function () {
+    Route::get("/", function(){
+        return view('pages.landing-page.home');
+    })->name('home-landing');
+
+    Route::get("/portfolio", function(){
+        return view('pages.landing-page.portfolio');
+    })->name('portfolio-landing');
+
+    Route::get("/gallery", function(){
+        return view('pages.landing-page.gallery');
+    })->name('gallery-landing');
+
+    Route::get("/exhibitions", function(){
+        return view('pages.landing-page.exhibitions');
+    })->name('exhibitions-landing');
+
+    Route::get("/about", function(){
+        return view('pages.landing-page.about');
+    })->name('about-landing');
+
+    Route::get("/book-now", function(){
+        echo "book now is error";
+    })->name('book-now-landing');
+});
+
 // prefix login
 Route::prefix('login')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('auth.login');
@@ -49,19 +76,11 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('booking-manager')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('booking-manager');
             Route::post('update-status/{id}', [BookingController::class, 'updateBookStatus'])->name('booking-manager-update-status');
-            // Route::post('/', [UserManagerController::class, 'store'])->name('booking-manager-store');
-            // Route::post('/{id}', [UserManagerController::class, 'update'])->name('booking-manager-update');
-            // Route::post('update-password/{id}', [UserManagerController::class, 'updatePassword'])->name('booking-manager-update-password');
-            // Route::post('delete/{id}', [UserManagerController::class, 'destroy'])->name('booking-manager-delete');
         });
 
         // prefix invoice manager
         Route::prefix('invoice-manager')->group(function () {
             Route::get('/', [InvoiceController::class, 'index'])->name('invoice-manager');
-            // Route::post('/', [UserManagerController::class, 'store'])->name('booking-manager-store');
-            // Route::post('/{id}', [UserManagerController::class, 'update'])->name('booking-manager-update');
-            // Route::post('update-password/{id}', [UserManagerController::class, 'updatePassword'])->name('booking-manager-update-password');
-            // Route::post('delete/{id}', [UserManagerController::class, 'destroy'])->name('booking-manager-delete');
         });
     });
 
@@ -71,8 +90,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
             Route::post('/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
             Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');
-
-            // Route::post('/', [ClientDashboard::class, 'login'])->name('auth.login-post');
         });
     });
 });

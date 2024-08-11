@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
                 'invoice_id' => $invId,
                 'user_id' => $userId,
                 'book_id' => $bookId,
-                'amount' => $validatorBook['price_book']
+                'amount' => $validatorBook['price_book'],
             ]);
             return [
                 'success' => $validatorBook['success'],

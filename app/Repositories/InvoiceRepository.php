@@ -120,7 +120,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'book_id'       => $bookId,
                 'amount'        => $validatorBook['price_book'],
                 'message'       => $validatorBook['message'],
-                'qr_string'       => $payment['qr_string'],
+                'qr_string'     => $payment['qr_string'],
             ];
         }
     }
@@ -162,17 +162,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
         curl_close($curl);
 
-        // Invoice::where('invoice_id', $invId)->where('status', 'PENDING')->update([
-        //     'payment_link' => json_encode($response),
-        //     'status' => 'ON PROCESS',
-        // ]);
-
 
         return $response;
-        // return response()->json([
-        //     'message' => 'Payment link has been created',
-        //     'data' => ['qr_string' => $response['qr_string']],
-        // ]);
     }
 
 }
