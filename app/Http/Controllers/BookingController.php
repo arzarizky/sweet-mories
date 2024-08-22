@@ -35,6 +35,11 @@ class BookingController extends Controller
         return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page'));
     }
 
+    public function bookPreview(Request $request)
+    {
+        dd($request);
+    }
+
     public function updateBookStatus(Request $request, $id)
     {
         $newDetails = Arr::except($request->all(),['_token', '_method']);

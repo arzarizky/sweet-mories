@@ -4,7 +4,7 @@
             <div class="col-md-6 mb-5 mb-md-0">
                 <div class="mb-4 d-inline-block"><a class="navbar-brand pt-0 fs-3 text-white d-flex align-items-center"
                         href="{{ asset('template-landing') }}/public/index.html"><span
-                            class="fw-bolder ms-2">Sweet</span><span class="fw-thin"> Moris</span></a></div>
+                            class="fw-bolder ms-2">SWEET</span><span class="fw-thin">MORIES</span></a></div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-map-marker-alt"></i><a
                         class="nav-link text-300 d-inline"
                         href="https://www.google.com/maps/place/2109+WS+09+Oxford+Rd+%23127+ParkVilla+Hills,+">2109
@@ -15,34 +15,28 @@
                         href="{{ asset('template-landing') }}/public/tel:+8801976476893">+62 815 5333 9352</a>
                 </div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-envelope"></i><a
-                        class="nav-link text-300 d-inline"
-                        href="mailto:moriessweet@gmail.com">moriessweet@gmail.com</a>
+                        class="nav-link text-300 d-inline" href="mailto:moriessweet@gmail.com">moriessweet@gmail.com</a>
                 </div>
             </div>
             <div class="col-md-6">
-                <h5 class="text-white mb-2">SUBSCRIBE TO OUR NEWSLETTER</h5>
-                <form>
-                    <div class="form-floating mb-5 position-relative text-200">
-                        <input class="form-control form-fotogency-header-control text-200" id="email" type="email"
-                            placeholder="name@example.com" required="required" />
-                        <label class="text-300 mb-1" for="email">Email</label>
-                        <div class="position-absolute end-0 top-0">
-                            <button class="btn shadow-none px-0" type="submit"><img class="ms-3"
-                                    src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
-                                    alt="" /></button>
-                        </div>
-                    </div>
-                </form>
-                <div class="d-flex gap-2 flex-wrap justify-content-between align-items-center"><a class="social-icons"
-                        href="{{ asset('template-landing') }}/public/https://www.facebook.com/"
-                        target="_blank">Facebook</a><a class="social-icons"
-                        href="{{ asset('template-landing') }}/public/https://www.flickr.com/photos/"
-                        target="_blank">Flickr</a><a class="social-icons"
-                        href="{{ asset('template-landing') }}/public/https://twitter.com/" target="_blank">Twitter</a><a
-                        class="social-icons" href="{{ asset('template-landing') }}/public/https://www.instagram.com/"
-                        target="_blank">Instagram</a><a class="social-icons"
-                        href="{{ asset('template-landing') }}/public/https://www.youtube.com/"
-                        target="_blank">Youtube</a>
+
+                <div class="d-flex gap-2 flex-wrap justify-content-between align-items-center">
+                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.instagram.com/"
+                        target="_blank">
+                        Instagram
+                    </a>
+                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.instagram.com/"
+                        target="_blank">
+                        Tiktok
+                    </a>
+                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.facebook.com/"
+                        target="_blank">
+                        Facebook
+                    </a>
+                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.youtube.com/"
+                        target="_blank">
+                        Youtube
+                    </a>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>About | Sweet Moris</title>
+    <title>Booking | Sweet Moris</title>
 
 
     <!-- ===============================================-->
@@ -21,9 +21,13 @@
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto:wght@300&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
     <link href="{{ asset('template-landing') }}/public/vendors/prism/prism.css" rel="stylesheet">
     <link href="{{ asset('template-landing') }}/public/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="{{ asset('template-landing') }}/public/assets/css/theme.css" rel="stylesheet" />
@@ -33,6 +37,8 @@
 
 
 <body>
+
+   @include("pages.landing-page.css-card-book")
 
     <!-- ===============================================-->
     <!--    Main Content-->
@@ -52,10 +58,10 @@
                         </div>
                         <div class="mt-4 d-none d-lg-block">
                             <h1 class="text-uppercase fs-lg-7 fs-5 fw-bolder text-300 lh-1 position-relative z-index-0">
-                                About</h1>
+                                Book Now</h1>
                             <h1
                                 class="d-none d-md-block fw-bolder text-outlined fs-7 text-white lh-1 mt-n4 position-relative z-index--1">
-                                Service</h1>
+                                SELECT PACKAGE</h1>
                         </div>
                     </div>
                     <div class="col-4 d-lg-none text-end pe-0">
@@ -83,7 +89,7 @@
                         <div class="d-none d-lg-flex justify-content-end position-relative z-index-1">
                             <div class="position-absolute absolute-centered z-index--1">
                                 <h1 class="ms-2 fw-bolder text-outlined text-uppercase text-white pe-none display-1">
-                                    About</h1>
+                                    Booking</h1>
                             </div>
                             <div class="d-flex gap-3 align-items-start">
                                 <ul class="navbar-nav navbar-fotogency ms-auto text-end">
@@ -95,10 +101,10 @@
                 </div>
                 <div class="row g-0 mt-4 d-lg-none">
                     <h1 class="text-uppercase ps-0 fs-lg-7 fs-5 fw-bolder text-300 lh-1 position-relative z-index-0">
-                        About</h1>
+                        BOOK NOW</h1>
                     <h1
                         class="fw-bolder text-outlined ps-0 fs-lg-7 fs-sm-6 fs-5 text-white lh-1 mt-sm-n4 mt-n3 position-relative z-index--1">
-                        Our Team</h1>
+                        SELECT PACKAGE</h1>
                 </div>
             </div>
         </nav>
@@ -107,90 +113,10 @@
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="py-2">
+            @include("pages.landing-page.modal-book.login")
+           @include("pages.landing-page.card-booking")
 
-            <div class="container px-md-5">
-                <div class="row justify-content-center">
-                    <div class="col-10">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img1.png"
-                                        alt="" />
-                                    <div class="row g-0 card-body px-0 pt-2">
-                                        <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>Self photo studio</h4>
-                                            <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img2.png"
-                                        alt="" />
-                                    <div class="row g-0 card-body px-0 pt-2">
-                                        <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>Self projector Photo studio</h4>
-                                            <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img3.png"
-                                        alt="" />
-                                    <div class="row g-0 card-body px-0 pt-2">
-                                        <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>3D Holographic Photo.</h4>
-                                            <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img4.png"
-                                        alt="" />
-                                    <div class="row g-0 card-body px-0 pt-2">
-                                        <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>Cozy place</h4>
-                                            <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img5.png"
-                                        alt="" />
-                                    <div class="row g-0 card-body px-0 pt-2">
-                                        <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>Concept update every 3 months</h4>
-                                            <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <!-- end of .container-->
 
         </section>
