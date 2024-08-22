@@ -38,13 +38,13 @@ Route::prefix('/')->group(function () {
         return view('pages.landing-page.exhibitions');
     })->name('exhibitions-landing');
 
+    Route::get("/book-now", function(){
+        return view('pages.landing-page.book-now');
+    })->name('book-now-landing');
+
     Route::get("/about", function(){
         return view('pages.landing-page.about');
     })->name('about-landing');
-
-    Route::get("/book-now", function(){
-        echo "book now is error";
-    })->name('book-now-landing');
 });
 
 // prefix login
@@ -86,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
 
     // middleware client
     Route::middleware(['client'])->group(function () {
+        Route::prefix('book-now')->group(function () {
+            Route::post('/', [BookingController::class, 'bookPreview'])->name('book-now-landing-post');
+        });
+
         Route::prefix('{email}')->group(function () {
             Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
             Route::post('/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');

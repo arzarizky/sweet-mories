@@ -68,7 +68,7 @@
                         <div class="offcanvas-body px-0">
                             <div class="d-lg-flex flex-center-start gap-3 overflow-hidden">
                                 <ul class="navbar-nav ms-auto fs-4 ps-6">
-                                    @include("pages.landing-page.menus-mobile")
+                                    @include('pages.landing-page.menus-mobile')
                                 </ul>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="d-flex gap-3 align-items-start">
                                 <ul class="navbar-nav navbar-fotogency ms-auto text-end">
-                                   @include("pages.landing-page.menus")
+                                    @include('pages.landing-page.menus')
                                 </ul>
                             </div>
                         </div>
@@ -98,9 +98,16 @@
                 <div class="row">
                     <div class="col-md-9 col-lg-7">
                         <h1 class="fs-4 fs-md-6 fs-xl-7 mb-5 mb-lg-0 position-relative z-index-2">
+                            <span class="text-400">
+                                Moment we treasure,
+                            </span>
+                            <span class="fw-thin text-300">
+                                captured with pleasure.
+                            </span>
                             <a href="{{ route('book-now-landing') }}" class="text-dark"
-                                style="text-decoration: underline;">Book now</a><span class="fw-thin text-300"> we
-                                provide first class </span><span class="text-400">photography services.</span>
+                                style="text-decoration: underline;">
+                                Book now.
+                            </a>
                         </h1>
                     </div>
                 </div>
@@ -114,16 +121,15 @@
                                 alt="" /></a></div>
                     <div class="col-lg-7 position-relative">
                         <div class="position-relative overflow-hidden overflow-md-visible"><img class="img-fluid"
-                                src="{{ asset('template-landing') }}/public/assets/img/home/img1.png"
-                                alt="" />
+                                src="{{ asset('template-landing') }}/public/assets/img/home/img1.png" alt="" />
                             <div class="img-circle p-5 p-md-7 rounded-circle"></div>
                             <div class="img-circle-2 p-5 p-md-7 rounded-circle"></div>
                         </div>
                         <div class="position-absolute bottom-n100 col-11 mt-6 d-none d-md-block">
-                            <p class="fs-2 lh-1 text-400">There are many variations of passages of Lorem Ipsum
-                                available, but the majority </p>
-                            <p class="text-300">There are many variations of passages of Lorem Ipsum available, but the
-                                majority have suffered alteration in some form, by injected humour,</p>
+                            <p class="fs-2 lh-1 text-400">
+                                Sweetmories merupakan tempat menyimpan kenangan. Mengekspresikan momen kecil dalam
+                                setiap kesempatan.
+                            </p>
                         </div>
                         <div class="position-absolute start-0 bottom-0 d-lg-none"><a
                                 class="scroll-indicator text-warning" href="{{ route('home-landing') }}/#footer">

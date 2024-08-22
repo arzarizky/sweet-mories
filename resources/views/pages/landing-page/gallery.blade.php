@@ -108,16 +108,36 @@
             <div class="container px-md-5">
                 <div class="position-md-absolute start-0 ms-2 mt-3 mb-4">
                     <ul class="nav gallery-tab d-flex gap-3" data-filter-nav="data-filter-nav">
-                        <li class="nav-item"><a class="nav-link p-0 py-md-2 isotope-nav active"
-                                href="{{ route('gallery-landing') }}/#!" data-filter="*">All</a></li>
-                        <li class="nav-item"><a class="nav-link p-0 py-md-2 isotope-nav"
-                                href="{{ route('gallery-landing') }}/#!" data-filter=".shortfilms">Short
-                                films</a></li>
-                        <li class="nav-item"><a class="nav-link p-0 py-md-2 isotope-nav"
-                                href="{{ route('gallery-landing') }}/#!" data-filter=".professional">Professional</a>
+                        <li class="nav-item">
+                            <a class="nav-link p-0 py-md-2 isotope-nav active"
+                                href="{{ route('gallery-landing') }}/#!" data-filter="*">
+                                All
+                            </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link p-0 py-md-2 isotope-nav"
-                                href="{{ route('gallery-landing') }}/#!" data-filter=".commercial">Commercial</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link p-0 py-md-2 isotope-nav"
+                                href="{{ route('gallery-landing') }}/#!" data-filter=".shortfilms">
+                                Projector
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link p-0 py-md-2 isotope-nav"
+                                href="{{ route('gallery-landing') }}/#!" data-filter=".professional">
+                                Group
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link p-0 py-md-2 isotope-nav"
+                                href="{{ route('gallery-landing') }}/#!" data-filter=".commercial">
+                                Couple
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link p-0 py-md-2 isotope-nav"
+                                href="{{ route('gallery-landing') }}/#!" data-filter=".commercial">
+                                Personal potrait
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="row g-3" data-isotope='{"layoutMode":"packery"}'>
