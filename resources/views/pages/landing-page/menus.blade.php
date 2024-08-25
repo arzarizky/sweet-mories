@@ -9,12 +9,12 @@
         href="{{ route('gallery-landing') }}/#!">Gallery</a>
 </li>
 <li class="nav-item px-2 position-relative"><a
-        class="nav-link pt-0 {{ request()->segment(1) == 'exhibitions' ? 'active' : '' }}" aria-current="page"
-        href="{{ route('exhibitions-landing') }}">Pricelist</a>
+        class="nav-link pt-0 {{ request()->segment(1) == 'pricelist' ? 'active' : '' }}" aria-current="page"
+        href="{{ route('pricelist-landing') }}">Pricelist</a>
 </li>
 <li class="nav-item px-2 position-relative"><a
-        class="nav-link pt-0 {{ request()->segment(1) == 'about' ? 'active' : '' }}" aria-current="page"
-        href="{{ route('about-landing') }}">Location</a>
+        class="nav-link pt-0 {{ request()->segment(1) == 'location' ? 'active' : '' }}" aria-current="page"
+        href="https://maps.app.goo.gl/19hFPPgNzNmiNBkTA" target="_blank">Location</a>
 </li>
 <li class="nav-item px-2 position-relative"><a
         class="nav-link pt-0 {{ request()->segment(1) == 'book-now' ? 'active' : '' }}" aria-current="page"

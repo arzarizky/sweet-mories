@@ -34,9 +34,13 @@ Route::prefix('/')->group(function () {
         return view('pages.landing-page.gallery');
     })->name('gallery-landing');
 
-    Route::get("/exhibitions", function(){
-        return view('pages.landing-page.exhibitions');
-    })->name('exhibitions-landing');
+    Route::get("/pricelist", function(){
+        return view('pages.landing-page.pricelist');
+    })->name('pricelist-landing');
+
+    // Route::get("/exhibitions", function(){
+    //     return view('pages.landing-page.exhibitions');
+    // })->name('exhibitions-landing');
 
     Route::get("/book-now", function(){
         return view('pages.landing-page.book-now');

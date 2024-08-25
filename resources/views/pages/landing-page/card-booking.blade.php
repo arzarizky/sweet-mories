@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-6 mb-3 mb-lg-0">
             <div class="hover hover-1 text-white rounded">
-                <img class="asset" src="https://bootstrapious.com/i/snippets/sn-img-hover/hoverSet-3.jpg" alt="">
+                <img class="asset" src="{{ asset('template') }}/assets/img/illustrations/basic-self.jpeg" alt="">
                 <div class="hover-overlay"></div>
                 <div class="hover-1-content px-5 py-1">
                     <h3 class="hover-1-title text-uppercase font-weight-bold mb-0 text-white"> <span
@@ -26,7 +26,7 @@
 
         <div class="col-lg-6">
             <div class="hover hover-1 text-white rounded">
-                <img class="asset" src="https://bootstrapious.com/i/snippets/sn-img-hover/hoverSet-4.jpg"
+                <img class="asset" src="{{ asset('template') }}/assets/img/illustrations/self-projector.jpg"
                     alt="">
                 <div class="hover-overlay"></div>
                 <div class="hover-1-content px-5 py-1">
