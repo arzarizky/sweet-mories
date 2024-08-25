@@ -57,6 +57,9 @@ Route::prefix('login')->group(function () {
     Route::post('/', [AuthController::class, 'login'])->name('auth.login-post');
 });
 
+Route::get('auth/google', [AuthController::class, 'redirectLoginOrRegisterWithGoogle'])->name('redirectLoginGoogle');
+Route::get('auth/google/callback', [AuthController::class, 'handleLoginOrRegisterWithGoogle'])->name('handleLoginGoogle');
+
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // middleware auth

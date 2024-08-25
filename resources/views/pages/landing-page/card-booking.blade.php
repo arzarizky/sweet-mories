@@ -14,8 +14,9 @@
                         @csrf
                         <input type="hidden" name="package" value="basic">
                     </form>
-                    <a id="basic" style="text-decoration: none;  cursor: pointer;"
-                        class="hover-1-description font-weight-light mb-0 text-warning">
+                    <a data-bs-toggle="modal" data-bs-target="#basicModal"
+                        style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" class="hover-1-description font-weight-light mb-0 text-warning">
                         SELECT PACKAGE
                         <img class="ms-1" src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
                             alt="" />
@@ -35,31 +36,13 @@
                     <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-white">
                         Rp. 70.000
                     </h4>
-                    <form id="projector-form" method="post" action="{{ route('book-now-landing-post') }}">
-                        @csrf
-                        <input type="hidden" name="package" value="projector">
-                    </form>
-                    @if (Auth::check())
-                        <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                            style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            class="hover-1-description font-weight-light mb-0 text-warning">
-                            SELECT PACKAGE
-                            <img class="ms-1"
-                                src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
-                                alt="" />
-                        </a>
-                    @else
-                        <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                            style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            class="hover-1-description font-weight-light mb-0 text-warning">
-                            SELECT PACKAGE
-                            <img class="ms-1"
-                                src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
-                                alt="" />
-                        </a>
-                    @endif
+                    <a data-bs-toggle="modal" data-bs-target="#projectorModal"
+                        style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" class="hover-1-description font-weight-light mb-0 text-warning">
+                        SELECT PACKAGE
+                        <img class="ms-1" src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
+                            alt="" />
+                    </a>
                 </div>
             </div>
         </div>

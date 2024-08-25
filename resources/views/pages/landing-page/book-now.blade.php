@@ -113,7 +113,6 @@
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="py-2">
-            @include("pages.landing-page.modal-book.login")
            @include("pages.landing-page.card-booking")
 
 
@@ -131,6 +130,10 @@
 
 
     @include('pages.landing-page.footer')
+
+    @include("pages.landing-page.modal-book.projector-modal")
+    @include("pages.landing-page.modal-book.basic-modal")
+
 
 
 

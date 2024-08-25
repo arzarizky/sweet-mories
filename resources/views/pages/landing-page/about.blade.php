@@ -148,7 +148,7 @@
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
-                                            <h4>3D Holographic Photo.</h4>
+                                            <h4>Holoflip photo</h4>
                                             <p class="text-warning mb-2">
                                                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                                                 Lorem Ipsum Lorem Ipsum Lorem Ipsum

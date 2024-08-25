@@ -14,7 +14,7 @@
 </li>
 <li class="nav-item"><a
         class="nav-link d-inline-block nav-text-outlined lh-1 text-white fs-5 {{ request()->segment(1) == 'location' ? 'active' : '' }}"
-        aria-current="page" href="https://maps.app.goo.gl/19hFPPgNzNmiNBkTA">Location</a>
+        aria-current="page" href="https://maps.app.goo.gl/19hFPPgNzNmiNBkTA" target="_blank">Location</a>
 </li>
 <li class="nav-item"><a
         class="nav-link d-inline-block nav-text-outlined lh-1 text-white fs-5 {{ request()->segment(1) == 'book-now' ? 'active' : '' }}"

@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->uuid('role_id');
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->string('google_id')->nullable()->unique();
+            $table->string('google_token')->nullable();
+            $table->string('google_refresh_token')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('no_tlp')->nullable();

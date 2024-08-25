@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use App\Models\Role;
+
+
 
 class AuthController extends Controller
 {
@@ -27,6 +32,47 @@ class AuthController extends Controller
         }
 
         return redirect()->route('auth.login')->with('error', 'Email atau password yang anda masukan salah');
+    }
+
+    public function redirectLoginOrRegisterWithGoogle() {
+
+        return Socialite::driver('google')->redirect();
+    }
+
+
+    public function handleLoginOrRegisterWithGoogle() {
+
+        $user = Socialite::driver('google')->user();
+
+        // Validate user and handle accordingly
+        $authUser = User::where('google_id', $user->id)->first();
+
+        // Validate user and handle accordingly
+        $roleId = Role::where('name', 'Client')->first();
+
+        if ($authUser) {
+            Auth::login($authUser);
+
+            return redirect()->route('book-now-landing')->with('success', 'book-now-landing');
+        } else {
+            $authUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'google_id' => $user->id,
+                'role_id' => $roleId->id,
+                'avatar' => $user->picture,
+                'password' => bcrypt("LoginWithGoogle@12345"),
+                'google_token' => $user->token,
+                'google_refresh_token' => $user->refreshToken
+            ]);
+
+            Auth::login($authUser);
+
+            return redirect()->route('book-now-landing')->with('success', 'book-now-landing');
+        }
+
+        return redirect()->route('home-landing')->with('error', 'home-landing');
+
     }
 
     public function logout() {
