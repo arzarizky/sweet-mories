@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('book_id')->unique();
             $table->decimal('total_price', 10, 2);
-            $table->string('booking_date');
-            $table->string('booking_time');
+            $table->date('booking_date');
+            $table->time('booking_time');
             $table->enum('status', ['PENDING', 'ON PROCESS', 'DONE'])->default('PENDING');
             $table->timestamps();
         });

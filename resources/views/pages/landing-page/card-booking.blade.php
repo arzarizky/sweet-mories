@@ -10,10 +10,6 @@
                     <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-white">
                         Rp. 47.000
                     </h4>
-                    <form id="basic-form" method="post" action="{{ route('book-now-landing-post') }}">
-                        @csrf
-                        <input type="hidden" name="package" value="basic">
-                    </form>
                     <a data-bs-toggle="modal" data-bs-target="#basicModal"
                         style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
                         data-bs-target="#exampleModal" class="hover-1-description font-weight-light mb-0 text-warning">
@@ -48,17 +44,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    var formBasic = document.getElementById("basic-form");
-    document.getElementById("basic").addEventListener("click", function() {
-        formBasic.submit();
-    });
-</script>
-
-<script>
-    var formProjector = document.getElementById("projector-form");
-    document.getElementById("projector").addEventListener("click", function() {
-        formProjector.submit();
-    });
-</script>

@@ -9,7 +9,7 @@ use App\Models\Role;
 use App\Models\Booking;
 use App\Models\Invoice;
 use App\Models\ProductBooking;
-
+use Carbon\Carbon;
 use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
@@ -170,8 +170,8 @@ class DatabaseSeeder extends Seeder
         $bookId = $this->generateBookId();
         $totalPrice = 0;
 
-        $dataDetails['booking_date'] = '07-21-2024';
-        $dataDetails['booking_time'] = "06:45";
+        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        $dataDetails['booking_time'] = Carbon::createFromTime(10, 15)->format('H:i');
 
         $dataDetails['items'] = [
             [
@@ -222,8 +222,8 @@ class DatabaseSeeder extends Seeder
         $bookId = $this->generateBookId();
         $totalPrice = 0;
 
-        $dataDetails['booking_date'] = '07-24-2024';
-        $dataDetails['booking_time'] = "06:45";
+        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        $dataDetails['booking_time'] = Carbon::createFromTime(10, 30)->format('H:i');
 
         $dataDetails['items'] = [
             [
@@ -274,8 +274,8 @@ class DatabaseSeeder extends Seeder
         $bookId = $this->generateBookId();
         $totalPrice = 0;
 
-        $dataDetails['booking_date'] = '07-24-2024';
-        $dataDetails['booking_time'] = "06:45";
+        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        $dataDetails['booking_time'] = Carbon::createFromTime(11, 15)->format('H:i');
 
         $dataDetails['items'] = [
             [

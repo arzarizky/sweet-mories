@@ -14,6 +14,8 @@
     <meta name="description" content="" />
     {{-- / SEO Basic --}}
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     {{-- Favicon --}}
     <link rel="icon" type="image/x-icon" href="{{ asset('template') }}/assets/img/favicon/black-logo.png" />
     {{-- / Favicon --}}
@@ -40,11 +42,16 @@
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/fonts/boxicons.css" />
     <link rel="stylesheet" href="{{ asset('template') }}/assets/vendor/izitoast/dist/css/iziToast.min.css">
-    {{-- / Vendors CSS --}}
 
-    {{-- Page CSS --}}
-    @stack('css-konten')
-    {{-- Page CSS --}}
+    <!-- Datepicker CSS (Bootstrap 5) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+    <!-- Timepicker CSS (Bootstrap 5) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+
+
 
 
     {{-- Helpers --}}
@@ -56,9 +63,15 @@
     <script src="{{ asset('template') }}/assets/js/config.js"></script>
     {{-- / Penyesuai template & file konfigurasi Tema HARUS disertakan setelah stylesheet inti dan helpers.js di bagian <head>  --}}
     {{-- / Konfigurasi: File konfigurasi tema wajib berisi vars global & opsi tema default, Tetapkan opsi tema pilihan Anda di file ini. --}}
+
+    {{-- Page CSS --}}
+    @stack('css-konten')
+    {{-- Page CSS --}}
+
 </head>
 
 <body>
+
     @if (request()->routeIs('auth*'))
         <div class="container-xxl">
             @yield('konten')
@@ -88,6 +101,12 @@
     {{-- Vendors JS --}}
     <script src="{{ asset('template') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
     <script src="{{ asset('template') }}/assets/vendor/izitoast/dist/js/iziToast.min.js" type="text/javascript"></script>
+
+    <!-- Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Timepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 
     {{-- / Vendors JS --}}
 

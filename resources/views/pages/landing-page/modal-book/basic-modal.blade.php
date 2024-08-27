@@ -5,14 +5,34 @@
                 <div class="p-4">
                     <h3>Package Basic Self Photoshoot</h3>
                     <ul>
-                        <li>Sudah Login</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            10 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose all background colors
+                        </li>
+                        <li>
+                            Free all props
+                        </li>
                     </ul>
+                    <h3>Price 47K</h3>
+                    <form id="basic-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
+                        @csrf
+                        <a id="basic" style="text-decoration: none; cursor: pointer;" class="text-warning">
+                            BOOK NOW
+                            <img class="ms-1"
+                                src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
+                                alt="" />
+                        </a>
+                        <input type="hidden" name="package" value="basic">
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -45,3 +65,10 @@
         </div>
     </div>
 @endif
+
+<script>
+    var formBasic = document.getElementById("basic-form");
+    document.getElementById("basic").addEventListener("click", function() {
+        formBasic.submit();
+    });
+</script>

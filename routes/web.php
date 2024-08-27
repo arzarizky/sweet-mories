@@ -93,14 +93,15 @@ Route::middleware(['auth'])->group(function () {
 
     // middleware client
     Route::middleware(['client'])->group(function () {
-        Route::prefix('book-now')->group(function () {
-            Route::post('/', [BookingController::class, 'bookPreview'])->name('book-now-landing-post');
-        });
+        Route::post('/available-dates', [BookingController::class, 'availableDates']);
+        Route::post('/available-times', [BookingController::class, 'availableTimes']);
+        Route::post('/bookings', [BookingController::class, 'storeBooking']);
 
         Route::prefix('{email}')->group(function () {
             Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
             Route::post('/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
             Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');
+            Route::get('/book-preview', [BookingController::class, 'bookPreview'])->name('book-preview');
         });
     });
 });

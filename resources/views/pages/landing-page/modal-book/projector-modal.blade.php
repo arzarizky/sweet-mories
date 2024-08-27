@@ -5,14 +5,34 @@
                 <div class="p-4">
                     <h3>Package Projector Self Photoshoot</h3>
                     <ul>
-                        <li>Sudah Login</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
-                        <li>adadads</li>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            10 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose all projector content
+                        </li>
+                        <li>
+                            Free all props
+                        </li>
                     </ul>
-                </div>
+                    <h3>Price 70K</h3>
 
+                    <form id="projector-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
+                        @csrf
+                        <a id="projector" style="text-decoration: none; cursor: pointer;" class="text-warning">
+                            BOOK NOW
+                            <img class="ms-1" src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
+                                alt="" />
+                        </a>
+                        <input type="hidden" name="package" value="projector">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -45,3 +65,12 @@
         </div>
     </div>
 @endif
+
+
+<script>
+    var formProjector = document.getElementById("projector-form");
+    document.getElementById("projector").addEventListener("click", function() {
+        formProjector.submit();
+    });
+</script>
+
