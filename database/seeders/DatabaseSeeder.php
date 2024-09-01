@@ -148,7 +148,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::Create([
-            'name' => 'Printed Photo 4R',
+            'name' => '1 Printed Photo 4R',
             'price' => 10000,
         ]);
 
@@ -158,8 +158,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::Create([
-            'name' => '1 Printed Holographic',
-            'price' => 10000,
+            'name' => '1 Printed Holoflip 4R',
+            'price' => 25000,
         ]);
 
         Product::Create([
@@ -179,7 +179,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '1'
             ],
             [
-                'product_name' => 'Printed Photo 4R',
+                'product_name' => '1 Printed Photo 4R',
                 'quantity'  => '2'
             ],
             [
@@ -187,7 +187,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '2'
             ],
             [
-                'product_name' => '1 Printed Holographic',
+                'product_name' => '1 Printed Holoflip 4R',
                 'quantity'  => '2'
             ],
             [
@@ -231,7 +231,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '1'
             ],
             [
-                'product_name' => 'Printed Photo 4R',
+                'product_name' => '1 Printed Photo 4R',
                 'quantity'  => '2'
             ],
             [
@@ -239,7 +239,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '2'
             ],
             [
-                'product_name' => '1 Printed Holographic',
+                'product_name' => '1 Printed Holoflip 4R',
                 'quantity'  => '2'
             ],
             [
@@ -287,7 +287,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '1'
             ],
             [
-                'product_name' => 'Printed Photo 4R',
+                'product_name' => '1 Printed Photo 4R',
                 'quantity'  => '2'
             ],
             [
@@ -295,7 +295,7 @@ class DatabaseSeeder extends Seeder
                 'quantity'  => '2'
             ],
             [
-                'product_name' => '1 Printed Holographic',
+                'product_name' => '1 Printed Holoflip 4R',
                 'quantity'  => '2'
             ],
             [
@@ -327,7 +327,69 @@ class DatabaseSeeder extends Seeder
         $this->createInv(Booking::where('book_id', $booking->book_id)->first());
 
 
+        $date = Carbon::createFromFormat('d-m-Y', '31-08-2024');
+        $startTime = Carbon::createFromTime(9, 0); // Start at 09:00
+        $endTime = Carbon::createFromTime(21, 0); // End at 21:00
 
+        while ($startTime->lessThan($endTime)) {
+            $bookId = $this->generateBookId();
+            $totalPrice = 0;
+
+            $bookingDate = $date->format('Y-m-d');
+            $bookingTime = $startTime->format('H:i');
+
+            $dataDetails['items'] = [
+                [
+                    'product_name' => 'Projector Self Photoshoot',
+                    'quantity'  => 1
+                ],
+                [
+                    'product_name' => 'Basic Self Photoshoot',
+                    'quantity'  => 1
+                ],
+                [
+                    'product_name' => '1 Printed Photo 4R',
+                    'quantity'  => 2
+                ],
+                [
+                    'product_name' => '2 Printed Strip',
+                    'quantity'  => 2
+                ],
+                [
+                    'product_name' => '1 Printed Holoflip 4R',
+                    'quantity'  => 2
+                ],
+                [
+                    'product_name' => 'Digital Soft Copy',
+                    'quantity'  => 2
+                ]
+            ];
+
+            $booking = Booking::create([
+                'user_id' => $idClientUser->id,
+                'book_id' => $bookId,
+                'total_price' => $totalPrice,
+                'booking_date' => $bookingDate,
+                'booking_time' => $bookingTime,
+            ]);
+
+            foreach ($dataDetails['items'] as $item) {
+                $product = Product::where('name', $item['product_name'])->firstOrFail();
+                $totalPrice += $product->price * $item['quantity'];
+                ProductBooking::create([
+                    'book_id' => $bookId,
+                    'product_id' => $product->id,
+                    'quantity_product' => $item['quantity'],
+                ]);
+            }
+
+            Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+            $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+
+            $startTime->addMinutes(15); // Move to the next 15-minute interval
+
+        }
 
         // Seed 1000 users with the Client role
         // User::factory()->count(1000)->create(['role_id' => $idClient]);

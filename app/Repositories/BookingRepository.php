@@ -4,8 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\BookingRepositoryInterface;
 use App\Models\Booking;
-use App\Models\User;
 use App\Models\Product;
+use Carbon\Carbon;
 use App\Models\ProductBooking;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,15 +33,15 @@ class BookingRepository implements BookingRepositoryInterface
         $model = Booking::with($this->relations);
 
         if ($search === null) {
-            $query = $model->orderBy('updated_at','desc');
+            $query = $model->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         } else {
             $query = $model
-            ->whereHas('users', function ($query) use($search){
-                $query->where('email', 'like', '%'.$search.'%');
-            })
-            ->orWhere('book_id', 'like', '%'.$search.'%')
-            ->orderBy('updated_at','desc');
+                ->whereHas('users', function ($query) use ($search) {
+                    $query->where('email', 'like', '%' . $search . '%');
+                })
+                ->orWhere('book_id', 'like', '%' . $search . '%')
+                ->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         }
     }
@@ -52,14 +52,14 @@ class BookingRepository implements BookingRepositoryInterface
 
         if ($search === null) {
             $query = $model
-            ->where('user_id', 'like', '%'.Auth::user()->id.'%')
-            ->orderBy('updated_at','desc');
+                ->where('user_id', 'like', '%' . Auth::user()->id . '%')
+                ->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         } else {
             $query = $model
-            ->where('user_id', 'like', '%'.Auth::user()->id.'%')
-            ->where('book_id', 'like', '%'.$search.'%')
-            ->orderBy('updated_at','desc');
+                ->where('user_id', 'like', '%' . Auth::user()->id . '%')
+                ->where('book_id', 'like', '%' . $search . '%')
+                ->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         }
     }
@@ -72,14 +72,16 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function create($dataDetails)
     {
+        $userId = Auth::id();
         $bookId = $this->generateBookId();
         $totalPrice = 0;
+
         $booking = Booking::create([
-            'user_id' => Auth::id(),
+            'user_id' => $userId,
             'book_id' => $bookId,
             'total_price' => $totalPrice,
-            'booking_date' => $dataDetails['booking_date'],
-            'booking_time' => $dataDetails['booking_time'],
+            'booking_date' => Carbon::createFromFormat('Y-m-d', $dataDetails['booking_date'])->format('Y-m-d'),
+            'booking_time' =>  $dataDetails['booking_time']
         ]);
 
         foreach ($dataDetails['items'] as $item) {
@@ -93,6 +95,11 @@ class BookingRepository implements BookingRepositoryInterface
         }
 
         Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        return [
+            "sukses" => true,
+            "pesan" => "Booking " . Auth::user()->email . " pada tanggal " . $dataDetails['booking_date'] . " pukul " .  $dataDetails['booking_time'] . " berhasil di booking"
+        ];
     }
 
     public function updateStatusBook($dataId, $newDetailsData)

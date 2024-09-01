@@ -60,7 +60,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'google_id' => $user->id,
                 'role_id' => $roleId->id,
-                'avatar' => $user->picture,
+                'avatar' => $user->avatar,
                 'password' => bcrypt("LoginWithGoogle@12345"),
                 'google_token' => $user->token,
                 'google_refresh_token' => $user->refreshToken

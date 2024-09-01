@@ -30,7 +30,7 @@
                             <img class="ms-1" src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
                                 alt="" />
                         </a>
-                        <input type="hidden" name="package" value="projector">
+                        <input type="hidden" name="package" value="Projector">
                     </form>
                 </div>
             </div>

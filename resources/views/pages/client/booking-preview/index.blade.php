@@ -3,240 +3,267 @@
 ])
 
 @section('konten')
-    <div id="#booking-preview" class="row">
-        <div class="col-md-12">
-            <div class="container">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">Pilih Tanggal dan Waktu</h3>
+    <div class="card p-4">
+        <div class="row">
+            <h2>
+                Booking {{ request()->input('package') }} Self Photoshoot
+            </h2>
 
-                        <!-- Tanggal -->
-                        <div class="mb-3">
-                            <label for="bookingDate" class="form-label">Pilih Tanggal:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bx bx-calendar"></i>
-                                </span>
-                                <input type="date" id="bookingDate" class="form-control" min="">
-                            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="form-group mb-3">
+                    <label for="booking_date">Name</label>
+                    <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control" autocomplete="off"
+                        required readonly>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="booking_date">Email</label>
+                    <input type="text" name="email" value="{{ Auth::user()->email }}" class="form-control"
+                        autocomplete="off" required readonly>
+                </div>
+
+                <div class="mb-1">{{ request()->input('package') }} Self Photoshoot</div>
+
+                <ul>
+                    <li class="mb-2">Unlimited Person</li>
+                    <li class="mb-2">15 Minutes Photoshoot</li>
+                    <li class="mb-2">10 Minutes Photo Selection</li>
+                    <li class="mb-2">Free to choose all background colors</li>
+                    <li class="mb-2">Free all props</li>
+                </ul>
+
+                <div class="mb-1">Additional Print</div>
+
+                <ul>
+                    <li class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>1 Printed Photo 4R : 10K</span>
+                            <span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="10"
+                                    data-target="photo4r">-</button>
+                                <span id="qty-photo4r" class="mx-2">0</span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="10"
+                                    data-target="photo4r">+</button>
+                            </span>
                         </div>
-
-                        <!-- Waktu -->
-                        <div class="mb-3">
-                            <label class="form-label">Pilih Waktu:</label>
-                            <div class="times-container" id="timesContainer">
-                                <!-- Cards will be generated here by JavaScript -->
-                            </div>
+                    </li>
+                    <li class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>2 Printed Strip : 10K</span>
+                            <span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="10"
+                                    data-target="strip">-</button>
+                                <span id="qty-strip" class="mx-2">0</span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="10"
+                                    data-target="strip">+</button>
+                            </span>
                         </div>
+                    </li>
+                    <li class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>1 Printed Holoflip 4R : 25K</span>
+                            <span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="25"
+                                    data-target="holoflip">-</button>
+                                <span id="qty-holoflip" class="mx-2">0</span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="25"
+                                    data-target="holoflip">+</button>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
 
-                        <button class="btn btn-primary w-100" onclick="submitBooking()">Submit</button>
+                <div class="mb-1">Digital Soft Copy</div>
+
+                <ul>
+                    <li class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>All Color : 25K</span>
+                            <span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="25"
+                                    data-target="allcolor">-</button>
+                                <span id="qty-allcolor" class="mx-2">0</span>
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="25"
+                                    data-target="allcolor">+</button>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="mb-3">* All Color Free (Tag IGS @sweetmoriesstudio + Follow + Google Review) Jangan Tambah
+                    Digital Soft Copy All Color</div>
+
+                <h3>Total Price: <span id="total-price">47K</span></h3>
+            </div>
+
+            <div class="col-lg-4 col-sm-12">
+                <div id="#booking-preview" class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('book.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group mb-3">
+                                <label for="booking_date">Select Date:</label>
+                                <input type="text" id="booking_date" name="booking_date" class="form-control"
+                                    autocomplete="off" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="booking_time">Select Time:</label>
+                                <div id="time-slots" class="d-flex flex-wrap">
+                                    <!-- Time slots will be loaded here -->
+                                </div>
+                                <input type="hidden" id="booking_time" name="booking_time">
+                            </div>
+
+                            <!-- Hidden Inputs for Additional Prints and Digital Soft Copy -->
+                            <input type="hidden" id="hidden-package" name="items[0][product_name]" value="">
+                            <input type="hidden" id="hidden-package-qty" name="items[0][quantity]" value="1">
+
+                            <input type="hidden" id="hidden-photo4r" name="items[1][product_name]"
+                                value="1 Printed Photo 4R">
+                            <input type="hidden" id="hidden-strip" name="items[2][product_name]"
+                                value="2 Printed Strip">
+                            <input type="hidden" id="hidden-holoflip" name="items[3][product_name]"
+                                value="1 Printed Holoflip 4R">
+                            <input type="hidden" id="hidden-allcolor" name="items[4][product_name]"
+                                value="Digital Soft Copy">
+                            <input type="hidden" id="hidden-photo4r-qty" name="items[1][quantity]" value="0">
+                            <input type="hidden" id="hidden-strip-qty" name="items[2][quantity]" value="0">
+                            <input type="hidden" id="hidden-holoflip-qty" name="items[3][quantity]" value="0">
+                            <input type="hidden" id="hidden-allcolor-qty" name="items[4][quantity]" value="0">
+
+                            <button type="submit" class="btn btn-primary mt-3">Book Now</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
 
+    @push('js-konten')
+        <script>
+            $(document).ready(function() {
+                const package = "{{ request()->input('package') }}";
 
-@push('css-konten')
-    <style>
-        .input-group-text {
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-        }
+                // Set initial total price based on package
+                let totalPrice = package === 'Projector' ? 70 : 47;
+                $('#hidden-package').val(package === 'Projector' ? 'Projector Self Photoshoot' :
+                    'Basic Self Photoshoot');
+                $('#total-price').text(totalPrice + 'K');
 
-        .input-group .form-control {
-            border-left: 0;
-        }
-
-        .container {
-            margin-top: 50px;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-card {
-            cursor: pointer;
-            text-align: center;
-            margin: 10px;
-            border: 1px solid #ced4da;
-            transition: background-color 0.3s, color 0.3s;
-            padding: 15px;
-            border-radius: 10px;
-            flex: 1 0 21%;
-            /* 4 cards per row, with some margin */
-            box-sizing: border-box;
-        }
-
-        .time-card:hover {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .time-card.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .time-card.disabled {
-            background-color: #e9ecef;
-            color: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .form-label {
-            font-weight: bold;
-        }
-
-        .times-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            visibility: hidden;
-            /* Hide times container initially */
-        }
-
-        .times-container.show {
-            visibility: visible;
-            /* Show times container when date is selected */
-        }
-    </style>
-@endpush
-
-@push('js-konten')
-    <script>
-        $(document).ready(function() {
-            const today = new Date().toISOString().split('T')[0];
-            $('#bookingDate').attr('min', today);
-
-            // Generate time slots
-            generateTimeSlots();
-
-            // Function to generate time slots
-            function generateTimeSlots() {
-                const startTime = 9; // 09:00
-                const endTime = 21; // 21:00
-                const interval = 15; // 15 minutes
-
-                let times = [];
-                for (let hour = startTime; hour < endTime; hour++) {
-                    for (let minutes = 0; minutes < 60; minutes += interval) {
-                        let time = ('0' + hour).slice(-2) + ':' + ('0' + minutes).slice(-2);
-                        times.push(time);
-                    }
-                }
-
-                const timesContainer = $('#timesContainer');
-                times.forEach(time => {
-                    timesContainer.append(`<div class="time-card" data-time="${time}">${time}</div>`);
+                // Konfigurasi Datepicker
+                $('#booking_date').datepicker({
+                    format: 'yyyy-mm-dd',
+                    startDate: '0d',
+                    autoclose: true,
+                    todayHighlight: true,
+                }).on('changeDate', function(e) {
+                    checkDate(e.format());
                 });
 
-                // Add click event to time cards
-                $('.time-card').on('click', function() {
-                    if ($(this).hasClass('disabled')) return;
-                    $('.time-card').removeClass('active');
-                    $(this).addClass('active');
-                });
+                // Fungsi untuk memuat slot waktu
+                function loadTimeSlots(selectedDate) {
+                    $('#time-slots').empty();
 
-                // Fetch available dates when page loads
-                fetchAvailableDates();
+                    $.ajax({
+                        url: '{{ route('book.checkTime') }}',
+                        type: 'GET',
+                        data: {
+                            date: selectedDate
+                        },
+                        success: function(response) {
+                            const bookedTimes = response.bookedTimes;
+                            const start = 9 * 60; // 09:00
+                            const end = 21 * 60; // 21:00
 
-                // Fetch available times when date is selected
-                $('#bookingDate').on('change', function() {
-                    fetchAvailableTimes();
-                });
-            }
+                            for (let time = start; time < end; time += 20) {
+                                const hours = String(Math.floor(time / 60)).padStart(2, '0');
+                                const minutes = String(time % 60).padStart(2, '0');
+                                const timeString = `${hours}:${minutes}`;
 
-            // Function to fetch available dates
-            function fetchAvailableDates() {
-                $.ajax({
-                    url: '/available-dates',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        const availableDates = response.availableDates;
-                        $('#bookingDate').attr('min', availableDates[0] || today);
-                    }
-                });
-            }
+                                const timeCard = $('<div class="card m-1 p-2">').text(timeString).css(
+                                    'cursor', 'pointer');
 
-            // Function to fetch available times
-            function fetchAvailableTimes() {
-                const selectedDate = $('#bookingDate').val();
+                                if (bookedTimes.includes(timeString)) {
+                                    timeCard.addClass('bg-danger text-white').css('cursor', 'not-allowed');
+                                } else {
+                                    timeCard.click(function() {
+                                        $('#booking_time').val(timeString);
+                                        $('#time-slots .card').removeClass('bg-success text-white');
+                                        $(this).addClass('bg-success text-white');
+                                    });
+                                }
 
-                if (!selectedDate) return;
-
-                $.ajax({
-                    url: '/available-times',
-                    method: 'POST',
-                    data: {
-                        date: selectedDate,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        const availableTimes = response.availableTimes;
-                        console.log(availableTimes);
-                        $('.time-card').each(function() {
-                            const time = $(this).data('time') + ":00";
-                            console.log(time);
-                            if (availableTimes.includes(time)) {
-                                $(this).removeClass('disabled');
-                            } else {
-                                $(this).addClass('disabled');
-                                $(this).removeClass('active');
+                                $('#time-slots').append(timeCard);
                             }
-                        });
-
-                        // Show times container only if there are available times
-                        $('#timesContainer').toggleClass('show', availableTimes.length > 0);
-                    }
-                });
-            }
-
-            // Function to handle booking submission
-            function submitBooking() {
-                const selectedDate = $('#bookingDate').val();
-                const selectedTime = $('.time-card.active').data('time');
-
-                if (!selectedDate || !selectedTime) {
-                    alert('Harap pilih tanggal dan waktu!');
-                    return;
+                        }
+                    });
                 }
 
-                $.ajax({
-                    url: '/bookings',
-                    method: 'POST',
-                    data: {
-                        booking_date: selectedDate,
-                        booking_time: selectedTime,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert(response.message);
-                        if (response.success) {
-                            $('#bookingDate').val('');
-                            $('.time-card').removeClass('active');
-                            $('#timesContainer').removeClass('show');
+                function checkDate(date) {
+                    $.ajax({
+                        url: '{{ route('book.checkDate') }}',
+                        type: 'GET',
+                        data: {
+                            date: date
+                        },
+                        success: function(response) {
+                            if (response.allBooked) {
+                                iziToast.info({
+                                    title: 'Info',
+                                    message: 'All time slots for this date are booked. Please select another date.',
+                                    position: 'topCenter',
+                                });
+
+                                $('#time-slots').html(
+                                    '<div class="card bg-warning text-white p-3">All time slots for this date are booked. Please select another date.</div>'
+                                );
+
+                            } else {
+                                loadTimeSlots(date);
+                            }
                         }
+                    });
+                }
+
+                // Fungsi untuk memperbarui harga total
+                function updateTotalPrice() {
+                    $('#total-price').text(totalPrice + 'K');
+                }
+
+                // Event handler untuk tombol tambah
+                $('.qty-plus').click(function() {
+                    const target = $(this).data('target');
+                    const price = parseInt($(this).data('price'));
+                    let qty = parseInt($('#qty-' + target).text());
+
+                    qty++;
+                    $('#qty-' + target).text(qty);
+
+                    // Update hidden input
+                    $('#hidden-' + target + '-qty').val(qty);
+
+                    totalPrice += price;
+                    updateTotalPrice();
+                });
+
+                // Event handler untuk tombol kurang
+                $('.qty-minus').click(function() {
+                    const target = $(this).data('target');
+                    const price = parseInt($(this).data('price'));
+                    let qty = parseInt($('#qty-' + target).text());
+
+                    if (qty > 0) {
+                        qty--;
+                        $('#qty-' + target).text(qty);
+
+                        // Update hidden input
+                        $('#hidden-' + target + '-qty').val(qty);
+
+                        totalPrice -= price;
+                        updateTotalPrice();
                     }
                 });
-            }
-        });
-    </script>
-@endpush
+            });
+        </script>
+    @endpush
+@endsection

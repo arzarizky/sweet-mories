@@ -93,9 +93,9 @@ Route::middleware(['auth'])->group(function () {
 
     // middleware client
     Route::middleware(['client'])->group(function () {
-        Route::post('/available-dates', [BookingController::class, 'availableDates']);
-        Route::post('/available-times', [BookingController::class, 'availableTimes']);
-        Route::post('/bookings', [BookingController::class, 'storeBooking']);
+        Route::post('/book', [BookingController::class, 'store'])->name('book.store');
+        Route::get('/book/check-date', [BookingController::class, 'checkDate'])->name('book.checkDate');
+        Route::get('/book/check-time', [BookingController::class, 'checkTime'])->name('book.checkTime');
 
         Route::prefix('{email}')->group(function () {
             Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');

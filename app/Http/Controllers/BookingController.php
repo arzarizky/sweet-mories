@@ -42,14 +42,13 @@ class BookingController extends Controller
 
     public function bookPreview(Request $request, $email)
     {
-        dd($request);
+        // dd($request);
         $users = Auth::user();
         if ($users->email === $email) {
 
             // dd($email, $request->package);
             // Pass parameters to the view
             return view('pages.client.booking-preview.index', compact('users'));
-
         } else {
             Session::flush();
             Auth::logout();
@@ -57,57 +56,49 @@ class BookingController extends Controller
         }
     }
 
-    public function availableDates(Request $request)
+    public function checkDate(Request $request)
     {
-        dd($request);
-        $dates = Booking::select('booking_date')
-                        ->where('booking_date', '>=', Carbon::today())
-                        ->groupBy('booking_date')
-                        ->pluck('booking_date')
-                        ->toArray();
+        $date = $request->date;
+        $bookedCount = Booking::where('booking_date', $date)->count();
 
-        return response()->json(['availableDates' => $dates]);
-    }
-
-    public function availableTimes(Request $request)
-    {
-        $date = $request->input('date');
-        $times = Booking::where('booking_date', $date)->get()
-
-                        ->toArray();
-
-        $allTimes = [];
-        $startTime = Carbon::createFromFormat('H:i', '09:00');
-        $endTime = Carbon::createFromFormat('H:i', '21:00');
-
-        while ($startTime <= $endTime) {
-            $time = $startTime->format('H:i');
-            $allTimes[] = $time;
-            $startTime->addMinutes(15);
+        // Cek jika semua waktu di hari itu sudah dibooking
+        if ($bookedCount >= ((21 - 9) * 4)) {
+            return response()->json(['allBooked' => true]);
         }
 
-        $availableTimes = array_diff($allTimes, $times);
-
-        return response()->json(['availableTimes' => $availableTimes]);
+        return response()->json(['allBooked' => false]);
     }
 
-    public function storeBooking(Request $request)
+    public function checkTime(Request $request)
     {
-        $validated = $request->validate([
-            'booking_date' => 'required|date',
-            'booking_time' => 'required|string',
-        ]);
+        $date = $request->date;
 
-        Booking::create($validated);
+        // Ambil semua waktu yang sudah dibooking di tanggal tertentu
+        $bookedTimes = Booking::where('booking_date', $date)
+            ->pluck('booking_time')
+            ->map(function ($time) {
+                return Carbon::parse($time)->format('H:i');
+            })
+            ->toArray();
 
-        return response()->json(['success' => true, 'message' => 'Booking berhasil!']);
+        return response()->json(['bookedTimes' => $bookedTimes]);
     }
 
+    public function store(Request $request)
+    {
+        $datas = $this->bookingRepository->create($request->all());
 
+        if ($datas["sukses"] === true) {
+            return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('success', $datas["pesan"]);
+        } else {
+            return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
+        }
+
+    }
 
     public function updateBookStatus(Request $request, $id)
     {
-        $newDetails = Arr::except($request->all(),['_token', '_method']);
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
         $this->bookingRepository->updateStatusBook($id, $newDetails);
 
         return redirect()->back()->with('success',  'Status berhasil diubah');

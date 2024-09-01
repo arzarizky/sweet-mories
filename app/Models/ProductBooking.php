@@ -13,6 +13,12 @@ class ProductBooking extends Model
 
     protected $table = 'products_bookings';
 
+    protected $fillable = [
+        'book_id',
+        'product_id',
+        'quantity_product',
+    ];
+
     public function booking()
     {
         return $this->belongsTo(Booking::class, 'book_id', 'book_id');

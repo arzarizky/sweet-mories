@@ -30,7 +30,7 @@
                                 src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
                                 alt="" />
                         </a>
-                        <input type="hidden" name="package" value="basic">
+                        <input type="hidden" name="package" value="Basic">
                     </form>
                 </div>
             </div>

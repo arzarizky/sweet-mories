@@ -64,7 +64,14 @@ class User extends Authenticatable
 
     public function getPicAvatarAdmin()
     {
-        return url('images/picture/avatar/'.$this->avatar);
+        $url = url($this->avatar);
+        $parsedUrl = parse_url($url);
+
+        if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'https') {
+            return $url;
+        } else {
+            return url('images/picture/avatar/'.$this->avatar);
+        }
     }
 
     public function bookings()

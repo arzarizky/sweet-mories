@@ -13,6 +13,15 @@ class Booking extends Model
     use HasFactory, UUIDAsPrimaryKey;
     protected $table = 'bookings';
 
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'role_id',
+        'total_price',
+        'booking_date',
+        'booking_time',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
