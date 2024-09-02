@@ -13,6 +13,16 @@ class Invoice extends Model
     use HasFactory, UUIDAsPrimaryKey;
     protected $table = 'invoices';
 
+
+    protected $fillable = [
+        'invoice_id',
+        'user_id',
+        'book_id',
+        'amount',
+        'payment_link',
+        'status',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -21,5 +31,11 @@ class Invoice extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'book_id', 'book_id');
+    }
+
+    public function getQris()
+    {
+        $qris = url($this->payment_link);
+        return $qris;
     }
 }

@@ -30,7 +30,7 @@ class PaymentController extends Controller
         $paymentHistory->save();
 
 
-        if ($payload['transaction_status'] = "settlement") {
+        if ($payload['transaction_status'] == "settlement") {
             Invoice::where('invoice_id', $payload['order_id'])->where('status', 'PENDING')->update([
                 'status' => 'PAID',
             ]);

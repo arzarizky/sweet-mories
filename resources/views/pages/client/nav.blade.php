@@ -23,6 +23,13 @@
             Booking
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->segment(2) == 'invoice' ? 'active' : '' }}"
+            href="{{ route('client-invoice', ['email' => $users->email]) }}">
+            <i class='menu-icon tf-icons bx bxs-receipt'></i>
+            Invoice
+        </a>
+    </li>
     {{-- <li class="nav-item">
         <a class="nav-link" href="pages-account-settings-connections.html"><i class="bx bx-link-alt me-1"></i>
             Connections</a>

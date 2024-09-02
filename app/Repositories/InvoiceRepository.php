@@ -37,6 +37,24 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::where('invoice_id', $dataId)->get();
     }
 
+    public function getClient($search, $perPage)
+    {
+        $model = Invoice::with($this->relations);
+
+        if ($search === null) {
+            $query = $model
+                ->where('user_id', 'like', '%' . Auth::user()->id . '%')
+                ->orderBy('updated_at', 'desc');
+            return $query->paginate($perPage);
+        } else {
+            $query = $model
+                ->where('user_id', 'like', '%' . Auth::user()->id . '%')
+                ->where('book_id', 'like', '%' . $search . '%')
+                ->orderBy('updated_at', 'desc');
+            return $query->paginate($perPage);
+        }
+    }
+
     // Use $this->generateInvoiceId() for invoice id
     private static function generateInvoiceId()
     {
@@ -89,7 +107,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function create($dataDetails)
     {
-        $UserId = Auth::id();
+
+        $userId = Auth::id();
         $bookId = $dataDetails['book_id'];
         $validatorBook = $this->validatorBook($userId, $bookId);
 
@@ -103,15 +122,18 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         } else {
 
             $invId = $this->generateInvoiceId();
-            $payment = $this->createPayment($invId);
             $Invc = Invoice::create([
                 'invoice_id'    => $invId,
                 'user_id'       => $userId,
                 'book_id'       => $bookId,
                 'amount'        => $validatorBook['price_book'],
-                'payment_link'  => $payment,
             ]);
 
+            $payment = $this->createPayment($invId);
+            $parsing = json_decode($payment, true);
+            Invoice::where('invoice_id',$invId)->update([
+                'payment_link'  => $parsing['actions'][0]['url'],
+            ]);
 
             return [
                 'success'       => $validatorBook['success'],
@@ -120,7 +142,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'book_id'       => $bookId,
                 'amount'        => $validatorBook['price_book'],
                 'message'       => $validatorBook['message'],
-                'qr_string'     => $payment['qr_string'],
+                'qr_string'     => $payment,
             ];
         }
     }
@@ -158,6 +180,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             ),
         ));
 
+        //DEV Basic U0ItTWlkLXNlcnZlci14a2MtOHpoS193YnUxSW1zSVBJV2JyTUs6
+        //DEV https://api.sandbox.midtrans.com
+
+        //PROD Basic TWlkLXNlcnZlci1ZS2o4RlRuRjRORl9aeG5PTllPNWUwclc6
+        //PROD https://api.midtrans.com
+
         $response = curl_exec($curl);
 
         curl_close($curl);
@@ -167,3 +195,4 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     }
 
 }
+

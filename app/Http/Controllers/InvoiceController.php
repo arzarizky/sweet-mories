@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 
 class InvoiceController extends Controller
@@ -34,5 +35,18 @@ class InvoiceController extends Controller
 
         // Pass parameters to the view
         return view('pages.invoice-manager.index', compact('datas', 'search', 'perPage', 'page'));
+    }
+
+    public function create(Request $request)
+    {
+        $datas = $this->invoiceRepository->create($request->all());
+
+        if ($datas["success"] === true) {
+            return redirect()->route('client-invoice', ['email' =>  Auth::user()->email])->with('success', "Invoice " . Auth::user()->email . " " . $datas["message"] . " segera lakukan pembayaran");
+        } else {
+            return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', "Invoice " . Auth::user()->email . " " . $datas["message"]);
+        }
+
+
     }
 }

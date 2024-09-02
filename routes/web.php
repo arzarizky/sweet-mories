@@ -98,10 +98,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/book/check-time', [BookingController::class, 'checkTime'])->name('book.checkTime');
 
         Route::prefix('{email}')->group(function () {
-            Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
-            Route::post('/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
-            Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');
             Route::get('/book-preview', [BookingController::class, 'bookPreview'])->name('book-preview');
+            Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
+            Route::post('booking/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
+            Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');
+            Route::get('/invoice', [ClientDashboardController::class, 'invoice'])->name('client-invoice');
+
+        });
+
+        Route::prefix('{email}')->group(function () {
+            Route::post('/payment', [InvoiceController::class, 'create'])->name('payment');
         });
     });
 });
