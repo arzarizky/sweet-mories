@@ -113,7 +113,7 @@
                 </div>
                 <div class="row mt-md-n6">
                     <div class="col-2 d-none d-lg-block mt-auto"><img class="img-fluid"
-                            src="{{ asset('template-landing') }}/public/assets/img/home/img2.png" alt="" />
+                            src="{{ asset('template-landing') }}/public/assets/img/home/img2.jpg" alt="" />
                     </div>
                     <div class="col-1 mt-auto d-none d-lg-block"><a class="scroll-indicator text-warning"
                             href="{{ route('home-landing') }}/#footer"> <span>SCROLL </span><img
@@ -121,7 +121,7 @@
                                 alt="" /></a></div>
                     <div class="col-lg-7 position-relative">
                         <div class="position-relative overflow-hidden overflow-md-visible"><img class="img-fluid"
-                                src="{{ asset('template-landing') }}/public/assets/img/home/img1.png" alt="" />
+                                src="{{ asset('template-landing') }}/public/assets/img/home/img1.jpg" alt="" />
                             <div class="img-circle p-5 p-md-7 rounded-circle"></div>
                             <div class="img-circle-2 p-5 p-md-7 rounded-circle"></div>
                         </div>
@@ -138,7 +138,7 @@
                                     alt="" /></a></div>
                     </div>
                     <div class="col-2 d-none d-lg-block mb-auto"><img class="img-fluid"
-                            src="{{ asset('template-landing') }}/public/assets/img/home/img3.png" alt="" />
+                            src="{{ asset('template-landing') }}/public/assets/img/home/img3.jpg" alt="" />
                     </div>
                 </div>
             </div>

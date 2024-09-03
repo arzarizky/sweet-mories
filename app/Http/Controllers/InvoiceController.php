@@ -39,14 +39,18 @@ class InvoiceController extends Controller
 
     public function create(Request $request)
     {
-        $datas = $this->invoiceRepository->create($request->all());
+        $cekIdBooking = $this->invoiceRepository->getByIdBooking($request->book_id)->count();
 
-        if ($datas["success"] === true) {
-            return redirect()->route('client-invoice', ['email' =>  Auth::user()->email])->with('success', "Invoice " . Auth::user()->email . " " . $datas["message"] . " segera lakukan pembayaran");
+        if ($cekIdBooking === 0) {
+            $datas = $this->invoiceRepository->create($request->all());
+
+            if ($datas["success"] === true) {
+                return redirect()->route('client-invoice', ['email' =>  Auth::user()->email])->with('success', "Invoice " . Auth::user()->email . " " . $datas["message"] . " segera lakukan pembayaran");
+            } else {
+                return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', "Invoice " . Auth::user()->email . " " . $datas["message"]);
+            }
         } else {
-            return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', "Invoice " . Auth::user()->email . " " . $datas["message"]);
+            return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " Sudah dibuat invoice");
         }
-
-
     }
 }

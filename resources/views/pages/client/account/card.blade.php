@@ -41,7 +41,7 @@
 
         <div class="row">
             <div class="mb-3 col-md-6">
-                <label for="no_tlp-{{ $users->id }}" class="form-label">No Tlp</label>
+                <label for="no_tlp-{{ $users->id }}" class="form-label">No Whatsapp</label>
                 <input class="form-control" type="text" id="no_tlp-{{ $users->id }}" name="no_tlp"
                     value="{{ $users->no_tlp }}"
                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"

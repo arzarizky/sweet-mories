@@ -114,14 +114,15 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-4 col-md-6 d-flex justify-content-center">
                                 <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img1.png"
+                                        src="{{ asset('template-landing') }}/public/assets/img/team/img1.jpg"
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
                                             <h4>Self photo studio</h4>
                                             <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                                Di Sweetmories Studio, kamu bebas berekspresi tanpa fotografer! Nikmati
+                                                serunya foto sepuasnya dengan waktu yang sudah ditentukan, dan rasakan
+                                                kebebasan penuh untuk mengabadikan setiap momen spesial.
                                             </p>
                                         </div>
                                     </div>
@@ -129,13 +130,15 @@
                             </div>
                             <div class="col-lg-4 col-md-6 d-flex justify-content-center">
                                 <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img2.png"
+                                        src="{{ asset('template-landing') }}/public/assets/img/team/img2.jpg"
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
                                             <h4>Self projector Photo studio</h4>
                                             <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                                Pilih dari 99 lebih konten Projector dan temukan gaya unikmu! Dengan
+                                                fitur photo projector, kamu bisa bereksperimen dengan berbagai tampilan
+                                                dan ekspresi.sum Lorem Ipsum Lorem Ipsum
                                                 Lorem Ipsum Lorem Ipsum Lorem Ipsum
                                             </p>
                                         </div>
@@ -144,29 +147,32 @@
                             </div>
                             <div class="col-lg-4 col-md-6 d-flex justify-content-center">
                                 <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img3.png"
+                                        src="{{ asset('template-landing') }}/public/assets/img/team/img3.jpg"
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
                                             <h4>Holoflip photo</h4>
                                             <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                                Kami bangga menjadi yang pertama di Malang dengan Holoflip Photo! Cetak
+                                                dua foto dalam satu dan lihat bagaimana momenmu terlihat hidup dari dua
+                                                sisi berbeda. Kenanganmu jadi lebih hidup dan tak terlupakan.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-                                <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img4.png"
+                                <div class="card border-0 mb-3">
+                                    <img class="card-img-top"
+                                        src="{{ asset('template-landing') }}/public/assets/img/team/img4.jpg"
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
                                             <h4>Cozy place</h4>
                                             <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                                Kamera hanyalah alat, tapi momen spesialmu adalah segalanya. Dengan
+                                                tempat yang cozy dan pelayanan ramah, kami pastikan setiap foto dan
+                                                cetakan tetap berkualitas dan penuh makna.
                                             </p>
                                         </div>
                                     </div>
@@ -174,14 +180,15 @@
                             </div>
                             <div class="col-lg-4 col-md-6 d-flex justify-content-center">
                                 <div class="card border-0 mb-3"><img class="card-img-top"
-                                        src="{{ asset('template-landing') }}/public/assets/img/team/img5.png"
+                                        src="{{ asset('template-landing') }}/public/assets/img/team/img5.jpg"
                                         alt="" />
                                     <div class="row g-0 card-body px-0 pt-2">
                                         <div class="col-12 col-xl-12 text-center text-xl-start">
                                             <h4>Concept update every 3 months</h4>
                                             <p class="text-warning mb-2">
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                                Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                                Kami selalu berinovasi! Setiap tiga bulan, konsep studio diperbarui agar
+                                                kamu selalu bisa mengikuti tren terbaru dan mengekspresikan momenmu
+                                                dengan cara yang paling berkesan.
                                             </p>
                                         </div>
                                     </div>

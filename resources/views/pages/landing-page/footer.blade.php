@@ -21,21 +21,17 @@
             <div class="col-md-6">
 
                 <div class="d-flex gap-2 flex-wrap justify-content-between align-items-center">
-                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.instagram.com/"
+                    <a class="social-icons" href="https://www.instagram.com/sweetmoriesstudio?igsh=ZnhpZ2g4bHYxM3M4"
                         target="_blank">
                         Instagram
                     </a>
-                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.instagram.com/"
+                    <a class="social-icons" href="https://www.tiktok.com/@sweetmories.studi?_t=8pPW86NyYeA&_r=1"
                         target="_blank">
                         Tiktok
                     </a>
-                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.facebook.com/"
+                    <a class="social-icons" href="https://www.facebook.com/share/898o1N7z5pfNo6Mm/?mibextid=LQQJ4d"
                         target="_blank">
                         Facebook
-                    </a>
-                    <a class="social-icons" href="{{ asset('template-landing') }}/public/https://www.youtube.com/"
-                        target="_blank">
-                        Youtube
                     </a>
                 </div>
             </div>
@@ -60,8 +56,8 @@
                         <path
                             d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
                         </path>
-                    </svg>&nbsp;by&nbsp;<a class="fw-bold text-warning" href="https://nemaproduction.com/"
-                        target="_blank">Nema Production</a>
+                    </svg>&nbsp;by&nbsp;<a class="fw-bold text-warning" href="https://sweetmoriesstudio.com/"
+                        target="_blank">Sweetmories</a>
                 </p>
             </div>
         </div>

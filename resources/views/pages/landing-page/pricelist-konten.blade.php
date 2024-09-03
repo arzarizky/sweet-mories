@@ -11,10 +11,11 @@
         </div>
 
         <div class="col-lg-6">
+
             <hr>
 
             <div class="mb-2">
-                <h3>Basic Self Photoshoot </h3>
+                <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
@@ -23,25 +24,35 @@
                         <h5>15 Minutes Photoshoot</h5>
                     </li>
                     <li>
-                        <h5>10 Minutes Photo Selection</h5>
+                        <h5>5 Minutes Photo Selection</h5>
                     </li>
                     <li>
                         <h5>Free to choose all background colors</h5>
                     </li>
                     <li>
-                        <h5>Free all props</h5>
-
+                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                    </li>
+                    <li>
+                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                    </li>
+                    <li>
+                        <h5>Free 1 Basic Print 4R</h5>
                     </li>
                 </ul>
+                <div class="mb-2">
+                    T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                </div>
                 <h3 class="text-warning">
-                    Price 47K
+                    Price <del>67K</del> <span class="text-danger">37K</span>
                 </h3>
             </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Projector Self Photoshoot</h3>
+                <h3>Projector Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
+
+
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
@@ -50,17 +61,90 @@
                         <h5>15 Minutes Photoshoot</h5>
                     </li>
                     <li>
-                        <h5>10 Minutes Photo Selection</h5>
+                        <h5>5 Minutes Photo Selection</h5>
                     </li>
                     <li>
-                        <h5>Free to choose all projector content</h5>
+                        <h5>Free to choose ALL Projector content</h5>
                     </li>
                     <li>
-                        <h5>Free all props</h5>
+                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                    </li>
+                    <li>
+                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                    </li>
+                    <li>
+                        <h5>Free 1 Basic Print 4R</h5>
+                    </li>
+                </ul>
+                <div class="mb-2">
+                    T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                </div>
+                <h3 class="text-warning">
+                    Price <del>90K</del> <span class="text-danger">49K</span>
+                </h3>
+            </div>
+
+            <hr>
+
+            <div class="mb-2">
+                <h3>Basic Self Photoshoot (No Terms and Conditions)</h3>
+                <ul>
+                    <li>
+                        <h5>Unlimited Person</h5>
+                    </li>
+                    <li>
+                        <h5>15 Minutes Photoshoot</h5>
+                    </li>
+                    <li>
+                        <h5>5 Minutes Photo Selection</h5>
+                    </li>
+                    <li>
+                        <h5>Free to choose all background colors</h5>
+                    </li>
+                    <li>
+                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                    </li>
+                    <li>
+                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                    </li>
+                    <li>
+                        <h5>Free 1 Basic Print 4R</h5>
                     </li>
                 </ul>
                 <h3 class="text-warning">
-                    Price 70K
+                    Price 67K
+                </h3>
+            </div>
+
+            <hr>
+
+            <div class="mb-2">
+                <h3>Projector Self Photoshoot (No Terms and Conditions)</h3>
+                <ul>
+                    <li>
+                        <h5>Unlimited Person</h5>
+                    </li>
+                    <li>
+                        <h5>15 Minutes Photoshoot</h5>
+                    </li>
+                    <li>
+                        <h5>5 Minutes Photo Selection</h5>
+                    </li>
+                    <li>
+                        <h5>Free to choose ALL Projector content</h5>
+                    </li>
+                    <li>
+                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                    </li>
+                    <li>
+                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                    </li>
+                    <li>
+                        <h5>Free 1 Basic Print 4R</h5>
+                    </li>
+                </ul>
+                <h3 class="text-warning">
+                    Price 90K
                 </h3>
             </div>
 
@@ -70,18 +154,18 @@
                 <h3>Additional Print</h3>
                 <ul>
                     <li>
-                        <h5>1 Printed Photo 4R 10K</h5>
+                        <h5>1 Printed Photo 4R <span class="text-warning">10K</span></h5>
                     </li>
                     <li>
-                        <h5>2 Pintred Strip 10k</h5>
+                        <h5>2 Pintred Strip  <span class="text-warning">15K</span></h5>
                     </li>
                     <li>
-                        <h5>printed Holographic 4R 17k</h5>
+                        <h5>printed Holographic 4R <span class="text-warning">25K</span></h5>
                     </li>
                 </ul>
             </div>
 
-            <hr>
+            {{-- <hr>
 
             <div class="mb-2">
                 <h3>Digital Soft Copy</h3>
@@ -93,7 +177,7 @@
                         <h5>All Color 25K (No Terms and Conditions)</h5>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
 
             <hr>
         </div>

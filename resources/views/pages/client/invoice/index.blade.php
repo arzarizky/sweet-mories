@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'title' => "Booking ".$users->name,
+    'title' => "Invoice ".$users->name,
 ])
 
 @section('konten')
@@ -12,4 +12,7 @@
             </div>
         </div>
     </div>
+    @foreach ($datas as $data)
+        @include("pages.client.invoice.modal-qris.bayar")
+    @endforeach
 @endsection

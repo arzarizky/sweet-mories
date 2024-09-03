@@ -327,7 +327,7 @@ class DatabaseSeeder extends Seeder
         $this->createInv(Booking::where('book_id', $booking->book_id)->first());
 
 
-        $date = Carbon::createFromFormat('d-m-Y', '31-08-2024');
+        $date = Carbon::createFromFormat('d-m-Y', '10-09-2024');
         $startTime = Carbon::createFromTime(9, 0); // Start at 09:00
         $endTime = Carbon::createFromTime(21, 0); // End at 21:00
 

@@ -37,6 +37,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::where('invoice_id', $dataId)->get();
     }
 
+    public function getByIdBooking($dataId)
+    {
+        return Invoice::where('book_id', $dataId)->get();
+    }
+
+
     public function getClient($search, $perPage)
     {
         $model = Invoice::with($this->relations);

@@ -13,7 +13,10 @@
                     @else
                         border-dark @endif mb-3">
                 <div class="card-header">
-                    {{ $data->booking_date }} | {{ $data->booking_time }}
+                    @foreach ($data->bookings as $booking)
+                        {{ $booking->booking_date }} | {{ $booking->booking_time }}
+                    @endforeach
+
                     @if ($data->status === 'PENDING')
                         <span class="ms-2 badge rounded-pill bg-primary">{{ $data->status }}</span>
                     @elseif ($data->status === 'CANCELLED')
@@ -27,26 +30,11 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $data->book_id ?? 'Data Tidak Ada' }}</h5>
+                    <h5 class="card-title">{{ $data->invoice_id ?? 'Data Tidak Ada' }}</h5>
                     <p class="card-text">
-                        {{-- <ul class="pt-2">
-                        @foreach ($data->productBookings as $product)
-                            <li>
-                                {{ $product->products->name ?? 'Data Tidak Ada' }} :
-                                {{ $product->products->price ?? 'Data Tidak Ada' }} x
-                                {{ $product->quantity_product ?? 'Data Tidak Ada' }}
-                            </li>
-                        @endforeach
-                    </ul> --}}
                     <h5 class="card-title">Total Price : {{ $data->amount }}</h5>
-
-                    </p>
-                    {{-- {{dd(route('payment', ['email' => $users->email] ))}} --}}
-                    <form method="post" action="{{ route('payment', ['email' => $users->email]) }}">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $data->book_id }}">
-                        <button type="submit"
-                            class="btn
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#bayar-{{$data->id}}"
+                                class="btn
                             @if ($data->status === 'PENDING') btn-primary
                             @elseif ($data->status === 'CANCELLED')
                                 btn-warning
@@ -56,9 +44,9 @@
                                 btn-success
                             @else
                                 btn-dark @endif
-                        ">Buat
-                            Invoice</button>
-                    </form>
+                        ">
+                            Tampilkan Qris
+                    </button>
                 </div>
             </div>
         </div>

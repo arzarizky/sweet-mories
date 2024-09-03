@@ -22,6 +22,14 @@
                         autocomplete="off" required readonly>
                 </div>
 
+                <div class="form-group mb-3">
+                    <label for="booking_date">No Whatsapp</label>
+                    <input class="form-control" type="text" id="no_tlp-{{ $users->id }}" name="no_tlp"
+                        value="{{ $users->no_tlp }}"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                        placeholder="082244876123" utocomplete="off" required />
+                </div>
+
                 <div class="mb-1">{{ request()->input('package') }} Self Photoshoot</div>
 
                 <ul>

@@ -14,7 +14,7 @@
 </li>
 <li class="nav-item px-2 position-relative"><a
         class="nav-link pt-0 {{ request()->segment(1) == 'location' ? 'active' : '' }}" aria-current="page"
-        href="https://maps.app.goo.gl/19hFPPgNzNmiNBkTA" target="_blank">Location</a>
+        href="https://maps.app.goo.gl/kce3me62MCWKZ2UJA" target="_blank">Location</a>
 </li>
 <li class="nav-item px-2 position-relative"><a
         class="nav-link pt-0 {{ request()->segment(1) == 'book-now' ? 'active' : '' }}" aria-current="page"

@@ -5,6 +5,6 @@
             document.write(new Date().getFullYear());
         </script>
         , made with ❤️ by
-        <a href="https://nemaproduction.com/" target="_blank" class="footer-link fw-medium">Nema Production</a>
+        <a href="https://sweetmoriesstudio.com/" target="_blank" class="footer-link fw-medium">Sweetmories</a>
     </div>
 </div>
