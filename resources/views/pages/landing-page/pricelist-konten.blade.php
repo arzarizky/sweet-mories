@@ -51,8 +51,6 @@
 
             <div class="mb-2">
                 <h3>Projector Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
-
-
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>

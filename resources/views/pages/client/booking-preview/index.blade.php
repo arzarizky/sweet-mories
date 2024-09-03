@@ -8,13 +8,13 @@
             <h2>
                 Booking
 
-                @if ( request()->input('package') === "Basic-tnc")
+                @if (request()->input('package') === 'Basic-tnc')
                     Basic Self Photoshoot T&C
-                @elseif (request()->input('package') === "Projector-tnc")
+                @elseif (request()->input('package') === 'Projector-tnc')
                     Projector Self Photoshoot T&C
-                @elseif (request()->input('package') === "Basic")
+                @elseif (request()->input('package') === 'Basic')
                     Basic Self Photoshoot
-                @elseif (request()->input('package') === "Projector")
+                @elseif (request()->input('package') === 'Projector')
                     Projector Self Photoshoot
                 @else
                     Tidak Teridentifikasi
@@ -43,15 +43,119 @@
                         placeholder="082244876123" utocomplete="off" required />
                 </div>
 
-                <div class="mb-1">{{ request()->input('package') }} Self Photoshoot</div>
+                <div class="mb-1">
+                    @if (request()->input('package') === 'Basic-tnc')
+                        Basic Self Photoshoot T&C
+                    @elseif (request()->input('package') === 'Projector-tnc')
+                        Projector Self Photoshoot T&C
+                    @elseif (request()->input('package') === 'Basic')
+                        Basic Self Photoshoot
+                    @elseif (request()->input('package') === 'Projector')
+                        Projector Self Photoshoot
+                    @else
+                        Tidak Teridentifikasi
+                    @endif
+                </div>
 
-                <ul>
-                    <li class="mb-2">Unlimited Person</li>
-                    <li class="mb-2">15 Minutes Photoshoot</li>
-                    <li class="mb-2">10 Minutes Photo Selection</li>
-                    <li class="mb-2">Free to choose all background colors</li>
-                    <li class="mb-2">Free all props</li>
-                </ul>
+                @if (request()->input('package') === 'Basic-tnc')
+                    <ul>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            5 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose all background colors
+                        </li>
+                        <li>
+                            Free to use ALL PROPS & WARDROBE
+                        </li>
+                        <li>
+                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                        </li>
+                        <li>
+                            Free 1 Basic Print 4R
+                        </li>
+                    </ul>
+                @elseif (request()->input('package') === 'Projector-tnc')
+                    <ul>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            5 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose ALL Projector content
+                        </li>
+                        <li>
+                            Free to use ALL PROPS & WARDROBE
+                        </li>
+                        <li>
+                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                        </li>
+                        <li>
+                            Free 1 Basic Print 4R
+                        </li>
+                    </ul>
+                @elseif (request()->input('package') === 'Basic')
+                    <ul>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            5 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose all background colors
+                        </li>
+                        <li>
+                            Free to use ALL PROPS & WARDROBE
+                        </li>
+                        <li>
+                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                        </li>
+                        <li>
+                            Free 1 Basic Print 4R
+                        </li>
+                    </ul>
+                @elseif (request()->input('package') === 'Projector')
+                    <ul>
+                        <li>
+                            Unlimited Person
+                        </li>
+                        <li>
+                            15 Minutes Photoshoot
+                        </li>
+                        <li>
+                            5 Minutes Photo Selection
+                        </li>
+                        <li>
+                            Free to choose ALL Projector content
+                        </li>
+                        <li>
+                            Free to use ALL PROPS & WARDROBE
+                        </li>
+                        <li>
+                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                        </li>
+                        <li>
+                            Free 1 Basic Print 4R
+                        </li>
+                    </ul>
+                @else
+                    Tidak Teridentifikasi
+                @endif
 
                 <div class="mb-1">Additional Print</div>
 
@@ -70,12 +174,12 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span>2 Printed Strip : 10K</span>
+                            <span>2 Printed Strip : 15K</span>
                             <span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="10"
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="15"
                                     data-target="strip">-</button>
                                 <span id="qty-strip" class="mx-2">0</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="10"
+                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="15"
                                     data-target="strip">+</button>
                             </span>
                         </div>
@@ -93,26 +197,6 @@
                         </div>
                     </li>
                 </ul>
-
-                <div class="mb-1">Digital Soft Copy</div>
-
-                <ul>
-                    <li class="mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>All Color : 25K</span>
-                            <span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="25"
-                                    data-target="allcolor">-</button>
-                                <span id="qty-allcolor" class="mx-2">0</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="25"
-                                    data-target="allcolor">+</button>
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="mb-3">* All Color Free (Tag IGS @sweetmoriesstudio + Follow + Google Review) Jangan Tambah
-                    Digital Soft Copy All Color</div>
 
                 <h3>Total Price: <span id="total-price">47K</span></h3>
             </div>
