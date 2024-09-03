@@ -7,7 +7,7 @@
                             class="fw-bolder ms-2">SWEET</span><span class="fw-thin">MORIES</span></a></div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-map-marker-alt"></i><a
                         class="nav-link text-300 d-inline"
-                        href="https://maps.app.goo.gl/kce3me62MCWKZ2UJA"> JI. Manunggal No.6, Mojolangu, Kec. Lowokwaru, Kota Malang, Jawa Timur (Sebelah seventree), KOTA
+                        href="https://maps.app.goo.gl/kce3me62MCWKZ2UJA">JI. Manunggal No.6, Mojolangu, Kec. Lowokwaru, Kota Malang, Jawa Timur (Sebelah seventree), KOTA
                         MALANG, LOWOKWARU, JAWA TIMUR, ID, 65142</a></div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-phone"></i><a
                         class="nav-link text-300 d-inline"
