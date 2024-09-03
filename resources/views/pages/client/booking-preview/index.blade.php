@@ -225,8 +225,7 @@
 
                             <input type="hidden" id="hidden-photo4r" name="items[1][product_name]"
                                 value="1 Printed Photo 4R">
-                            <input type="hidden" id="hidden-strip" name="items[2][product_name]"
-                                value="2 Printed Strip">
+                            <input type="hidden" id="hidden-strip" name="items[2][product_name]" value="2 Printed Strip">
                             <input type="hidden" id="hidden-holoflip" name="items[3][product_name]"
                                 value="1 Printed Holoflip 4R">
                             <input type="hidden" id="hidden-allcolor" name="items[4][product_name]"
@@ -250,9 +249,39 @@
                 const package = "{{ request()->input('package') }}";
 
                 // Set initial total price based on package
-                let totalPrice = package === 'Projector' ? 70 : 47;
-                $('#hidden-package').val(package === 'Projector' ? 'Projector Self Photoshoot' :
-                    'Basic Self Photoshoot');
+                let totalPrice;
+
+                if (package === 'Basic-tnc') {
+                    totalPrice = 37;
+                } else if (package === 'Projector-tnc') {
+                    totalPrice = 49;
+                } else if (package === 'Basic') {
+                    totalPrice = 67;
+                } else if (package === 'Projector') {
+                    totalPrice = 90;
+                } else {
+                    // Default price if none of the packages match
+                    totalPrice = 1000000000000000;
+                }
+
+                let hiddenPackageValue;
+
+                if (package === 'Basic-tnc') {
+                    hiddenPackageValue = 'Basic Self Photoshoot T&C';
+                } else if (package === 'Projector-tnc') {
+                    hiddenPackageValue = 'Projector Self Photoshoot T&C';
+                } else if (package === 'Basic') {
+                    hiddenPackageValue = 'Basic Self Photoshoot';
+                } else if (package === 'Projector') {
+                    hiddenPackageValue = 'Projector Self Photoshoot';
+                } else {
+                    // Set a default value if none of the packages match
+                    hiddenPackageValue = 'Tidak Terdefinisi'; // Adjust this as needed
+                }
+
+                // Set the value of the hidden input
+                $('#hidden-package').val(hiddenPackageValue);
+
                 $('#total-price').text(totalPrice + 'K');
 
                 // Konfigurasi Datepicker
