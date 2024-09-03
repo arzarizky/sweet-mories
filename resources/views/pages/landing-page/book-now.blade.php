@@ -134,6 +134,9 @@
     @include("pages.landing-page.modal-book.projector-modal")
     @include("pages.landing-page.modal-book.basic-modal")
 
+    @include("pages.landing-page.modal-book.basic-tnc-modal")
+    @include("pages.landing-page.modal-book.projector-tnc-modal")
+
 
 
 

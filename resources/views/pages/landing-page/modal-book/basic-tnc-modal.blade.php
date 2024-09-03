@@ -1,9 +1,9 @@
 @if (Auth::check())
-    <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
+    <div class="modal fade" id="basic-tnc-Modal" tabindex="-1" aria-labelledby="basic-tnc-ModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="p-4">
-                    <h3>Package Basic Self Photoshoot</h3>
+                    <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF</h3>
                     <ul>
                         <li>
                             <h5>Unlimited Person</h5>
@@ -27,23 +27,28 @@
                             <h5>Free 1 Basic Print 4R</h5>
                         </li>
                     </ul>
-                    <h3>Price 67K</h3>
-                    <form id="basic-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
+                    <div class="mb-2">
+                        T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                    </div>
+                    <h3 class="text-warning">
+                        Price <del>67K</del> <span class="text-danger">37K</span>
+                    </h3>
+                    <form id="basic-tnc-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
                         @csrf
-                        <a onclick="document.getElementById('basic-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">
+                        <a onclick="document.getElementById('basic-tnc-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">
                             BOOK NOW
                             <img class="ms-1"
                                 src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
                                 alt="" />
                         </a>
-                        <input type="hidden" name="package" value="Basic">
+                        <input type="hidden" name="package" value="Basic-tnc">
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @else
-    <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
+    <div class="modal fade" id="basic-tnc-Modal" tabindex="-1" aria-labelledby="basic-tnc-ModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="p-4 mt-2 mb-2">

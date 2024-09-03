@@ -6,26 +6,32 @@
                     <h3>Package Projector Self Photoshoot</h3>
                     <ul>
                         <li>
-                            Unlimited Person
+                            <h5>Unlimited Person</h5>
                         </li>
                         <li>
-                            15 Minutes Photoshoot
+                            <h5>15 Minutes Photoshoot</h5>
                         </li>
                         <li>
-                            10 Minutes Photo Selection
+                            <h5>5 Minutes Photo Selection</h5>
                         </li>
                         <li>
-                            Free to choose all projector content
+                            <h5>Free to choose ALL Projector content</h5>
                         </li>
                         <li>
-                            Free all props
+                            <h5>Free to use ALL PROPS & WARDROBE</h5>
+                        </li>
+                        <li>
+                            <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                        </li>
+                        <li>
+                            <h5>Free 1 Basic Print 4R</h5>
                         </li>
                     </ul>
-                    <h3>Price 70K</h3>
+                    <h3>Price 90K</h3>
 
                     <form id="projector-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
                         @csrf
-                        <a id="projector" style="text-decoration: none; cursor: pointer;" class="text-warning">
+                        <a onclick="document.getElementById('projector-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">
                             BOOK NOW
                             <img class="ms-1" src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
                                 alt="" />
@@ -65,12 +71,4 @@
         </div>
     </div>
 @endif
-
-
-<script>
-    var formProjector = document.getElementById("projector-form");
-    document.getElementById("projector").addEventListener("click", function() {
-        formProjector.submit();
-    });
-</script>
 

@@ -6,7 +6,20 @@
     <div class="card p-4">
         <div class="row">
             <h2>
-                Booking {{ request()->input('package') }} Self Photoshoot
+                Booking
+
+                @if ( request()->input('package') === "Basic-tnc")
+                    Basic Self Photoshoot T&C
+                @elseif (request()->input('package') === "Projector-tnc")
+                    Projector Self Photoshoot T&C
+                @elseif (request()->input('package') === "Basic")
+                    Basic Self Photoshoot
+                @elseif (request()->input('package') === "Projector")
+                    Projector Self Photoshoot
+                @else
+                    Tidak Teridentifikasi
+                @endif
+
             </h2>
 
             <div class="col-lg-8 col-sm-12">

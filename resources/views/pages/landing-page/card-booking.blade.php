@@ -14,7 +14,7 @@
                     <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-white">
                         Rp. 37.000
                     </h4>
-                    <a data-bs-toggle="modal" data-bs-target="#basicModal"
+                    <a data-bs-toggle="modal" data-bs-target="#basic-tnc-Modal"
                         style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
                         class="hover-1-description font-weight-light mb-0 text-warning">
                         SELECT PACKAGE
@@ -38,7 +38,7 @@
                     <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-warning">
                         Rp. 49.000
                     </h4>
-                    <a data-bs-toggle="modal" data-bs-target="#basicModal"
+                    <a data-bs-toggle="modal" data-bs-target="#projector-tncModal"
                         style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
                         class="hover-1-description font-weight-light mb-0 text-warning">
                         SELECT PACKAGE
@@ -82,7 +82,7 @@
                     <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-warning">
                         Rp. 90.000
                     </h4>
-                    <a data-bs-toggle="modal" data-bs-target="#basicModal"
+                    <a data-bs-toggle="modal" data-bs-target="#projectorModal"
                         style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
                         class="hover-1-description font-weight-light mb-0 text-warning">
                         SELECT PACKAGE
