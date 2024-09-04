@@ -34,6 +34,12 @@ class PaymentController extends Controller
             Invoice::where('invoice_id', $payload['order_id'])->where('status', 'PENDING')->update([
                 'status' => 'PAID',
             ]);
+
+            $invoice = Invoice::where('invoice_id', $payload['order_id'])->first();
+
+            Booking::where('order_id', $invoice->order_id)->update([
+                'status' => 'ON PROCESS',
+            ]);
         }
 
         return response()->json([
