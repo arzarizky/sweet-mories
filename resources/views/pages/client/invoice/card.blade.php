@@ -33,7 +33,8 @@
                     <h5 class="card-title">{{ $data->invoice_id ?? 'Data Tidak Ada' }}</h5>
                     <p class="card-text">
                     <h5 class="card-title">Total Price : {{ $data->amount }}</h5>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#bayar-{{$data->id}}"
+                    <a href="{{$data->payment_link}}">
+                        <button type="button"
                                 class="btn
                             @if ($data->status === 'PENDING') btn-primary
                             @elseif ($data->status === 'CANCELLED')
@@ -45,8 +46,9 @@
                             @else
                                 btn-dark @endif
                         ">
-                            Tampilkan Qris
-                    </button>
+                            Bayar Sekarang
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
