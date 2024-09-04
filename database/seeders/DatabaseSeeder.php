@@ -172,169 +172,169 @@ class DatabaseSeeder extends Seeder
             'price' => 25000,
         ]);
 
-        Product::Create([
-            'name' => 'Digital Soft Copy',
-            'price' => 25000,
-        ]);
+        // Product::Create([
+        //     'name' => 'Digital Soft Copy',
+        //     'price' => 25000,
+        // ]);
 
-        $bookId = $this->generateBookId();
-        $totalPrice = 0;
+        // $bookId = $this->generateBookId();
+        // $totalPrice = 0;
 
-        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
-        $dataDetails['booking_time'] = Carbon::createFromTime(10, 15)->format('H:i');
+        // $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        // $dataDetails['booking_time'] = Carbon::createFromTime(10, 15)->format('H:i');
 
-        $dataDetails['items'] = [
-            [
-                'product_name' => 'Basic Self Photoshoot',
-                'quantity'  => '1'
-            ],
-            [
-                'product_name' => '1 Printed Photo 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '2 Printed Strip',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '1 Printed Holoflip 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => 'Digital Soft Copy',
-                'quantity'  => '2'
-            ]
-        ];
+        // $dataDetails['items'] = [
+        //     [
+        //         'product_name' => 'Basic Self Photoshoot',
+        //         'quantity'  => '1'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Photo 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '2 Printed Strip',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Holoflip 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => 'Digital Soft Copy',
+        //         'quantity'  => '2'
+        //     ]
+        // ];
 
-        $booking = Booking::create([
-            'user_id' => $idClientUser->id,
-            'book_id' => $bookId,
-            'total_price' => $totalPrice,
-            'booking_date' => $dataDetails['booking_date'],
-            'booking_time' => $dataDetails['booking_time'],
-        ]);
-
-
-        foreach ($dataDetails['items'] as $item) {
-            $product = Product::where('name', $item['product_name'])->firstOrFail();
-            $totalPrice += $product->price * $item['quantity'];
-            ProductBooking::create([
-                'book_id' => $bookId,
-                'product_id' => $product->id,
-                'quantity_product' => $item['quantity'],
-            ]);
-        }
-
-        Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
-
-        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
-
-        $bookId = $this->generateBookId();
-        $totalPrice = 0;
-
-        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
-        $dataDetails['booking_time'] = Carbon::createFromTime(10, 30)->format('H:i');
-
-        $dataDetails['items'] = [
-            [
-                'product_name' => 'Projector Self Photoshoot',
-                'quantity'  => '1'
-            ],
-            [
-                'product_name' => '1 Printed Photo 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '2 Printed Strip',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '1 Printed Holoflip 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => 'Digital Soft Copy',
-                'quantity'  => '2'
-            ]
-        ];
-
-        $booking = Booking::create([
-            'user_id' => $idClientUser->id,
-            'book_id' => $bookId,
-            'total_price' => $totalPrice,
-            'booking_date' => $dataDetails['booking_date'],
-            'booking_time' => $dataDetails['booking_time'],
-        ]);
-
-        foreach ($dataDetails['items'] as $item) {
-            $product = Product::where('name', $item['product_name'])->firstOrFail();
-            $totalPrice += $product->price * $item['quantity'];
-            ProductBooking::create([
-                'book_id' => $bookId,
-                'product_id' => $product->id,
-                'quantity_product' => $item['quantity'],
-            ]);
-        }
-
-        Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
-
-        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+        // $booking = Booking::create([
+        //     'user_id' => $idClientUser->id,
+        //     'book_id' => $bookId,
+        //     'total_price' => $totalPrice,
+        //     'booking_date' => $dataDetails['booking_date'],
+        //     'booking_time' => $dataDetails['booking_time'],
+        // ]);
 
 
-        $bookId = $this->generateBookId();
-        $totalPrice = 0;
+        // foreach ($dataDetails['items'] as $item) {
+        //     $product = Product::where('name', $item['product_name'])->firstOrFail();
+        //     $totalPrice += $product->price * $item['quantity'];
+        //     ProductBooking::create([
+        //         'book_id' => $bookId,
+        //         'product_id' => $product->id,
+        //         'quantity_product' => $item['quantity'],
+        //     ]);
+        // }
 
-        $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
-        $dataDetails['booking_time'] = Carbon::createFromTime(11, 15)->format('H:i');
+        // Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
 
-        $dataDetails['items'] = [
-            [
-                'product_name' => 'Projector Self Photoshoot',
-                'quantity'  => '1'
-            ],
-            [
-                'product_name' => 'Basic Self Photoshoot',
-                'quantity'  => '1'
-            ],
-            [
-                'product_name' => '1 Printed Photo 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '2 Printed Strip',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => '1 Printed Holoflip 4R',
-                'quantity'  => '2'
-            ],
-            [
-                'product_name' => 'Digital Soft Copy',
-                'quantity'  => '2'
-            ]
-        ];
+        // $this->createInv(Booking::where('book_id', $booking->book_id)->first());
 
-        $booking = Booking::create([
-            'user_id' => $idClientUser->id,
-            'book_id' => $bookId,
-            'total_price' => $totalPrice,
-            'booking_date' => $dataDetails['booking_date'],
-            'booking_time' => $dataDetails['booking_time'],
-        ]);
+        // $bookId = $this->generateBookId();
+        // $totalPrice = 0;
 
-        foreach ($dataDetails['items'] as $item) {
-            $product = Product::where('name', $item['product_name'])->firstOrFail();
-            $totalPrice += $product->price * $item['quantity'];
-            ProductBooking::create([
-                'book_id' => $bookId,
-                'product_id' => $product->id,
-                'quantity_product' => $item['quantity'],
-            ]);
-        }
+        // $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        // $dataDetails['booking_time'] = Carbon::createFromTime(10, 30)->format('H:i');
 
-        Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+        // $dataDetails['items'] = [
+        //     [
+        //         'product_name' => 'Projector Self Photoshoot',
+        //         'quantity'  => '1'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Photo 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '2 Printed Strip',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Holoflip 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => 'Digital Soft Copy',
+        //         'quantity'  => '2'
+        //     ]
+        // ];
 
-        $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+        // $booking = Booking::create([
+        //     'user_id' => $idClientUser->id,
+        //     'book_id' => $bookId,
+        //     'total_price' => $totalPrice,
+        //     'booking_date' => $dataDetails['booking_date'],
+        //     'booking_time' => $dataDetails['booking_time'],
+        // ]);
+
+        // foreach ($dataDetails['items'] as $item) {
+        //     $product = Product::where('name', $item['product_name'])->firstOrFail();
+        //     $totalPrice += $product->price * $item['quantity'];
+        //     ProductBooking::create([
+        //         'book_id' => $bookId,
+        //         'product_id' => $product->id,
+        //         'quantity_product' => $item['quantity'],
+        //     ]);
+        // }
+
+        // Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        // $this->createInv(Booking::where('book_id', $booking->book_id)->first());
+
+
+        // $bookId = $this->generateBookId();
+        // $totalPrice = 0;
+
+        // $dataDetails['booking_date'] = Carbon::createFromFormat('d-m-Y', '27-08-2024')->format('Y-m-d');
+        // $dataDetails['booking_time'] = Carbon::createFromTime(11, 15)->format('H:i');
+
+        // $dataDetails['items'] = [
+        //     [
+        //         'product_name' => 'Projector Self Photoshoot',
+        //         'quantity'  => '1'
+        //     ],
+        //     [
+        //         'product_name' => 'Basic Self Photoshoot',
+        //         'quantity'  => '1'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Photo 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '2 Printed Strip',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => '1 Printed Holoflip 4R',
+        //         'quantity'  => '2'
+        //     ],
+        //     [
+        //         'product_name' => 'Digital Soft Copy',
+        //         'quantity'  => '2'
+        //     ]
+        // ];
+
+        // $booking = Booking::create([
+        //     'user_id' => $idClientUser->id,
+        //     'book_id' => $bookId,
+        //     'total_price' => $totalPrice,
+        //     'booking_date' => $dataDetails['booking_date'],
+        //     'booking_time' => $dataDetails['booking_time'],
+        // ]);
+
+        // foreach ($dataDetails['items'] as $item) {
+        //     $product = Product::where('name', $item['product_name'])->firstOrFail();
+        //     $totalPrice += $product->price * $item['quantity'];
+        //     ProductBooking::create([
+        //         'book_id' => $bookId,
+        //         'product_id' => $product->id,
+        //         'quantity_product' => $item['quantity'],
+        //     ]);
+        // }
+
+        // Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+        // $this->createInv(Booking::where('book_id', $booking->book_id)->first());
 
 
         // $date = Carbon::createFromFormat('d-m-Y', '10-09-2024');

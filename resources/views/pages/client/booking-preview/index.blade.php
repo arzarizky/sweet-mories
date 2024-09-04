@@ -228,13 +228,9 @@
                             <input type="hidden" id="hidden-strip" name="items[2][product_name]" value="2 Printed Strip">
                             <input type="hidden" id="hidden-holoflip" name="items[3][product_name]"
                                 value="1 Printed Holoflip 4R">
-                            <input type="hidden" id="hidden-allcolor" name="items[4][product_name]"
-                                value="Digital Soft Copy">
                             <input type="hidden" id="hidden-photo4r-qty" name="items[1][quantity]" value="0">
                             <input type="hidden" id="hidden-strip-qty" name="items[2][quantity]" value="0">
                             <input type="hidden" id="hidden-holoflip-qty" name="items[3][quantity]" value="0">
-                            <input type="hidden" id="hidden-allcolor-qty" name="items[4][quantity]" value="0">
-
                             <button type="submit" class="btn btn-primary mt-3">Book Now</button>
                         </form>
                     </div>
@@ -316,7 +312,6 @@
 
                                 const timeCard = $('<div class="card m-1 p-2">').text(timeString).css(
                                     'cursor', 'pointer');
-
                                 if (bookedTimes.includes(timeString)) {
                                     timeCard.addClass('bg-danger text-white').css('cursor', 'not-allowed');
                                 } else {

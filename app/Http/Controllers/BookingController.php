@@ -73,8 +73,15 @@ class BookingController extends Controller
     {
         $date = $request->date;
 
-        // Ambil semua waktu yang sudah dibooking di tanggal tertentu
+        // Ambil semua waktu yang statusnya EXP di tanggal tertentu
         $bookedTimes = Booking::where('booking_date', $date)
+            ->where(function ($query) {
+                $query->where('status', ['PENDING', 'PAYMENT PROCESS', 'ON PROCESS', 'DONE']) // Ambil status EXP
+                    ->orWhere(function ($query) {
+                        // Cek apakah status EXP ada
+                        $query->whereNotIn('status', ['EXP']);
+                    });
+            })
             ->pluck('booking_time')
             ->map(function ($time) {
                 return Carbon::parse($time)->format('H:i');
@@ -93,7 +100,6 @@ class BookingController extends Controller
         } else {
             return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
         }
-
     }
 
     public function updateBookStatus(Request $request, $id)

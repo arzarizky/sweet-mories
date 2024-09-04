@@ -16,6 +16,8 @@ class ExpireBookingsAndInvoices extends Command
     {
         $now = now();
 
+        // Book Pending
+
         $expiredBookings = Booking::where('status', 'PENDING')
             ->where('expired_at', '<=', $now)
             ->get();
@@ -25,6 +27,18 @@ class ExpireBookingsAndInvoices extends Command
             $booking->save();
         }
 
+        // Book PAYMENT PROCESS
+        $expiredBookings = Booking::where('status', 'PAYMENT PROCESS')
+            ->where('expired_at', '<=', $now)
+            ->get();
+
+        foreach ($expiredBookings as $booking) {
+            $booking->status = 'EXP';
+            $booking->save();
+        }
+
+
+        // PAYMENT PENDING
         $expiredInvoices = Invoice::where('status', 'PENDING')
             ->where('payment_due_at', '<=', $now)
             ->get();
@@ -32,13 +46,6 @@ class ExpireBookingsAndInvoices extends Command
         foreach ($expiredInvoices as $invoice) {
             $invoice->status = 'EXP';
             $invoice->save();
-
-            $booking = Booking::find($invoice->booking_id);
-
-            if ($booking->status === 'PAYMENT PROCESS') {
-                $booking->status = 'EXP';
-                $booking->save();
-            }
         }
 
         $this->info('Expired bookings and invoices updated successfully.');
