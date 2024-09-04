@@ -38,6 +38,9 @@
                     <li>
                         <h5>Free 1 Basic Print 4R</h5>
                     </li>
+                    <li>
+                        <h5>Free Parkir</h5>
+                    </li>
                 </ul>
                 <div class="mb-2">
                     T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
@@ -72,6 +75,9 @@
                     </li>
                     <li>
                         <h5>Free 1 Basic Print 4R</h5>
+                    </li>
+                    <li>
+                        <h5>Free Parkir</h5>
                     </li>
                 </ul>
                 <div class="mb-2">
@@ -108,6 +114,9 @@
                     <li>
                         <h5>Free 1 Basic Print 4R</h5>
                     </li>
+                    <li>
+                        <h5>Free Parkir</h5>
+                    </li>
                 </ul>
                 <h3 class="text-warning">
                     Price 67K
@@ -139,6 +148,9 @@
                     </li>
                     <li>
                         <h5>Free 1 Basic Print 4R</h5>
+                    </li>
+                    <li>
+                        <h5>Free Parkir</h5>
                     </li>
                 </ul>
                 <h3 class="text-warning">
