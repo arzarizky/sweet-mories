@@ -68,9 +68,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('payment-redirect', function () {
-            return redirect()->route('client-invoice');
-    })->name('payment-redirect');
     // middleware only admin
     Route::middleware(['admin'])->group(function () {
 
@@ -99,6 +96,11 @@ Route::middleware(['auth'])->group(function () {
 
     // middleware client
     Route::middleware(['client'])->group(function () {
+
+        Route::get('payment-redirect', function () {
+            return redirect()->route('client-invoice');
+        })->name('payment-redirect');
+
         Route::post('/book', [BookingController::class, 'store'])->name('book.store');
         Route::get('/book/check-date', [BookingController::class, 'checkDate'])->name('book.checkDate');
         Route::get('/book/check-time', [BookingController::class, 'checkTime'])->name('book.checkTime');
