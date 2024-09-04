@@ -19,15 +19,15 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $model = Invoice::with($this->relations);
 
         if ($search === null) {
-            $query = $model->orderBy('updated_at','desc');
+            $query = $model->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         } else {
             $query = $model
-            ->whereHas('users', function ($query) use($search){
-                $query->where('email', 'like', '%'.$search.'%');
-            })
-            ->orWhere('invoice_id', 'like', '%'.$search.'%')
-            ->orderBy('updated_at','desc');
+                ->whereHas('users', function ($query) use ($search) {
+                    $query->where('email', 'like', '%' . $search . '%');
+                })
+                ->orWhere('invoice_id', 'like', '%' . $search . '%')
+                ->orderBy('updated_at', 'desc');
             return $query->paginate($page);
         }
     }
@@ -77,34 +77,31 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $statusBook = $bookQuery->first('status');
         $priceBook = $bookQuery->first('total_price');
 
-         if (!$statusBook) {
+        if (!$statusBook) {
             return [
                 'success' => false,
                 'message' => 'Booking not found or user does not have access.',
             ];
-         }
+        }
 
-         if ($statusBook->status === 'DONE') {
-             return[
+        if ($statusBook->status === 'DONE') {
+            return [
                 'success' => false,
                 'message' => 'Booking is already DONE.',
-             ];
-
-         } elseif ($statusBook->status === 'ON PROCESS') {
-             return[
+            ];
+        } elseif ($statusBook->status === 'ON PROCESS') {
+            return [
                 'success' => false,
                 'message' => 'Booking is ON PROCESS.',
-             ];
-
-         } elseif ($statusBook->status === 'PENDING') {
-            return[
+            ];
+        } elseif ($statusBook->status === 'PENDING') {
+            return [
                 'success' => true,
                 'message' => 'Book Valid',
                 'price_book' => $priceBook->total_price
             ];
-
         } else {
-            return[
+            return [
                 'success' => false,
                 'message' => 'Booking status not definition or user does not have access.',
             ];
@@ -124,7 +121,6 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'success' => $validatorBook['success'],
                 'message' => $validatorBook['message'],
             ];
-
         } else {
 
             $invId = $this->generateInvoiceId();
@@ -140,8 +136,8 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
             $payment = $this->createPayment($invId);
             $parsing = json_decode($payment, true);
-            Invoice::where('invoice_id',$invId)->update([
-                'payment_link'  => $parsing['actions'][0]['url'],
+            Invoice::where('invoice_id', $invId)->update([
+                'payment_link'  => $parsing['redirect_url'],
             ]);
 
             return [
@@ -160,21 +156,31 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     {
         $curl = curl_init();
 
-        $Invoice = Invoice::where('invoice_id', $invId)->where('status','PENDING')->first();
+        $Invoice = Invoice::where('invoice_id', $invId)->where('status', 'PENDING')->first();
+
+        // $payload = [
+        //     "payment_type" => "qris",
+        //     "transaction_details" => [
+        //         "order_id" => $invId,
+        //         "gross_amount" => $Invoice->amount,
+        //     ],
+        //     "qris" => [
+        //         "acquirer" => "airpay shopee"
+        //     ]
+        // ];
 
         $payload = [
-            "payment_type" => "qris",
             "transaction_details" => [
                 "order_id" => $invId,
                 "gross_amount" => $Invoice->amount,
             ],
-            "qris" => [
-                "acquirer" => "airpay shopee"
+            "credit_card" => [
+                "secure" => true
             ]
         ];
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => ' https://api.midtrans.com/v2/charge',
+            CURLOPT_URL => 'https://api.midtrans.com/snap/v1/transactions',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -202,6 +208,4 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
         return $response;
     }
-
 }
-
