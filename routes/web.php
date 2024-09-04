@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Models\Invoice;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('payment-redirect',function(Request $request){
+        if($request->status_code == 200 && $request->order_id){
+
+         $invoce = Invoice::where('invoice_id', $request->order_id)->first();
+
+         return redirect()->route('client-invoice');
+        }
+    })->name('payment-redirect');
     // middleware only admin
     Route::middleware(['admin'])->group(function () {
 
