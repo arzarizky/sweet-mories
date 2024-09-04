@@ -309,6 +309,9 @@
                             const bookedTimes = response.bookedTimes;
                             const start = 9 * 60; // 09:00
                             const end = 21 * 60; // 21:00
+                            const now = new Date();
+                            const currentTime = now.getHours() * 60 + now
+                        .getMinutes(); // waktu sekarang dalam menit
 
                             for (let time = start; time < end; time += 20) {
                                 const hours = String(Math.floor(time / 60)).padStart(2, '0');
@@ -317,7 +320,8 @@
 
                                 const timeCard = $('<div class="card m-1 p-2">').text(timeString).css(
                                     'cursor', 'pointer');
-                                if (bookedTimes.includes(timeString)) {
+
+                                if (bookedTimes.includes(timeString) || time < currentTime) {
                                     timeCard.addClass('bg-danger text-white').css('cursor', 'not-allowed');
                                 } else {
                                     timeCard.click(function() {
