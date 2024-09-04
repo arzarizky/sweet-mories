@@ -34,6 +34,12 @@ class PaymentController extends Controller
             Invoice::where('invoice_id', $payload['order_id'])->where('status', 'PENDING')->update([
                 'status' => 'PAID',
             ]);
+
+            $invoice = Invoice::where('invoice_id', $payload['order_id'])->first();
+
+            Booking::where('book_id', $invoice->book_id)->update([
+                'status' => 'ON PROCESS',
+            ]);
         }
 
         return response()->json([
@@ -81,3 +87,22 @@ class PaymentController extends Controller
         //
     }
 }
+
+// {
+//     "acquirer": "airpay shopee",
+//     "currency": "IDR",
+//     "order_id": "INV-7995-04092024104939",
+//     "expiry_time": "2024-09-04 11:04:40",
+//     "merchant_id": "G888633309",
+//     "status_code": "201",
+//     "fraud_status": "accept",
+//     "gross_amount": "140000.00",
+//     "payment_type": "qris",
+//     "reference_id": "QR1725421780306DZH8I6Hejd",
+//     "signature_key": "e6c41eed0b3e0052044a60532d5a412b72a8028a719aced65647a748ca598f435d59979afe02cebe00c31a42eb3d3acd322393ddf23dcca9383ef8fdd24cdb5f",
+//     "status_message": "midtrans payment notification",
+//     "transaction_id": "2f0c8fc5-e48f-496a-be3f-ee1945758985",
+//     "transaction_time": "2024-09-04 10:49:40",
+//     "transaction_type": "off-us",
+//     "transaction_status": "pending"
+// }

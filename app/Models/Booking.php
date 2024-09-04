@@ -20,6 +20,7 @@ class Booking extends Model
         'total_price',
         'booking_date',
         'expired_at',
+        'status',
         'booking_time',
     ];
 
