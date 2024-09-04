@@ -86,8 +86,8 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $datas = $this->bookingRepository->create($request->all());
 
+        $datas = $this->bookingRepository->create($request->all());
         if ($datas["sukses"] === true) {
             return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('success', $datas["pesan"]);
         } else {

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('payment_link')->nullable();
             $table->enum('status', ['PENDING', 'PAID', 'CANCELLED', 'EXP'])->default('PENDING');
+            $table->timestamp('payment_due_at')->nullable();
             $table->timestamps();
         });
     }

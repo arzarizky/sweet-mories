@@ -19,7 +19,8 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->date('booking_date');
             $table->time('booking_time');
-            $table->enum('status', ['PENDING', 'ON PROCESS', 'DONE'])->default('PENDING');
+            $table->enum('status', ['PENDING', 'PAYMENT PROCESS', 'ON PROCESS', 'DONE', 'EXP'])->default('PENDING');
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
     }

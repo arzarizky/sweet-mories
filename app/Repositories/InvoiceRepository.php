@@ -133,7 +133,10 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'user_id'       => $userId,
                 'book_id'       => $bookId,
                 'amount'        => $validatorBook['price_book'],
+                'payment_due_at' => now()->addMinutes(6),
             ]);
+
+            Booking::where('book_id', $bookId)->update(['status' => "PAYMENT PROCESS"]);
 
             $payment = $this->createPayment($invId);
             $parsing = json_decode($payment, true);

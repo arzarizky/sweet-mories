@@ -19,6 +19,7 @@ class Booking extends Model
         'role_id',
         'total_price',
         'booking_date',
+        'expired_at',
         'booking_time',
     ];
 

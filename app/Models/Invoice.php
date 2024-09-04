@@ -20,6 +20,7 @@ class Invoice extends Model
         'book_id',
         'amount',
         'payment_link',
+        'payment_due_at',
         'status',
     ];
 

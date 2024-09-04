@@ -26,7 +26,6 @@ class BookingRepository implements BookingRepositoryInterface
         return $prefix . $randomNumber . '-' . $timestamp;
     }
 
-    // Use $this->generateBookId() for booking id
 
     public function getAll($search, $page)
     {
@@ -81,8 +80,10 @@ class BookingRepository implements BookingRepositoryInterface
             'book_id' => $bookId,
             'total_price' => $totalPrice,
             'booking_date' => Carbon::createFromFormat('Y-m-d', $dataDetails['booking_date'])->format('Y-m-d'),
-            'booking_time' =>  $dataDetails['booking_time']
+            'booking_time' =>  $dataDetails['booking_time'],
+            'expired_at' => now()->addMinutes(6)
         ]);
+
 
         foreach ($dataDetails['items'] as $item) {
             $product = Product::where('name', $item['product_name'])->firstOrFail();
