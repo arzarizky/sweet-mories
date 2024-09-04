@@ -8,8 +8,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use App\Models\ProductBooking;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Models\User;
 
 class BookingRepository implements BookingRepositoryInterface
 {
@@ -71,6 +70,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function create($dataDetails)
     {
+        $noTlp = "+62".$dataDetails['no_tlp'];
         $userId = Auth::id();
         $bookId = $this->generateBookId();
         $totalPrice = 0;
@@ -84,6 +84,9 @@ class BookingRepository implements BookingRepositoryInterface
             'expired_at' => now()->addMinutes(6)
         ]);
 
+        User::where('id', Auth::id())->update([
+            'no_tlp' => $noTlp,
+        ]);
 
         foreach ($dataDetails['items'] as $item) {
             $product = Product::where('name', $item['product_name'])->firstOrFail();

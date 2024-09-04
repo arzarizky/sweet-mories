@@ -3,47 +3,13 @@
 ])
 
 @section('konten')
-    <div class="card p-4">
-        <div class="row">
-            <h2>
-                Booking
+    <form action="{{ route('book.store') }}" method="POST">
+        @csrf
+        <div class="card p-4">
+            <div class="row">
+                <h2>
+                    Booking
 
-                @if (request()->input('package') === 'Basic-tnc')
-                    Basic Self Photoshoot T&C
-                @elseif (request()->input('package') === 'Projector-tnc')
-                    Projector Self Photoshoot T&C
-                @elseif (request()->input('package') === 'Basic')
-                    Basic Self Photoshoot
-                @elseif (request()->input('package') === 'Projector')
-                    Projector Self Photoshoot
-                @else
-                    Tidak Teridentifikasi
-                @endif
-
-            </h2>
-
-            <div class="col-lg-8 col-sm-12">
-                <div class="form-group mb-3">
-                    <label for="booking_date">Name</label>
-                    <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control" autocomplete="off"
-                        required readonly>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="booking_date">Email</label>
-                    <input type="text" name="email" value="{{ Auth::user()->email }}" class="form-control"
-                        autocomplete="off" required readonly>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="booking_date">No Whatsapp</label>
-                    <input class="form-control" type="text" id="no_tlp-{{ $users->id }}" name="no_tlp"
-                        value="{{ $users->no_tlp }}"
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                        placeholder="082244876123" utocomplete="off" required />
-                </div>
-
-                <div class="mb-1">
                     @if (request()->input('package') === 'Basic-tnc')
                         Basic Self Photoshoot T&C
                     @elseif (request()->input('package') === 'Projector-tnc')
@@ -55,157 +21,195 @@
                     @else
                         Tidak Teridentifikasi
                     @endif
+
+                </h2>
+
+                <div class="col-lg-8 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="booking_date">Name</label>
+                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control"
+                            autocomplete="off" required readonly>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="booking_date">Email</label>
+                        <input type="text" name="email" value="{{ Auth::user()->email }}" class="form-control"
+                            autocomplete="off" required readonly>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="booking_date">No Whatsapp</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">+62</span>
+                            <input class="form-control" type="text" id="no_tlp-{{ $users->id }}" name="no_tlp"
+                                value="{{ $users->no_tlp }}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                placeholder="82244862271" autocomplete="off" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        @if (request()->input('package') === 'Basic-tnc')
+                            Basic Self Photoshoot T&C
+                        @elseif (request()->input('package') === 'Projector-tnc')
+                            Projector Self Photoshoot T&C
+                        @elseif (request()->input('package') === 'Basic')
+                            Basic Self Photoshoot
+                        @elseif (request()->input('package') === 'Projector')
+                            Projector Self Photoshoot
+                        @else
+                            Tidak Teridentifikasi
+                        @endif
+                    </div>
+
+                    @if (request()->input('package') === 'Basic-tnc')
+                        <ul>
+                            <li>
+                                Unlimited Person
+                            </li>
+                            <li>
+                                15 Minutes Photoshoot
+                            </li>
+                            <li>
+                                5 Minutes Photo Selection
+                            </li>
+                            <li>
+                                Free to choose all background colors
+                            </li>
+                            <li>
+                                Free to use ALL PROPS & WARDROBE
+                            </li>
+                            <li>
+                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                            </li>
+                            <li>
+                                Free 1 Basic Print 4R
+                            </li>
+                        </ul>
+                    @elseif (request()->input('package') === 'Projector-tnc')
+                        <ul>
+                            <li>
+                                Unlimited Person
+                            </li>
+                            <li>
+                                15 Minutes Photoshoot
+                            </li>
+                            <li>
+                                5 Minutes Photo Selection
+                            </li>
+                            <li>
+                                Free to choose ALL Projector content
+                            </li>
+                            <li>
+                                Free to use ALL PROPS & WARDROBE
+                            </li>
+                            <li>
+                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                            </li>
+                            <li>
+                                Free 1 Basic Print 4R
+                            </li>
+                        </ul>
+                    @elseif (request()->input('package') === 'Basic')
+                        <ul>
+                            <li>
+                                Unlimited Person
+                            </li>
+                            <li>
+                                15 Minutes Photoshoot
+                            </li>
+                            <li>
+                                5 Minutes Photo Selection
+                            </li>
+                            <li>
+                                Free to choose all background colors
+                            </li>
+                            <li>
+                                Free to use ALL PROPS & WARDROBE
+                            </li>
+                            <li>
+                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                            </li>
+                            <li>
+                                Free 1 Basic Print 4R
+                            </li>
+                        </ul>
+                    @elseif (request()->input('package') === 'Projector')
+                        <ul>
+                            <li>
+                                Unlimited Person
+                            </li>
+                            <li>
+                                15 Minutes Photoshoot
+                            </li>
+                            <li>
+                                5 Minutes Photo Selection
+                            </li>
+                            <li>
+                                Free to choose ALL Projector content
+                            </li>
+                            <li>
+                                Free to use ALL PROPS & WARDROBE
+                            </li>
+                            <li>
+                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                            </li>
+                            <li>
+                                Free 1 Basic Print 4R
+                            </li>
+                        </ul>
+                    @else
+                        Tidak Teridentifikasi
+                    @endif
+
+                    <div class="mb-1">Additional Print</div>
+
+                    <ul>
+                        <li class="mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>1 Printed Photo 4R : 10K</span>
+                                <span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-minus"
+                                        data-price="10" data-target="photo4r">-</button>
+                                    <span id="qty-photo4r" class="mx-2">0</span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="10"
+                                        data-target="photo4r">+</button>
+                                </span>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>2 Printed Strip : 15K</span>
+                                <span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-minus"
+                                        data-price="15" data-target="strip">-</button>
+                                    <span id="qty-strip" class="mx-2">0</span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="15"
+                                        data-target="strip">+</button>
+                                </span>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>1 Printed Holoflip 4R : 25K</span>
+                                <span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-minus"
+                                        data-price="25" data-target="holoflip">-</button>
+                                    <span id="qty-holoflip" class="mx-2">0</span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="25"
+                                        data-target="holoflip">+</button>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h3>Total Price: <span id="total-price">47K</span></h3>
                 </div>
 
-                @if (request()->input('package') === 'Basic-tnc')
-                    <ul>
-                        <li>
-                            Unlimited Person
-                        </li>
-                        <li>
-                            15 Minutes Photoshoot
-                        </li>
-                        <li>
-                            5 Minutes Photo Selection
-                        </li>
-                        <li>
-                            Free to choose all background colors
-                        </li>
-                        <li>
-                            Free to use ALL PROPS & WARDROBE
-                        </li>
-                        <li>
-                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
-                        </li>
-                        <li>
-                            Free 1 Basic Print 4R
-                        </li>
-                    </ul>
-                @elseif (request()->input('package') === 'Projector-tnc')
-                    <ul>
-                        <li>
-                            Unlimited Person
-                        </li>
-                        <li>
-                            15 Minutes Photoshoot
-                        </li>
-                        <li>
-                            5 Minutes Photo Selection
-                        </li>
-                        <li>
-                            Free to choose ALL Projector content
-                        </li>
-                        <li>
-                            Free to use ALL PROPS & WARDROBE
-                        </li>
-                        <li>
-                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
-                        </li>
-                        <li>
-                            Free 1 Basic Print 4R
-                        </li>
-                    </ul>
-                @elseif (request()->input('package') === 'Basic')
-                    <ul>
-                        <li>
-                            Unlimited Person
-                        </li>
-                        <li>
-                            15 Minutes Photoshoot
-                        </li>
-                        <li>
-                            5 Minutes Photo Selection
-                        </li>
-                        <li>
-                            Free to choose all background colors
-                        </li>
-                        <li>
-                            Free to use ALL PROPS & WARDROBE
-                        </li>
-                        <li>
-                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
-                        </li>
-                        <li>
-                            Free 1 Basic Print 4R
-                        </li>
-                    </ul>
-                @elseif (request()->input('package') === 'Projector')
-                    <ul>
-                        <li>
-                            Unlimited Person
-                        </li>
-                        <li>
-                            15 Minutes Photoshoot
-                        </li>
-                        <li>
-                            5 Minutes Photo Selection
-                        </li>
-                        <li>
-                            Free to choose ALL Projector content
-                        </li>
-                        <li>
-                            Free to use ALL PROPS & WARDROBE
-                        </li>
-                        <li>
-                            Free ALL COLOR DIGITAL SOFT FILE in Google Drive
-                        </li>
-                        <li>
-                            Free 1 Basic Print 4R
-                        </li>
-                    </ul>
-                @else
-                    Tidak Teridentifikasi
-                @endif
+                <div class="col-lg-4 col-sm-12">
+                    <div id="#booking-preview" class="row">
+                        <div class="col-md-12">
 
-                <div class="mb-1">Additional Print</div>
-
-                <ul>
-                    <li class="mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>1 Printed Photo 4R : 10K</span>
-                            <span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="10"
-                                    data-target="photo4r">-</button>
-                                <span id="qty-photo4r" class="mx-2">0</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="10"
-                                    data-target="photo4r">+</button>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>2 Printed Strip : 15K</span>
-                            <span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="15"
-                                    data-target="strip">-</button>
-                                <span id="qty-strip" class="mx-2">0</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="15"
-                                    data-target="strip">+</button>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="mb-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>1 Printed Holoflip 4R : 25K</span>
-                            <span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-minus" data-price="25"
-                                    data-target="holoflip">-</button>
-                                <span id="qty-holoflip" class="mx-2">0</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary qty-plus" data-price="25"
-                                    data-target="holoflip">+</button>
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-
-                <h3>Total Price: <span id="total-price">47K</span></h3>
-            </div>
-
-            <div class="col-lg-4 col-sm-12">
-                <div id="#booking-preview" class="row">
-                    <div class="col-md-12">
-                        <form action="{{ route('book.store') }}" method="POST">
-                            @csrf
                             <div class="form-group mb-3">
                                 <label for="booking_date">Select Date:</label>
                                 <input type="text" id="booking_date" name="booking_date" class="form-control"
@@ -225,19 +229,20 @@
 
                             <input type="hidden" id="hidden-photo4r" name="items[1][product_name]"
                                 value="1 Printed Photo 4R">
-                            <input type="hidden" id="hidden-strip" name="items[2][product_name]" value="2 Printed Strip">
+                            <input type="hidden" id="hidden-strip" name="items[2][product_name]"
+                                value="2 Printed Strip">
                             <input type="hidden" id="hidden-holoflip" name="items[3][product_name]"
                                 value="1 Printed Holoflip 4R">
                             <input type="hidden" id="hidden-photo4r-qty" name="items[1][quantity]" value="0">
                             <input type="hidden" id="hidden-strip-qty" name="items[2][quantity]" value="0">
                             <input type="hidden" id="hidden-holoflip-qty" name="items[3][quantity]" value="0">
                             <button type="submit" class="btn btn-primary mt-3">Book Now</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     @push('js-konten')
         <script>
