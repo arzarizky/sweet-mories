@@ -65,12 +65,14 @@ Route::get('auth/google/callback', [AuthController::class, 'handleLoginOrRegiste
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('payment-redirect', function (Request $request) {
+    $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
+
+    return redirect()->route('client-invoice', ['email' => $Invoice->users->email]);
+})->name('payment-redirect');
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('payment-redirect', function () {
-            return redirect()->route('client-invoice');
-    })->name('payment-redirect');
     // middleware only admin
     Route::middleware(['admin'])->group(function () {
 
