@@ -27,8 +27,8 @@ use Illuminate\Http\Request;
 Route::prefix('/')->group(function () {
     Route::get("/paymentredirect", function (Request $request) {
         $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
-        // return dd($request->order_id);
-        return redirect()->route('client-invoice', ['email' => $Invoice->users->email]);
+
+        return redirect()->route('client-invoice', ['email' => $Invoice->users->email])->with('success', "Invoice " . $request->order_id . " berhasil melakukan pembayaran!");
     });
 
     Route::get("/", function () {
