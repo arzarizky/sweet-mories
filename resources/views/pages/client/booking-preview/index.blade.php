@@ -3,6 +3,11 @@
 ])
 
 @section('konten')
+    @php
+        $now = \Carbon\Carbon::now(); // Mengambil waktu saat ini menggunakan Carbon
+        $currentTime = $now->hour * 60 + $now->minute; // Menghitung waktu sekarang dalam menit
+    @endphp
+
     <form action="{{ route('book.store') }}" method="POST">
         @csrf
         <div class="card p-4">
@@ -309,9 +314,170 @@
                             const bookedTimes = response.bookedTimes;
                             const start = 9 * 60; // 09:00
                             const end = 21 * 60; // 21:00
+
+                            // Menghitung waktu saat ini pada tanggal yang dipilih
+                            const selectedDateTime = new Date(selectedDate);
                             const now = new Date();
-                            const currentTime = now.getHours() * 60 + now
-                        .getMinutes(); // waktu sekarang dalam menit
+                            const currentTime = (selectedDateTime.toDateString() === now.toDateString()) ?
+                                (now.getHours() * 60 + now.getMinutes()) :
+                                0; // jika tanggal yang dipilih adalah hari ini, gunakan waktu sekarang
+
+                            for (let time = start; time < end; time += 20) {
+                                const hours = String(Math.floor(time / 60)).padStart(2, '0');
+                                const minutes = String(time % 60).padStart(2, '0');
+                                const timeString = `${hours}:${minutes}`;
+
+                                const timeCard = $('<div class="card m-1 p-2">').text(timeString).css(
+                                    'cursor', 'pointer');
+
+                                if (bookedTimes.includes(timeString) || (selectedDateTime.toDateString() ===
+                                        now.toDateString() && time < currentTime)) {
+                                    timeCard.addClass('bg-danger text-white').css('cursor', 'not-allowed');
+                                } else {
+                                    timeCard.click(function() {
+                                        $('#booking_time').val(timeString);
+                                        $('#time-slots .card').removeClass('bg-success text-white');
+                                        $(this).addClass('bg-success text-white');
+                                    });
+                                }
+
+                                $('#time-slots').append(timeCard);
+                            }
+                        }
+                    });
+                }
+
+                function checkDate(date) {
+                    $.ajax({
+                        url: '{{ route('book.checkDate') }}',
+                        type: 'GET',
+                        data: {
+                            date: date
+                        },
+                        success: function(response) {
+                            if (response.allBooked) {
+                                iziToast.info({
+                                    title: 'Info',
+                                    message: 'All time slots for this date are booked. Please select another date.',
+                                    position: 'topCenter',
+                                });
+
+                                $('#time-slots').html(
+                                    '<div class="card bg-warning text-white p-3">All time slots for this date are booked. Please select another date.</div>'
+                                );
+
+                            } else {
+                                loadTimeSlots(date);
+                            }
+                        }
+                    });
+                }
+
+                // Fungsi untuk memperbarui harga total
+                function updateTotalPrice() {
+                    $('#total-price').text(totalPrice + 'K');
+                }
+
+                // Event handler untuk tombol tambah
+                $('.qty-plus').click(function() {
+                    const target = $(this).data('target');
+                    const price = parseInt($(this).data('price'));
+                    let qty = parseInt($('#qty-' + target).text());
+
+                    qty++;
+                    $('#qty-' + target).text(qty);
+
+                    // Update hidden input
+                    $('#hidden-' + target + '-qty').val(qty);
+
+                    totalPrice += price;
+                    updateTotalPrice();
+                });
+
+                // Event handler untuk tombol kurang
+                $('.qty-minus').click(function() {
+                    const target = $(this).data('target');
+                    const price = parseInt($(this).data('price'));
+                    let qty = parseInt($('#qty-' + target).text());
+
+                    if (qty > 0) {
+                        qty--;
+                        $('#qty-' + target).text(qty);
+
+                        // Update hidden input
+                        $('#hidden-' + target + '-qty').val(qty);
+
+                        totalPrice -= price;
+                        updateTotalPrice();
+                    }
+                });
+            });
+        </script>
+        {{-- <script>
+            $(document).ready(function() {
+                const package = "{{ request()->input('package') }}";
+
+                // Set initial total price based on package
+                let totalPrice;
+
+                if (package === 'Basic-tnc') {
+                    totalPrice = 37;
+                } else if (package === 'Projector-tnc') {
+                    totalPrice = 49;
+                } else if (package === 'Basic') {
+                    totalPrice = 67;
+                } else if (package === 'Projector') {
+                    totalPrice = 90;
+                } else {
+                    // Default price if none of the packages match
+                    totalPrice = 1000000000000000;
+                }
+
+                let hiddenPackageValue;
+
+                if (package === 'Basic-tnc') {
+                    hiddenPackageValue = 'Basic Self Photoshoot T&C';
+                } else if (package === 'Projector-tnc') {
+                    hiddenPackageValue = 'Projector Self Photoshoot T&C';
+                } else if (package === 'Basic') {
+                    hiddenPackageValue = 'Basic Self Photoshoot';
+                } else if (package === 'Projector') {
+                    hiddenPackageValue = 'Projector Self Photoshoot';
+                } else {
+                    // Set a default value if none of the packages match
+                    hiddenPackageValue = 'Tidak Terdefinisi'; // Adjust this as needed
+                }
+
+                // Set the value of the hidden input
+                $('#hidden-package').val(hiddenPackageValue);
+
+                $('#total-price').text(totalPrice + 'K');
+
+                // Konfigurasi Datepicker
+                $('#booking_date').datepicker({
+                    format: 'yyyy-mm-dd',
+                    startDate: '0d',
+                    autoclose: true,
+                    todayHighlight: true,
+                }).on('changeDate', function(e) {
+                    checkDate(e.format());
+                });
+
+                // Fungsi untuk memuat slot waktu
+                function loadTimeSlots(selectedDate) {
+                    $('#time-slots').empty();
+
+                    $.ajax({
+                        url: '{{ route('book.checkTime') }}',
+                        type: 'GET',
+                        data: {
+                            date: selectedDate
+                        },
+                        success: function(response) {
+                            const bookedTimes = response.bookedTimes;
+                            const start = 9 * 60; // 09:00
+                            const end = 21 * 60; // 21:00
+                            const currentTime = {{ $currentTime }}; // Waktu sekarang dalam menit dari PHP
 
                             for (let time = start; time < end; time += 20) {
                                 const hours = String(Math.floor(time / 60)).padStart(2, '0');
@@ -402,6 +568,6 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
     @endpush
 @endsection
