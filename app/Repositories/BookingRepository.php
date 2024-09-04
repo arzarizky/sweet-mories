@@ -84,9 +84,13 @@ class BookingRepository implements BookingRepositoryInterface
             'expired_at' => now()->addMinutes(6)
         ]);
 
-        User::where('id', Auth::id())->update([
-            'no_tlp' => $noTlp,
-        ]);
+        $userTlp = User::find(Auth::id());
+
+        if ($userTlp->no_tlp === null) {
+            User::where('id', Auth::id())->update([
+                'no_tlp' => $noTlp,
+            ]);
+        }
 
         foreach ($dataDetails['items'] as $item) {
             $product = Product::where('name', $item['product_name'])->firstOrFail();
