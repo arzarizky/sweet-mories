@@ -174,7 +174,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         ];
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/charge',
+            CURLOPT_URL => ' https://api.midtrans.com/v2/charge',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -184,7 +184,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic U0ItTWlkLXNlcnZlci14a2MtOHpoS193YnUxSW1zSVBJV2JyTUs6',
+                'Authorization: Basic TWlkLXNlcnZlci1ZS2o4RlRuRjRORl9aeG5PTllPNWUwclc6',
                 'Content-Type: application/json'
             ),
         ));
