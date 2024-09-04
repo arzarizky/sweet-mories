@@ -25,6 +25,12 @@ use Illuminate\Http\Request;
 
 // prefix landing page
 Route::prefix('/')->group(function () {
+    Route::get("/paymentredirect", function (Request $request) {
+        $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
+        // return dd($request->order_id);
+        return redirect()->route('client-invoice', ['email' => $Invoice->users->email]);
+    });
+
     Route::get("/", function () {
         return view('pages.landing-page.home');
     })->name('home-landing');
@@ -65,11 +71,8 @@ Route::get('auth/google/callback', [AuthController::class, 'handleLoginOrRegiste
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('payment-redirect', function (Request $request) {
-    $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
 
-    return redirect()->route('client-invoice', ['email' => $Invoice->users->email]);
-})->name('payment-redirect');
+
 // middleware auth
 Route::middleware(['auth'])->group(function () {
 
