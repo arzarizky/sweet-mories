@@ -114,4 +114,17 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success',  'Status berhasil diubah');
     }
+
+    public function reschedule(Request $request, $id)
+    {
+        $datas = $this->bookingRepository->reschedule($id);
+        return view('pages.booking-manager.reschedule.index', compact('datas'));
+    }
+
+    public function UpdateReschedule(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
+        $dataUpdate = $this->bookingRepository->UpdateReschedule($id, $newDetails);
+        return redirect()->back()->with('success',  'Booking Berhasil Di Reschedule Ke Tanggal ' . $dataUpdate['date'] . ' Pukul ' .  $dataUpdate['time']);
+    }
 }

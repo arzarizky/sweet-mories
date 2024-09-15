@@ -20,6 +20,7 @@
                         </td>
                         <td>
                             Book Schedule : {{ $data->booking_date }} | {{ $data->booking_time }}
+                            <a href="{{ route('booking-manager-reschedule', $data->id) }}"> <i class='menu-icon tf-icons bx bx-time-five'></i></a>
                             <ul class="pt-2">
                                 @foreach ($data->productBookings as $product)
                                     <li>

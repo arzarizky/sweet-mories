@@ -114,4 +114,26 @@ class BookingRepository implements BookingRepositoryInterface
     {
         Booking::where('id', $dataId)->update(['status' => $newDetailsData['status']]);
     }
+
+    public function reschedule($dataId)
+    {
+        $model = Booking::with($this->relations);
+        $query = $model->where('id', $dataId)->first();
+        return $query;
+    }
+
+    public function UpdateReschedule($dataId, $newDetailsData)
+    {
+        Booking::where('id', $dataId)->update(
+            [
+                'booking_date' => $newDetailsData['booking_date'],
+                'booking_time' => $newDetailsData['booking_time']
+            ]
+        );
+
+        return [
+            'date' => $newDetailsData['booking_date'],
+            'time' => $newDetailsData['booking_time']
+        ];
+    }
 }

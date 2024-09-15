@@ -9,4 +9,6 @@ interface BookingRepositoryInterface
     public function getClient($search, $page);
     public function create($detailsData);
     public function updateStatusBook($dataId, $newDetailsData);
+    public function reschedule($dataId);
+    public function UpdateReschedule($dataId, $newDetailsData);
 }

@@ -94,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('booking-manager')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('booking-manager');
             Route::post('update-status/{id}', [BookingController::class, 'updateBookStatus'])->name('booking-manager-update-status');
+            Route::get('reschedule/{id}', [BookingController::class, 'reschedule'])->name('booking-manager-reschedule');
+            Route::post('reschedule/{id}', [BookingController::class, 'UpdateReschedule'])->name('booking-manager-update-reschedule');
         });
 
         // prefix invoice manager
