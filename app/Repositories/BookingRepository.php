@@ -45,7 +45,7 @@ class BookingRepository implements BookingRepositoryInterface
         }
 
         // Order the results by updated_at in descending order
-        $query = $query->orderBy('updated_at', 'desc');
+        $query = $query->orderBy('booking_time', 'asc');
 
         // Paginate the results
         return $query->paginate($page);
