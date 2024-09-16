@@ -5,6 +5,7 @@
                 <tr class="text-center">
                     <th>BOOK ID</th>
                     <th>Mail</th>
+                    <th>No Client</th>
                     <th>Booking Detail</th>
                     <th>Status</th>
                 </tr>
@@ -17,6 +18,9 @@
                         </td>
                         <td>
                             {{ $data->users->email ?? 'Data Tidak Ada' }}
+                        </td>
+                        <td>
+                            <a href="https://wa.me/{{$data->users->no_tlp ?? 'Data Tidak Ada'}}" target="_balnk">{{ $data->users->no_tlp ?? 'Data Tidak Ada' }}</a>
                         </td>
                         <td>
                             Book Schedule : {{ $data->booking_date }} | {{ $data->booking_time }}
