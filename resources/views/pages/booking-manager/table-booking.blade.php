@@ -150,8 +150,12 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-danger text-center" style="border: none;">
-                            <h5 class="mt-5 mb-5">Data {{ request()->input('search') }} Tidak Ada</h5>
+                        <td colspan="4" class="text-center" style="border: none;">
+                            @if (request()->input('date') != null)
+                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }} PADA TANGGAL {{ request()->input('date') }} TIDAK ADA</h5>
+                            @else
+                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }} TIDAK ADA</h5>
+                            @endif
                         </td>
                     </tr>
                 @endforelse

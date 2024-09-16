@@ -26,22 +26,29 @@ class BookingRepository implements BookingRepositoryInterface
     }
 
 
-    public function getAll($search, $page)
+    public function getAll($search, $page, $date)
     {
         $model = Booking::with($this->relations);
 
-        if ($search === null) {
-            $query = $model->orderBy('updated_at', 'desc');
-            return $query->paginate($page);
-        } else {
-            $query = $model
-                ->whereHas('users', function ($query) use ($search) {
-                    $query->where('email', 'like', '%' . $search . '%');
-                })
-                ->orWhere('book_id', 'like', '%' . $search . '%')
-                ->orderBy('updated_at', 'desc');
-            return $query->paginate($page);
+        $query = $model;
+
+        // Filter by email and book id (if provided)
+        if ($search) {
+            $query = $query->whereHas('users', function ($query) use ($search) {
+                $query->where('email', 'like', '%' . $search . '%');
+            })->orWhere('book_id', 'like', '%' . $search . '%');
         }
+
+        // Filter by booking_date (if provided)
+        if ($date) {
+            $query = $query->where('booking_date', $date);
+        }
+
+        // Order the results by updated_at in descending order
+        $query = $query->orderBy('updated_at', 'desc');
+
+        // Paginate the results
+        return $query->paginate($page);
     }
 
     public function getClient($search, $page)
@@ -70,7 +77,7 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function create($dataDetails)
     {
-        $noTlp = "+62".$dataDetails['no_tlp'];
+        $noTlp = "+62" . $dataDetails['no_tlp'];
         $userId = Auth::id();
         $bookId = $this->generateBookId();
         $totalPrice = 0;

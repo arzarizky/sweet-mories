@@ -22,11 +22,12 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->input('search',);
+        $date = $request->input('date', null);
         $perPage = $request->input('per_page', 5);
         $page = $request->input('page', 1);
 
-        $datas = $this->bookingRepository->getAll($search, $perPage);
+        $datas = $this->bookingRepository->getAll($search, $perPage, $date);
 
         if ($datas->isEmpty() && $page > 1) {
             return redirect()->route('booking-manager', [

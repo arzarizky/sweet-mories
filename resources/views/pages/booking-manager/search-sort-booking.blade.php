@@ -1,6 +1,6 @@
 <form action="">
     <div class="row">
-        <div class="col-sm-10 col-lg-10 col-md-10 mb-4">
+        <div class="col-sm-7 col-lg-7 col-md-7 mb-4">
             <div class="card p-3">
                 <div class="input-group input-group-merge">
                     <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
@@ -8,8 +8,22 @@
                         document.getElementById('submit-search').click();">
                         <i class="bx bx-search"></i>
                     </span>
-                    <input type="search" class="form-control" placeholder="Cari booking id atau email client" aria-label="Search..."
-                        aria-describedby="basic-addon-search31" value="{{ request()->input('search') }}" name="search">
+                    <input type="search" class="form-control" placeholder="Cari booking id atau email client"
+                        aria-label="Search..." aria-describedby="basic-addon-search31"
+                        value="{{ request()->input('search') }}" name="search">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-3 col-md-4 mb-4">
+            <div class="card p-3">
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
+                        onclick="event.preventDefault();
+                        document.getElementById('submit-search').click();">
+                        <i class='bx bx-calendar'></i>
+                    </span>
+                    <input type="search" placeholder="Cari tanggal" id="date" name="date" value="{{ request()->input('date') }}" class="form-control"
+                    autocomplete="off">
                 </div>
             </div>
         </div>
@@ -33,6 +47,16 @@
     <script>
         $('#sort-value').on('change', function() {
             $(this).closest('form').submit();
+        });
+
+        $('#date').on('change', function() {
+            $(this).closest('form').submit();
+        });
+
+        $('#date').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true,
         });
     </script>
 @endpush
