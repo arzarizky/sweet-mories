@@ -33,9 +33,9 @@
                     <h5 class="card-title">{{ $data->invoice_id ?? 'Data Tidak Ada' }}</h5>
                     <p class="card-text">
                     <h5 class="card-title">Total Price : {{ $data->amount }}</h5>
-                    <a href="{{$data->payment_link}}">
+                    <a href="{{ $data->payment_link }}">
                         <button type="button"
-                                class="btn
+                            class="btn
                             @if ($data->status === 'PENDING') btn-primary
                             @elseif ($data->status === 'CANCELLED')
                                 btn-warning
@@ -64,4 +64,15 @@
             </div>
         </div>
     @endforelse
+</div>
+
+<div class="d-flex justify-content-between" style="align-self: center;">
+    <div class="ps-2" style="margin-top: 25px;" class="data-count">
+        Menampilkan {{ $datas->count() }} data dari {{ $datas->total() }}
+    </div>
+
+    <div>
+        {{ $datas->links('layouts.pagination') }}
+
+    </div>
 </div>

@@ -58,3 +58,14 @@
         </div>
     @endforelse
 </div>
+
+<div class="d-flex justify-content-between" style="align-self: center;">
+    <div class="ps-2" style="margin-top: 25px;" class="data-count">
+        Menampilkan {{ $datas->count() }} data dari {{ $datas->total() }}
+    </div>
+
+    <div>
+        {{ $datas->links('layouts.pagination') }}
+
+    </div>
+</div>

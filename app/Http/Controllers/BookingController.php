@@ -106,7 +106,7 @@ class BookingController extends Controller
             if ($datas["sukses"] === true) {
                 return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('success', $datas["pesan"]);
             } else {
-                return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
+                return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
             }
         }
     }

@@ -57,7 +57,7 @@ class ClientDashboardController extends Controller
         $users = Auth::user();
         if ($users->email === $email) {
             $search = $request->input('search');
-            $perPage = $request->input('per_page', 5);
+            $perPage = $request->input('per_page', 6);
             $page = $request->input('page', 1);
 
             $datas = $this->bookingRepository->getClient($search, $perPage);
@@ -85,7 +85,7 @@ class ClientDashboardController extends Controller
         $users = Auth::user();
         if ($users->email === $email) {
             $search = $request->input('search');
-            $perPage = $request->input('per_page', 5);
+            $perPage = $request->input('per_page', 6);
             $page = $request->input('page', 1);
 
             $datas = $this->invoiceRepository->getClient($search, $perPage);
