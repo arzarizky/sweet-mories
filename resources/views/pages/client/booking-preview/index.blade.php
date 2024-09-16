@@ -300,8 +300,36 @@
                     checkDate(e.format());
                 });
 
-                // Fungsi untuk memuat slot waktu
-                function loadTimeSlots(selectedDate) {
+                function checkDate(date) {
+                    $.ajax({
+                        url: '{{ route('book.checkDate') }}',
+                        type: 'GET',
+                        data: {
+                            date: date
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+                            if (response.allBooked) {
+                                iziToast.info({
+                                    title: 'Info',
+                                    message: 'All time slots for this date are booked. Please select another date.',
+                                    position: 'topCenter',
+                                });
+
+                                $('#time-slots').html(
+                                    '<div class="card bg-warning text-white p-3">All time slots for this date are booked. Please select another date.</div>'
+                                );
+
+                            } else {
+                                loadTimeSlots(date);
+                            }
+                        }
+                    });
+                }
+
+                 // Fungsi untuk memuat slot waktu
+                 function loadTimeSlots(selectedDate) {
                     $('#time-slots').empty();
 
                     $.ajax({
@@ -342,32 +370,6 @@
                                 }
 
                                 $('#time-slots').append(timeCard);
-                            }
-                        }
-                    });
-                }
-
-                function checkDate(date) {
-                    $.ajax({
-                        url: '{{ route('book.checkDate') }}',
-                        type: 'GET',
-                        data: {
-                            date: date
-                        },
-                        success: function(response) {
-                            if (response.allBooked) {
-                                iziToast.info({
-                                    title: 'Info',
-                                    message: 'All time slots for this date are booked. Please select another date.',
-                                    position: 'topCenter',
-                                });
-
-                                $('#time-slots').html(
-                                    '<div class="card bg-warning text-white p-3">All time slots for this date are booked. Please select another date.</div>'
-                                );
-
-                            } else {
-                                loadTimeSlots(date);
                             }
                         }
                     });

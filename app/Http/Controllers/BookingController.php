@@ -59,10 +59,14 @@ class BookingController extends Controller
     public function checkDate(Request $request)
     {
         $date = $request->date;
-        $bookedCount = Booking::where('booking_date', $date)->count();
+        $bookedCount = Booking::where('booking_date', $date)
+            ->where('status', 'on process') // Memfilter hanya booking dengan status "on process"
+            ->count();
 
-        // Cek jika semua waktu di hari itu sudah dibooking
-        if ($bookedCount >= ((21 - 9) * 4)) {
+        // Menghitung total slot, yaitu 36 slot (12 jam, masing-masing 20 menit)
+        $totalSlots = (12 * 60) / 20; // 720 menit dibagi 20 menit per slot
+
+        if ($bookedCount >= $totalSlots) {
             return response()->json(['allBooked' => true]);
         }
 
@@ -93,17 +97,15 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-
-
         if ($request->no_tlp == null) {
-            return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error',"WA Harus Diisi");
+            return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', "WA Harus Diisi");
         } else {
             $datas = $this->bookingRepository->create($request->all());
-        if ($datas["sukses"] === true) {
-            return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('success', $datas["pesan"]);
-        } else {
-            return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
-        }
+            if ($datas["sukses"] === true) {
+                return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('success', $datas["pesan"]);
+            } else {
+                return redirect()->route('book-now-landing', ['email' =>  Auth::user()->email])->with('error', $datas["pesan"]);
+            }
         }
     }
 
