@@ -174,7 +174,7 @@
     </div>
 
     <div>
-        {{ $datas->appends(['search' => $search, 'per_page' => $perPage])->links('layouts.pagination') }}
+        {{ $datas->appends(['search' => $search, 'per_page' => $perPage, 'date' => $date])->links('layouts.pagination') }}
 
     </div>
 </div>
