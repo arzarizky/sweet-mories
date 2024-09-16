@@ -75,46 +75,69 @@ class BookingRepository implements BookingRepositoryInterface
         return Booking::where('book_id', $dataId)->get();
     }
 
+    public function canBook($bookingDate, $bookingTime)
+    {
+        // Check if a booking with the same date and time exists with a status other than "exp"
+        $existingBooking = Booking::where('booking_date', $bookingDate)
+            ->where('booking_time', $bookingTime)
+            ->where('status', '!=', 'exp')  // Exclude "exp" status
+            ->exists();
+
+        // Return true if no conflicting booking exists, otherwise false
+        return !$existingBooking;
+    }
+
     public function create($dataDetails)
     {
-        $noTlp = "+62" . $dataDetails['no_tlp'];
-        $userId = Auth::id();
-        $bookId = $this->generateBookId();
-        $totalPrice = 0;
 
-        $booking = Booking::create([
-            'user_id' => $userId,
-            'book_id' => $bookId,
-            'total_price' => $totalPrice,
-            'booking_date' => Carbon::createFromFormat('Y-m-d', $dataDetails['booking_date'])->format('Y-m-d'),
-            'booking_time' =>  $dataDetails['booking_time'],
-            'expired_at' => now()->addMinutes(6)
-        ]);
+        if ($this->canBook($dataDetails['booking_date'], $dataDetails['booking_time'])) {
 
-        $userTlp = User::find(Auth::id());
+            $noTlp = "+62" . $dataDetails['no_tlp'];
+            $userId = Auth::id();
+            $bookId = $this->generateBookId();
+            $totalPrice = 0;
 
-        if ($userTlp->no_tlp === null) {
-            User::where('id', Auth::id())->update([
-                'no_tlp' => $noTlp,
-            ]);
-        }
-
-        foreach ($dataDetails['items'] as $item) {
-            $product = Product::where('name', $item['product_name'])->firstOrFail();
-            $totalPrice += $product->price * $item['quantity'];
-            ProductBooking::create([
+            $booking = Booking::create([
+                'user_id' => $userId,
                 'book_id' => $bookId,
-                'product_id' => $product->id,
-                'quantity_product' => $item['quantity'],
+                'total_price' => $totalPrice,
+                'booking_date' => Carbon::createFromFormat('Y-m-d', $dataDetails['booking_date'])->format('Y-m-d'),
+                'booking_time' =>  $dataDetails['booking_time'],
+                'expired_at' => now()->addMinutes(6)
             ]);
+
+            $userTlp = User::find(Auth::id());
+
+            if ($userTlp->no_tlp === null) {
+                User::where('id', Auth::id())->update([
+                    'no_tlp' => $noTlp,
+                ]);
+            }
+
+            foreach ($dataDetails['items'] as $item) {
+                $product = Product::where('name', $item['product_name'])->firstOrFail();
+                $totalPrice += $product->price * $item['quantity'];
+                ProductBooking::create([
+                    'book_id' => $bookId,
+                    'product_id' => $product->id,
+                    'quantity_product' => $item['quantity'],
+                ]);
+            }
+
+            Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
+
+            return [
+                "sukses" => true,
+                "pesan" => "Booking " . Auth::user()->email . " pada tanggal " . $dataDetails['booking_date'] . " pukul " .  $dataDetails['booking_time'] . " berhasil di booking"
+            ];
+
+        } else {
+
+            return [
+                "sukses" => false,
+                "pesan" => "The selected date and time are already booked"
+            ];
         }
-
-        Booking::where('book_id', $booking->book_id)->update(['total_price' => $totalPrice]);
-
-        return [
-            "sukses" => true,
-            "pesan" => "Booking " . Auth::user()->email . " pada tanggal " . $dataDetails['booking_date'] . " pukul " .  $dataDetails['booking_time'] . " berhasil di booking"
-        ];
     }
 
     public function updateStatusBook($dataId, $newDetailsData)
