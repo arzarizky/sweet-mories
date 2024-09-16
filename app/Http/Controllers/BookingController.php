@@ -33,12 +33,13 @@ class BookingController extends Controller
             return redirect()->route('booking-manager', [
                 'search' => $search,
                 'per_page' => $perPage,
-                'page' => 1
+                'page' => 1,
+                'date' => $date
             ]);
         }
 
         // Pass parameters to the view
-        return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page'));
+        return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page', 'date'));
     }
 
     public function bookPreview(Request $request, $email)
