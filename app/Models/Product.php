@@ -14,11 +14,33 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'sub_title',
+        'sub_title_promo',
+        'price_text',
+        'price_promo_text',
         'price',
-    ];
+        'price_promo',
+        'promo',
+        'tnc',
+        'picture'
 
+    ];
     public function productBookings()
     {
         return $this->belongsTo(ProductBooking::class, 'id', 'products_id');
+    }
+
+    public function productDisplay()
+    {
+        return $this->hasMany(ProductDisplay::class, 'id', 'product_id');
+    }
+
+    public function getPicProduct()
+    {
+        if ($this->picture === null) {
+            return asset('template')."/assets/img/elements/12.jpg";
+        } else {
+            return url('images/picture/products/'.$this->picture);
+        }
     }
 }

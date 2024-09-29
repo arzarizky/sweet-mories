@@ -4,6 +4,7 @@
             <thead>
                 <tr class="text-center">
                     <th>BOOK ID</th>
+                    <th>Alias Name</th>
                     <th>Mail</th>
                     <th>No Client</th>
                     <th>Booking Detail</th>
@@ -15,6 +16,9 @@
                     <tr>
                         <td>
                             {{ $data->book_id ?? 'Data Tidak Ada' }}
+                        </td>
+                        <td>
+                            {{ $data->alias_name_booking ?? 'Data Tidak Ada' }}
                         </td>
                         <td>
                             {{ $data->users->email ?? 'Data Tidak Ada' }}

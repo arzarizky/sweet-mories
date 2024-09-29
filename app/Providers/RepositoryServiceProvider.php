@@ -9,6 +9,8 @@ use App\Interfaces\BookingRepositoryInterface;
 use App\Repositories\BookingRepository;
 use App\Interfaces\InvoiceRepositoryInterface;
 use App\Repositories\InvoiceRepository;
+use App\Interfaces\ProductRepositoryInterface;
+use App\Repositories\ProductRepository;
 
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -21,6 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserManagerRepositoryInterface::class, UserManagerRepository::class);
         $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
     }
 
     /**

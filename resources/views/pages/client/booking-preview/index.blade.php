@@ -32,8 +32,8 @@
                 <div class="col-lg-8 col-sm-12">
                     <div class="form-group mb-3">
                         <label for="booking_date">Name</label>
-                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control"
-                            autocomplete="off" required readonly>
+                        <input type="text" name="alias_name_booking" placeholder="Masukan Nama Lengkap Kamu" class="form-control"
+                            autocomplete="off" required>
                     </div>
 
                     <div class="form-group mb-3">

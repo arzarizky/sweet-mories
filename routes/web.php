@@ -7,8 +7,8 @@ use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ClientDashboardController;
-use App\Http\Controllers\PaymentController;
 use App\Models\Invoice;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 
 
@@ -27,7 +27,6 @@ use Illuminate\Http\Request;
 Route::prefix('/')->group(function () {
     Route::get("/paymentredirect", function (Request $request) {
         $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
-
         return redirect()->route('client-invoice', ['email' => $Invoice->users->email])->with('success', "Invoice " . $request->order_id . " berhasil melakukan pembayaran!");
     });
 
@@ -102,14 +101,16 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('invoice-manager')->group(function () {
             Route::get('/', [InvoiceController::class, 'index'])->name('invoice-manager');
         });
+
+        // prefix product manager
+        Route::prefix('product-manager')->group(function () {
+            Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product-dis');
+            Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product');
+        });
     });
 
     // middleware client
     Route::middleware(['client'])->group(function () {
-
-        Route::get('payment-redirect', function () {
-            return redirect()->route('client-invoice');
-        })->name('payment-redirect');
 
         Route::post('/book', [BookingController::class, 'store'])->name('book.store');
         Route::get('/book/check-date', [BookingController::class, 'checkDate'])->name('book.checkDate');

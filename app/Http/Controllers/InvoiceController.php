@@ -45,10 +45,19 @@ class InvoiceController extends Controller
             $datas = $this->invoiceRepository->create($request->all());
 
             if ($datas["success"] === true) {
-                return redirect()->route('client-invoice', ['email' =>  Auth::user()->email])->with('success', "Invoice " . Auth::user()->email . " " . $datas["message"] . " segera lakukan pembayaran");
-            } else {
-                return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', "Invoice " . Auth::user()->email . " " . $datas["message"]);
+                return redirect()->away($datas["payment_link"]);
             }
+
+            if ($datas["success"] === false) {
+                if ($datas["error_type"] === "apps") {
+                    return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " " . $datas["message"]);
+                } elseif ($datas["error_type"] === "payment_gateway") {
+                    return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " Error Payment Gateway " . $datas["message"]);
+                } else {
+                    return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " Error Tidak Terdefinisi");
+                }
+            }
+
         } else {
             return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " Sudah dibuat invoice");
         }

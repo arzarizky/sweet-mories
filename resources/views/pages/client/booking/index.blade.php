@@ -7,7 +7,6 @@
         <div class="col-md-12">
             @include('pages.client.nav')
             <div class="mb-4">
-                {{-- {{dd($datas)}} --}}
                 @include('pages.client.booking.card')
             </div>
         </div>

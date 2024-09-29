@@ -33,22 +33,6 @@
                     <h5 class="card-title">{{ $data->invoice_id ?? 'Data Tidak Ada' }}</h5>
                     <p class="card-text">
                     <h5 class="card-title">Total Price : {{ $data->amount }}</h5>
-                    <a href="{{ $data->payment_link }}">
-                        <button type="button"
-                            class="btn
-                            @if ($data->status === 'PENDING') btn-primary
-                            @elseif ($data->status === 'CANCELLED')
-                                btn-warning
-                            @elseif ($data->status === 'EXP')
-                                btn-warning
-                            @elseif ($data->status == 'PAID')
-                                btn-success
-                            @else
-                                btn-dark @endif
-                        ">
-                            Bayar Sekarang
-                        </button>
-                    </a>
                 </div>
             </div>
         </div>
