@@ -258,11 +258,11 @@
                 let totalPrice;
 
                 if (package === 'Basic-tnc') {
-                    totalPrice = 37;
+                    totalPrice = 10000000000;
                 } else if (package === 'Projector-tnc') {
-                    totalPrice = 49;
+                    totalPrice = 10000000000;
                 } else if (package === 'Basic') {
-                    totalPrice = 67;
+                    totalPrice = 47;
                 } else if (package === 'Projector') {
                     totalPrice = 90;
                 } else {
