@@ -27,7 +27,7 @@
                             <h5>Free 1 Basic Print 4R</h5>
                         </li>
                     </ul>
-                    <h3>Price 47K</h3>
+                    <h3>Price 67K</h3>
                     <form id="basic-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
                         @csrf
                         <a onclick="document.getElementById('basic-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">

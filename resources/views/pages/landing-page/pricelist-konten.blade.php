@@ -12,7 +12,7 @@
 
         <div class="col-lg-6">
 
-            {{-- <hr>
+            <hr>
 
             <div class="mb-2">
                 <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
@@ -48,9 +48,9 @@
                 <h3 class="text-warning">
                     Price <del>67K</del> <span class="text-danger">37K</span>
                 </h3>
-            </div> --}}
+            </div>
 
-            {{-- <hr>
+            <hr>
 
             <div class="mb-2">
                 <h3>Projector Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
@@ -86,12 +86,12 @@
                 <h3 class="text-warning">
                     Price <del>90K</del> <span class="text-danger">49K</span>
                 </h3>
-            </div> --}}
+            </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Basic Self Photoshoot</h3>
+                <h3>Basic Self Photoshoot (No Terms and Conditions)</h3>
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
@@ -119,14 +119,14 @@
                     </li>
                 </ul>
                 <h3 class="text-warning">
-                    Price 47K
+                    Price 67K
                 </h3>
             </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Projector Self Photoshoot</h3>
+                <h3>Projector Self Photoshoot (No Terms and Conditions)</h3>
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
