@@ -114,7 +114,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['client'])->group(function () {
 
         Route::get('payment-redirect', function () {
-            return redirect()->route('client-invoice');
+            return redirect()->route('client-booking');
         })->name('payment-redirect');
 
         Route::post('/book', [BookingController::class, 'store'])->name('book.store');
