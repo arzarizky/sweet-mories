@@ -91,7 +91,7 @@
             <hr>
 
             <div class="mb-2">
-                <h3>Basic Self Photoshoot (No Terms and Conditions)</h3>
+                <h3>Basic Self Photoshoot</h3>
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
@@ -119,14 +119,14 @@
                     </li>
                 </ul>
                 <h3 class="text-warning">
-                    Price 67K
+                    Price 47K
                 </h3>
             </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Projector Self Photoshoot (No Terms and Conditions)</h3>
+                <h3>Projector Self Photoshoot</h3>
                 <ul>
                     <li>
                         <h5>Unlimited Person</h5>
