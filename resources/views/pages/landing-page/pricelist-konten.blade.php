@@ -12,7 +12,7 @@
 
         <div class="col-lg-6">
 
-            <hr>
+            {{-- <hr>
 
             <div class="mb-2">
                 <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
@@ -86,7 +86,7 @@
                 <h3 class="text-warning">
                     Price <del>90K</del> <span class="text-danger">49K</span>
                 </h3>
-            </div>
+            </div> --}}
 
             <hr>
 
