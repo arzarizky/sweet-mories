@@ -18,7 +18,7 @@
                             <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                            <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                         </li>
                         <li>
                             <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>

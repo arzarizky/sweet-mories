@@ -18,7 +18,7 @@
                             <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                            <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                         </li>
                         <li>
                             <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>

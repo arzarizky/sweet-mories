@@ -30,7 +30,7 @@
                         <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                     </li>
                     <li>
-                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                        <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
                         <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -40,7 +40,7 @@
                     </li>
                 </ul>
                 <div class="mb-2">
-                    T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                    Syarat & Ketentuan : Tag IGS, Follow IG dan Tik Tok @Sweetmoriesstudio & Review Google Maps.
                 </div>
                 <h3 class="text-warning">
                     Price <del>67K</del> <span class="text-danger">47K</span>
@@ -65,7 +65,7 @@
                         <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                     </li>
                     <li>
-                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                        <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
                         <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -75,7 +75,7 @@
                     </li>
                 </ul>
                 <div class="mb-2">
-                    T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                    Syarat & Ketentuan : Tag IGS, Follow IG dan Tik Tok @Sweetmoriesstudio & Review Google Maps.
                 </div>
                 <h3 class="text-warning">
                     Price <del>90K</del> <span class="text-danger">63K</span>
@@ -100,7 +100,7 @@
                         <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                     </li>
                     <li>
-                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                        <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
                         <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -132,7 +132,7 @@
                         <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                     </li>
                     <li>
-                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                        <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
                         <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>

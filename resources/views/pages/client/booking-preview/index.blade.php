@@ -82,7 +82,7 @@
                                 <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                             </li>
                             <li>
-                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                                <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
                                 <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -92,7 +92,7 @@
                             </li>
                         </ul>
                         <div class="mb-2">
-                            Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                            Syarat & Ketentuan : Tag IGS, Follow IG dan Tik Tok @Sweetmoriesstudio & Review Google Maps.
                         </div>
                     @elseif (request()->input('package') === 'Projector-tnc')
                         <ul>
@@ -109,7 +109,7 @@
                                 <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                             </li>
                             <li>
-                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                                <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
                                 <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -119,7 +119,7 @@
                             </li>
                         </ul>
                         <div class="mb-2">
-                            Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                            Syarat & Ketentuan : Tag IGS, Follow IG dan Tik Tok @Sweetmoriesstudio & Review Google Maps.
                         </div>
                     @elseif (request()->input('package') === 'Basic')
                         <ul>
@@ -136,7 +136,7 @@
                                 <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                             </li>
                             <li>
-                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                                <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
                                 <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
@@ -160,7 +160,7 @@
                                 <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                             </li>
                             <li>
-                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                                <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
                                 <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
