@@ -105,9 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
         // prefix product manager
         Route::prefix('product-manager')->group(function () {
-            Route::get('/product-main', [ProductController::class, 'indexProductMain'])->name('product-manager-product-main');
-            Route::get('/product-main-add', [ProductController::class, 'addProductMain'])->name('product-manager-product-main-add');
-            // Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product');
+            Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product-dis');
+            Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product');
         });
     });
 

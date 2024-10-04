@@ -3,35 +3,35 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="p-4">
-                    <h3>Basic Self Photoshoot PROMO 30% OFF</h3>
+                    <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF</h3>
                     <ul>
                         <li>
-                            <h5>TANPA BATASAN ORANG</h5>
+                            <h5>Unlimited Person</h5>
                         </li>
                         <li>
-                            <h5>15 MENIT FOTO</h5>
+                            <h5>15 Minutes Photoshoot</h5>
                         </li>
                         <li>
-                            <h5>5 MENIT PEMILIHAN FOTO</h5>
+                            <h5>5 Minutes Photo Selection</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
+                            <h5>Free to choose all background colors</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                            <h5>Free to use ALL PROPS & WARDROBE</h5>
                         </li>
                         <li>
-                            <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
+                            <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
                         </li>
                         <li>
-                            <h5>DAPATKAN 1 CETAK 4R</h5>
+                            <h5>Free 1 Basic Print 4R</h5>
                         </li>
                     </ul>
                     <div class="mb-2">
-                        Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                        T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
                     </div>
                     <h3 class="text-warning">
-                        Price <del>67K</del> <span class="text-danger">47K</span>
+                        Price <del>67K</del> <span class="text-danger">37K</span>
                     </h3>
                     <form id="basic-tnc-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
                         @csrf

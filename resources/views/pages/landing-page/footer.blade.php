@@ -11,7 +11,7 @@
                         MALANG, LOWOKWARU, JAWA TIMUR, ID, 65142</a></div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-phone"></i><a
                         class="nav-link text-300 d-inline"
-                        href="{{ asset('template-landing') }}/public/tel:+8801976476893">085847747737</a>
+                        href="{{ asset('template-landing') }}/public/tel:+8801976476893">+62 815 5333 9352</a>
                 </div>
                 <div class="col-12 col-md-10 text-300 mb-3"><i class="fas fa-envelope"></i><a
                         class="nav-link text-300 d-inline" href="mailto:moriessweet@gmail.com">moriessweet@gmail.com</a>

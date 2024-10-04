@@ -14,7 +14,7 @@ class ProductController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function indexProductMain(Request $request)
+    public function indexProduct(Request $request)
     {
         $search = $request->input('search');
         $perPage = $request->input('per_page', 5);
@@ -32,11 +32,6 @@ class ProductController extends Controller
         }
 
         // Pass parameters to the view
-        return view('pages.produk-manager.product-main.index', compact('datas', 'search', 'perPage', 'page'));
-    }
-
-    public function addProductMain()
-    {
-        return view('pages.produk-manager.product-main.add');
+        return view('pages.produk-manager.product.index', compact('datas', 'search', 'perPage', 'page'));
     }
 }

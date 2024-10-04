@@ -6,25 +6,25 @@
                     <h3>Package Projector Self Photoshoot</h3>
                     <ul>
                         <li>
-                            <h5>TANPA BATASAN ORANG</h5>
+                            <h5>Unlimited Person</h5>
                         </li>
                         <li>
-                            <h5>15 MENIT FOTO</h5>
+                            <h5>15 Minutes Photoshoot</h5>
                         </li>
                         <li>
-                            <h5>5 MENIT PEMILIHAN FOTO</h5>
+                            <h5>5 Minutes Photo Selection</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
+                            <h5>Free to choose ALL Projector content</h5>
                         </li>
                         <li>
-                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                            <h5>Free to use ALL PROPS & WARDROBE</h5>
                         </li>
                         <li>
-                            <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
+                            <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
                         </li>
                         <li>
-                            <h5>DAPATKAN 1 CETAK 4R</h5>
+                            <h5>Free 1 Basic Print 4R</h5>
                         </li>
                     </ul>
                     <h3>Price 90K</h3>
