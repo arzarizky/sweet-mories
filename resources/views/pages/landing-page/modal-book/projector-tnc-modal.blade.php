@@ -3,35 +3,35 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="p-4">
-                    <h3>Projector Self Photoshoot PROMO GRAND OPENING 45% OFF</h3>
+                    <h3>Projector Self Photoshoot PROMO 30% OFF</h3>
                     <ul>
                         <li>
-                            <h5>Unlimited Person</h5>
+                            <h5>TANPA BATASAN ORANG</h5>
                         </li>
                         <li>
-                            <h5>15 Minutes Photoshoot</h5>
+                            <h5>15 MENIT FOTO</h5>
                         </li>
                         <li>
-                            <h5>5 Minutes Photo Selection</h5>
+                            <h5>5 MENIT PEMILIHAN FOTO</h5>
                         </li>
                         <li>
-                            <h5>Free to choose ALL Projector content</h5>
+                            <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                         </li>
                         <li>
-                            <h5>Free to use ALL PROPS & WARDROBE</h5>
+                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                         </li>
                         <li>
-                            <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                            <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                         </li>
                         <li>
-                            <h5>Free 1 Basic Print 4R</h5>
+                            <h5>DAPATKAN 1 CETAK 4R</h5>
                         </li>
                     </ul>
                     <div class="mb-2">
-                        T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                        Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
                     </div>
                     <h3 class="text-warning">
-                        Price <del>90K</del> <span class="text-danger">49K</span>
+                        Price <del>90K</del> <span class="text-danger">63K</span>
                     </h3>
 
                     <form id="projector-tnc-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">

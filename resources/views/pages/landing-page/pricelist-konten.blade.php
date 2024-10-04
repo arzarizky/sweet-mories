@@ -12,145 +12,133 @@
 
         <div class="col-lg-6">
 
-            {{-- <hr>
+            <hr>
 
             <div class="mb-2">
-                <h3>Basic Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
+                <h3>Basic Self Photoshoot PROMO 30% OFF (S&K berlaku)</h3>
                 <ul>
                     <li>
-                        <h5>Unlimited Person</h5>
+                        <h5>TANPA BATASAN ORANG</h5>
                     </li>
                     <li>
-                        <h5>15 Minutes Photoshoot</h5>
+                        <h5>15 MENIT FOTO</h5>
                     </li>
                     <li>
-                        <h5>5 Minutes Photo Selection</h5>
+                        <h5>5 MENIT PEMILIHAN FOTO</h5>
                     </li>
                     <li>
-                        <h5>Free to choose all background colors</h5>
+                        <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                     </li>
                     <li>
-                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
-                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                        <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                     </li>
                     <li>
-                        <h5>Free 1 Basic Print 4R</h5>
-                    </li>
-                    <li>
-                        <h5>Free Parkir</h5>
+                        <h5>DAPATKAN 1 CETAK 4R</h5>
                     </li>
                 </ul>
                 <div class="mb-2">
                     T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
                 </div>
                 <h3 class="text-warning">
-                    Price <del>67K</del> <span class="text-danger">37K</span>
+                    Price <del>67K</del> <span class="text-danger">47K</span>
                 </h3>
             </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Projector Self Photoshoot PROMO GRAND OPENING 45% OFF (Terms and Conditions)</h3>
+                <h3>Projector Self Photoshoot PROMO 30% OFF (S&K berlaku)</h3>
                 <ul>
                     <li>
-                        <h5>Unlimited Person</h5>
+                        <h5>TANPA BATASAN ORANG</h5>
                     </li>
                     <li>
-                        <h5>15 Minutes Photoshoot</h5>
+                        <h5>15 MENIT FOTO</h5>
                     </li>
                     <li>
-                        <h5>5 Minutes Photo Selection</h5>
+                        <h5>5 MENIT PEMILIHAN FOTO</h5>
                     </li>
                     <li>
-                        <h5>Free to choose ALL Projector content</h5>
+                        <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                     </li>
                     <li>
-                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
-                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                        <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                     </li>
                     <li>
-                        <h5>Free 1 Basic Print 4R</h5>
-                    </li>
-                    <li>
-                        <h5>Free Parkir</h5>
+                        <h5>DAPATKAN 1 CETAK 4R</h5>
                     </li>
                 </ul>
                 <div class="mb-2">
                     T&C : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
                 </div>
                 <h3 class="text-warning">
-                    Price <del>90K</del> <span class="text-danger">49K</span>
-                </h3>
-            </div> --}}
-
-            <hr>
-
-            <div class="mb-2">
-                <h3>Basic Self Photoshoot</h3>
-                <ul>
-                    <li>
-                        <h5>Unlimited Person</h5>
-                    </li>
-                    <li>
-                        <h5>15 Minutes Photoshoot</h5>
-                    </li>
-                    <li>
-                        <h5>5 Minutes Photo Selection</h5>
-                    </li>
-                    <li>
-                        <h5>Free to choose all background colors</h5>
-                    </li>
-                    <li>
-                        <h5>Free to use ALL PROPS & WARDROBE</h5>
-                    </li>
-                    <li>
-                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
-                    </li>
-                    <li>
-                        <h5>Free 1 Basic Print 4R</h5>
-                    </li>
-                    <li>
-                        <h5>Free Parkir</h5>
-                    </li>
-                </ul>
-                <h3 class="text-warning">
-                    Price 47K
+                    Price <del>90K</del> <span class="text-danger">63K</span>
                 </h3>
             </div>
 
             <hr>
 
             <div class="mb-2">
-                <h3>Projector Self Photoshoot</h3>
+                <h3>Basic Self Photoshoot (Bebas syarat & ketentuan)</h3>
                 <ul>
                     <li>
-                        <h5>Unlimited Person</h5>
+                        <h5>TANPA BATASAN ORANG</h5>
                     </li>
                     <li>
-                        <h5>15 Minutes Photoshoot</h5>
+                        <h5>15 MENIT FOTO</h5>
                     </li>
                     <li>
-                        <h5>5 Minutes Photo Selection</h5>
+                        <h5>5 MENIT PEMILIHAN FOTO</h5>
                     </li>
                     <li>
-                        <h5>Free to choose ALL Projector content</h5>
+                        <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                     </li>
                     <li>
-                        <h5>Free to use ALL PROPS & WARDROBE</h5>
+                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                     </li>
                     <li>
-                        <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                        <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                     </li>
                     <li>
-                        <h5>Free 1 Basic Print 4R</h5>
+                        <h5>DAPATKAN 1 CETAK 4R</h5>
+                    </li>
+                </ul>
+                <h3 class="text-warning">
+                    Price 67K
+                </h3>
+            </div>
+
+            <hr>
+
+            <div class="mb-2">
+                <h3>Projector Self Photoshoot (Bebas syarat & ketentuan)</h3>
+                <ul>
+                    <li>
+                        <h5>TANPA BATASAN ORANG</h5>
                     </li>
                     <li>
-                        <h5>Free Parkir</h5>
+                        <h5>15 MENIT FOTO</h5>
+                    </li>
+                    <li>
+                        <h5>5 MENIT PEMILIHAN FOTO</h5>
+                    </li>
+                    <li>
+                        <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
+                    </li>
+                    <li>
+                        <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
+                    </li>
+                    <li>
+                        <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
+                    </li>
+                    <li>
+                        <h5>DAPATKAN 1 CETAK 4R</h5>
                     </li>
                 </ul>
                 <h3 class="text-warning">
@@ -170,7 +158,7 @@
                         <h5>2 Pintred Strip  <span class="text-warning">15K</span></h5>
                     </li>
                     <li>
-                        <h5>printed Holographic 4R <span class="text-warning">25K</span></h5>
+                        <h5>1 Printed Holoflip 4R <span class="text-warning">25K</span></h5>
                     </li>
                 </ul>
             </div>

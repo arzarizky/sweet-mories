@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->string('alias_name_booking')->nullable()->after('id');
+        Schema::table('products', function (Blueprint $table) {
+            $table->json('tnc')->nullable()->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('alias_name_booking');
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('tnc')->nullable()->change();
         });
     }
 };

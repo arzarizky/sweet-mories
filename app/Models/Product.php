@@ -22,9 +22,14 @@ class Product extends Model
         'price_promo',
         'promo',
         'tnc',
-        'picture'
+        'picture',
+        'status'
 
     ];
+    protected $casts = [
+        'tnc' => 'array',
+    ];
+
     public function productBookings()
     {
         return $this->belongsTo(ProductBooking::class, 'id', 'products_id');

@@ -6,28 +6,28 @@
                     <h3>Package Basic Self Photoshoot</h3>
                     <ul>
                         <li>
-                            <h5>Unlimited Person</h5>
+                            <h5>TANPA BATASAN ORANG</h5>
                         </li>
                         <li>
-                            <h5>15 Minutes Photoshoot</h5>
+                            <h5>15 MENIT FOTO</h5>
                         </li>
                         <li>
-                            <h5>5 Minutes Photo Selection</h5>
+                            <h5>5 MENIT PEMILIHAN FOTO</h5>
                         </li>
                         <li>
-                            <h5>Free to choose all background colors</h5>
+                            <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                         </li>
                         <li>
-                            <h5>Free to use ALL PROPS & WARDROBE</h5>
+                            <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                         </li>
                         <li>
-                            <h5>Free ALL COLOR DIGITAL SOFT FILE in Google Drive</h5>
+                            <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                         </li>
                         <li>
-                            <h5>Free 1 Basic Print 4R</h5>
+                            <h5>DAPATKAN 1 CETAK 4R</h5>
                         </li>
                     </ul>
-                    <h3>Price 47K</h3>
+                    <h3>Price 67K</h3>
                     <form id="basic-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
                         @csrf
                         <a onclick="document.getElementById('basic-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">
