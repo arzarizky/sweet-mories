@@ -16,9 +16,9 @@
                     Booking
 
                     @if (request()->input('package') === 'Basic-tnc')
-                        Basic Self Photoshoot T&C
+                        Basic Self Photoshoot S&K
                     @elseif (request()->input('package') === 'Projector-tnc')
-                        Projector Self Photoshoot T&C
+                        Projector Self Photoshoot S&K
                     @elseif (request()->input('package') === 'Basic')
                         Basic Self Photoshoot
                     @elseif (request()->input('package') === 'Projector')
@@ -70,97 +70,103 @@
                     @if (request()->input('package') === 'Basic-tnc')
                         <ul>
                             <li>
-                                Unlimited Person
+                                <h5>TANPA BATASAN ORANG</h5>
                             </li>
                             <li>
-                                15 Minutes Photoshoot
+                                <h5>15 MENIT FOTO</h5>
                             </li>
                             <li>
-                                5 Minutes Photo Selection
+                                <h5>5 MENIT PEMILIHAN FOTO</h5>
                             </li>
                             <li>
-                                Free to choose all background colors
+                                <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                             </li>
                             <li>
-                                Free to use ALL PROPS & WARDROBE
+                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
-                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                                <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                             </li>
                             <li>
-                                Free 1 Basic Print 4R
+                                <h5>DAPATKAN 1 CETAK 4R</h5>
                             </li>
                         </ul>
+                        <div class="mb-2">
+                            Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                        </div>
                     @elseif (request()->input('package') === 'Projector-tnc')
                         <ul>
                             <li>
-                                Unlimited Person
+                                <h5>TANPA BATASAN ORANG</h5>
                             </li>
                             <li>
-                                15 Minutes Photoshoot
+                                <h5>15 MENIT FOTO</h5>
                             </li>
                             <li>
-                                5 Minutes Photo Selection
+                                <h5>5 MENIT PEMILIHAN FOTO</h5>
                             </li>
                             <li>
-                                Free to choose ALL Projector content
+                                <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                             </li>
                             <li>
-                                Free to use ALL PROPS & WARDROBE
+                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
-                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                                <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                             </li>
                             <li>
-                                Free 1 Basic Print 4R
+                                <h5>DAPATKAN 1 CETAK 4R</h5>
                             </li>
                         </ul>
+                        <div class="mb-2">
+                            Syarat & Ketentuan : Tag IGS, Follow IG @Sweetmoriesstudio & Review Google Maps.
+                        </div>
                     @elseif (request()->input('package') === 'Basic')
                         <ul>
                             <li>
-                                Unlimited Person
+                                <h5>TANPA BATASAN ORANG</h5>
                             </li>
                             <li>
-                                15 Minutes Photoshoot
+                                <h5>15 MENIT FOTO</h5>
                             </li>
                             <li>
-                                5 Minutes Photo Selection
+                                <h5>5 MENIT PEMILIHAN FOTO</h5>
                             </li>
                             <li>
-                                Free to choose all background colors
+                                <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
                             </li>
                             <li>
-                                Free to use ALL PROPS & WARDROBE
+                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
-                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                                <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                             </li>
                             <li>
-                                Free 1 Basic Print 4R
+                                <h5>DAPATKAN 1 CETAK 4R</h5>
                             </li>
                         </ul>
                     @elseif (request()->input('package') === 'Projector')
                         <ul>
                             <li>
-                                Unlimited Person
+                                <h5>TANPA BATASAN ORANG</h5>
                             </li>
                             <li>
-                                15 Minutes Photoshoot
+                                <h5>15 MENIT FOTO</h5>
                             </li>
                             <li>
-                                5 Minutes Photo Selection
+                                <h5>5 MENIT PEMILIHAN FOTO</h5>
                             </li>
                             <li>
-                                Free to choose ALL Projector content
+                                <h5>BEBAS MENGGANTI SEMUA BACKGROUND PROYEKTOR SELAMA SESI FOTO BERLANGSUNG</h5>
                             </li>
                             <li>
-                                Free to use ALL PROPS & WARDROBE
+                                <h5>BEBAS MENGGUNAKA SEMUA KOSTUM DAN PROPERTI</h5>
                             </li>
                             <li>
-                                Free ALL COLOR DIGITAL SOFT FILE in Google Drive
+                                <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
                             </li>
                             <li>
-                                Free 1 Basic Print 4R
+                                <h5>DAPATKAN 1 CETAK 4R</h5>
                             </li>
                         </ul>
                     @else
@@ -258,11 +264,11 @@
                 let totalPrice;
 
                 if (package === 'Basic-tnc') {
-                    totalPrice = 10000000000;
-                } else if (package === 'Projector-tnc') {
-                    totalPrice = 10000000000;
-                } else if (package === 'Basic') {
                     totalPrice = 47;
+                } else if (package === 'Projector-tnc') {
+                    totalPrice = 63;
+                } else if (package === 'Basic') {
+                    totalPrice = 67;
                 } else if (package === 'Projector') {
                     totalPrice = 90;
                 } else {

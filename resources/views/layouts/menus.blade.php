@@ -13,7 +13,7 @@
 
 {{-- Product Manager --}}
 <li class="menu-item {{ request()->segment(1) == 'product-manager' ? 'active' : '' }}">
-    <a href="{{ route('product-manager-product') }}" class="menu-link">
+    <a href="{{ route('product-manager-product-main') }}" class="menu-link">
         <i class='menu-icon tf-icons bx bxs-purchase-tag-alt'></i>
         <div data-i18n="Product Manager">Product Manager</div>
     </a>
