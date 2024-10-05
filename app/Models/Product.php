@@ -23,11 +23,17 @@ class Product extends Model
         'promo',
         'tnc',
         'picture',
-        'status'
+        'status',
+        'note',
+        'type'
 
     ];
+
     protected $casts = [
         'tnc' => 'array',
+        'price' => 'decimal:2',
+        'price_promo' => 'decimal:2',
+        'status' => 'string',
     ];
 
     public function productBookings()
@@ -43,9 +49,9 @@ class Product extends Model
     public function getPicProduct()
     {
         if ($this->picture === null) {
-            return asset('template')."/assets/img/elements/12.jpg";
+            return asset('template/assets/img/elements/12.jpg');
         } else {
-            return url('images/picture/products/'.$this->picture);
+            return url('images/picture/products-main/'.$this->picture);
         }
     }
 }

@@ -107,6 +107,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('product-manager')->group(function () {
             Route::get('/product-main', [ProductController::class, 'indexProductMain'])->name('product-manager-product-main');
             Route::get('/product-main-add', [ProductController::class, 'addProductMain'])->name('product-manager-product-main-add');
+            Route::post('/product-main-add-store', [ProductController::class, 'createProductMain'])->name('product-manager-product-main-add-store');
+            Route::post('/product-main-update-status/{id}', [ProductController::class, 'updateStatusProductMain'])->name('product-manager-product-main-update-status');
+            Route::get('/product-main-edit/{id}', [ProductController::class, 'editProductMain'])->name('product-manager-product-main-edit');
+            Route::put('/product-main-edit-update/{id}', [ProductController::class, 'updateProductMain'])->name('product-manager-product-main-edit-update');
             // Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product');
         });
     });

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductAdditional;
 use App\Models\ProductBackground;
 use App\Models\ProductDisplay;
+use Illuminate\Support\Facades\File;
 
 
 class ProductRepository implements ProductRepositoryInterface
@@ -30,10 +31,13 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $model = Product::orderBy('updated_at','desc');
 
-        $query = $model;
-
-        // Paginate the results
-        return $query->paginate($page);
+        if ($search === null) {
+            $query = $model;
+            return $query->paginate($page);
+        } else {
+            $query = $model->where('name', 'like', '%'.$search.'%');
+            return $query->paginate($page);
+        }
     }
 
     public function getAllProductAdditional($search, $page)
@@ -78,24 +82,126 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function createProduct($dataDetails)
     {
-        $dataDetails['picture'] = $dataDetails['picture'] ?? null;
+        try {
 
-        $picture = $dataDetails['picture'];
+            $dataDetails['picture'] = $dataDetails['picture'] ?? null;
 
-        if ($picture != null) {
-            $file = $dataDetails['picture'];
-            $filename = $this->generateFilename($file);
-            $file->move(public_path('images/picture/products/'), $filename);
-            $dataDetails['picture'] = $filename;
+            $picture = $dataDetails['picture'];
+
+            $dataDetails['price_promo'] = $dataDetails['price_promo'] ?? null;
+            $pricePromo = $dataDetails['price_promo'];
+
+            if ($picture != null) {
+                $file = $dataDetails['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-main/'), $filename);
+                $dataDetails['picture'] = $filename;
+            }
+
+            if ($pricePromo != null) {
+                $dataDetails['promo'] = "true";
+            } else {
+                $dataDetails['promo'] = "false";
+            }
+
+            if (isset($dataDetails['tnc']) && is_array($dataDetails['tnc'])) {
+                $dataDetails['tnc'] = json_encode(array_filter($dataDetails['tnc']));
+            } else {
+                $dataDetails['tnc'] = null;
+            }
+
+            $dataDetails['status'] = "DISABLE";
+
+            Product::create($dataDetails);
+
+            return [
+                'status' => 'success',
+                'message' => 'Main Product ' . $dataDetails['name'] . ' ' . $dataDetails['type'] . ' successfully created.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function updateStatusProduct($dataId, $newDetailsData)
+    {
+        try {
+
+            $product = Product::findOrFail($dataId);
+            $product->update(['status' => $newDetailsData['status']]);
+
+            return [
+                'status' => 'success',
+                'message' => 'Status Main Product ' . $product->name . ' ' . $product->type . ' successfully updated ' . $newDetailsData['status'],
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function findByIdProductMain($id)
+    {
+        return Product::findOrFail($id);
+    }
+
+    public function updateProduct($dataId, $newDetailsData)
+    {
+        try {
+
+            $id = Product::findOrFail($dataId);
+
+            $newDetailsData['picture'] = $newDetailsData['picture'] ?? $id->picture;
+
+            if ($newDetailsData['picture'] != $id->picture) {
+
+                $oldImagePath = public_path('images/picture/products-main/' . $id->picture);
+
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
+
+                $file = $newDetailsData['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-main'), $filename);
+                $newDetailsData['picture'] = $filename;
+            }
+
+            if (isset($newDetailsData['tnc']) && is_array($newDetailsData['tnc'])) {
+                $newDetailsData['tnc'] = json_encode(array_filter($newDetailsData['tnc']));
+            } else {
+                $newDetailsData['tnc'] = null;
+            }
+
+            $id->update($newDetailsData);
+
+            return [
+                'status' => 'success',
+                'message' => 'Main Product ' . $id->name . ' ' . $id->type . ' updated successfully.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
         }
 
-        Product::create($dataDetails);
     }
+
 
     public function createProductAdditional($dataDetails)
     {
         $dataDetails['picture'] = $dataDetails['picture'] ?? null;
-
         $picture = $dataDetails['picture'];
 
         if ($picture != null) {

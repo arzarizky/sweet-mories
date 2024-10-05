@@ -20,4 +20,6 @@
     {{-- data table user --}}
     @include('pages.produk-manager.product-main.table')
     {{-- data table user --}}
+
+    @include("pages.produk-manager.product-main.view-picture")
 @endsection

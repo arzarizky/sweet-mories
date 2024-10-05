@@ -8,7 +8,7 @@
                         document.getElementById('submit-search').click();">
                         <i class="bx bx-search"></i>
                     </span>
-                    <input type="search" class="form-control" placeholder="Cari invoice id atau email client" aria-label="Search..."
+                    <input type="search" class="form-control" placeholder="Cari nama main product" aria-label="Search..."
                         aria-describedby="basic-addon-search31" value="{{ request()->input('search') }}" name="search">
                 </div>
             </div>
