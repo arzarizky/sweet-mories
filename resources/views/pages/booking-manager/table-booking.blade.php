@@ -38,6 +38,8 @@
                                     </li>
                                 @endforeach
                             </ul>
+                            Booking Dibuat Di Tanggal : {{ $data->created_at }}
+                            <br>
                             Total Price : {{ $data->total_price }}
                         </td>
                         <td>
