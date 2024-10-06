@@ -14,12 +14,22 @@ class ProductBackground extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'picture'
+        'picture',
+        'type',
+        'status'
     ];
 
     public function productDisplay()
     {
         return $this->hasMany(ProductDisplay::class, 'id', 'product_background_id');
+    }
+
+    public function getPicProductBackground()
+    {
+        if ($this->picture === null) {
+            return asset('template/assets/img/elements/12.jpg');
+        } else {
+            return url('images/picture/products-background/'.$this->picture);
+        }
     }
 }

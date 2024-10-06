@@ -16,10 +16,17 @@ interface ProductRepositoryInterface
     public function findByIdProductAdditional($id);
     public function updateProductAdditional($dataId, $newDetailsData);
 
+    public function getAllProductBackground($search, $page);
+    public function createProductBackground($detailsData);
+    public function updateStatusProductBackground($id, $newDetails);
+    public function findByIdProductBackground($id);
+    public function updateProductBackground($dataId, $newDetailsData);
+
+
+
 
 
     public function getAllProductDisplay($search, $page);
-    public function createProductBackground($detailsData);
     public function createProductDisplay($detailsData);
     public function getById($dataId);
 }

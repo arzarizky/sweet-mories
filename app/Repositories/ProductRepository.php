@@ -265,27 +265,126 @@ class ProductRepository implements ProductRepositoryInterface
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public function getAllProductBackground($search, $page)
     {
-        $model = ProductDisplay::orderBy('updated_at','desc');
+        $model = ProductBackground::orderBy('updated_at','desc');
 
-        $query = $model;
-
-        // Paginate the results
-        return $query->paginate($page);
+        if ($search === null) {
+            $query = $model;
+            return $query->paginate($page);
+        } else {
+            $query = $model->where('name', 'like', '%'.$search.'%');
+            return $query->paginate($page);
+        }
     }
+
+    public function createProductBackground($dataDetails)
+    {
+        try {
+            $dataDetails['status'] = "DISABLE";
+            $dataDetails['picture'] = $dataDetails['picture'] ?? null;
+
+            $picture = $dataDetails['picture'];
+
+            if ($picture != null) {
+                $file = $dataDetails['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-background/'), $filename);
+                $dataDetails['picture'] = $filename;
+            }
+
+            ProductBackground::create($dataDetails);
+
+            return [
+                'status' => 'success',
+                'message' => 'Product Background ' . $dataDetails['name'] . ' ' . $dataDetails['type'] . ' successfully created.',
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function updateStatusProductBackground($dataId, $newDetailsData)
+    {
+        try {
+
+            $product = ProductBackground::findOrFail($dataId);
+            $product->update(['status' => $newDetailsData['status']]);
+
+            return [
+                'status' => 'success',
+                'message' => 'Status Product Background ' . $product->name . ' ' .  $product->name .  ' successfully updated ' . $newDetailsData['status'],
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function findByIdProductBackground($id)
+    {
+        return ProductBackground::findOrFail($id);
+    }
+
+    public function updateProductBackground($dataId, $newDetailsData)
+    {
+        try {
+
+            $id = ProductBackground::findOrFail($dataId);
+
+            $newDetailsData['picture'] = $newDetailsData['picture'] ?? $id->picture;
+
+            if ($newDetailsData['picture'] != $id->picture) {
+
+                $oldImagePath = public_path('images/picture/products-background/' . $id->picture);
+
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
+
+                $file = $newDetailsData['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-background'), $filename);
+                $newDetailsData['picture'] = $filename;
+            }
+
+            $id->update($newDetailsData);
+
+            return [
+                'status' => 'success',
+                'message' => 'Product Background ' . $id->name . ' ' . $id->type . ' updated successfully.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function getAllProductDisplay($search, $page)
     {
@@ -305,21 +404,7 @@ class ProductRepository implements ProductRepositoryInterface
         return ProductDisplay::where('book_id', $dataId)->get();
     }
 
-    public function createProductBackground($dataDetails)
-    {
-        $dataDetails['picture'] = $dataDetails['picture'] ?? null;
 
-        $picture = $dataDetails['picture'];
-
-        if ($picture != null) {
-            $file = $dataDetails['picture'];
-            $filename = $this->generateFilename($file);
-            $file->move(public_path('images/picture/products-background/'), $filename);
-            $dataDetails['picture'] = $filename;
-        }
-
-        ProductBackground::create($dataDetails);
-    }
 
     public function createProductDisplay($dataDetails)
     {

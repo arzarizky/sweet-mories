@@ -144,4 +144,69 @@ class ProductController extends Controller
             return redirect()->route('product-manager-product-additional-edit', $id)->with('error', $updateProductAdditional['message']);
         }
     }
+
+    public function indexProductBackground(Request $request)
+    {
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 5);
+        $page = $request->input('page', 1);
+
+        $datas = $this->productRepository->getAllProductBackground($search, $perPage);
+
+        if ($datas->isEmpty() && $page > 1) {
+            return redirect()->route('invoice-manager', [
+                'search' => $search,
+                'per_page' => $perPage,
+                'page' => 1
+            ]);
+        }
+
+        return view('pages.produk-manager.product-background.index', compact('datas', 'search', 'perPage', 'page'));
+    }
+
+    public function addProducBackground()
+    {
+        return view('pages.produk-manager.product-background.add');
+    }
+
+    public function createProductBackground(Request $request)
+    {
+        $createBackgroundProduct = $this->productRepository->createProductBackground($request->all());
+
+        if ($createBackgroundProduct['status'] === 'success') {
+            return redirect()->route('product-manager-product-background')->with('success', $createBackgroundProduct['message']);
+        } else {
+            return redirect()->route('product-manager-product-background-add')->with('error', $createBackgroundProduct['message']);
+        }
+    }
+
+    public function updateStatusProductBackground(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
+        $updateStatusProduct = $this->productRepository->updateStatusProductBackground($id, $newDetails);
+
+        if ($updateStatusProduct['status'] === 'success') {
+            return redirect()->route('product-manager-product-background')->with('success', $updateStatusProduct['message']);
+        } else {
+            return redirect()->route('product-manager-product-background')->with('error', $updateStatusProduct['message']);
+        }
+    }
+
+    public function editProductBackround($id)
+    {
+        $data = $this->productRepository->findByIdProductBackground($id);
+        return view('pages.produk-manager.product-background.edit', compact('data'));
+    }
+
+    public function updateProductBackground(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
+        $updateProductBackground = $this->productRepository->updateProductBackground($id, $newDetails);
+
+        if ($updateProductBackground['status'] === 'success') {
+            return redirect()->route('product-manager-product-background')->with('success', $updateProductBackground['message']);
+        } else {
+            return redirect()->route('product-manager-product-background-edit', $id)->with('error', $updateProductBackground['message']);
+        }
+    }
 }
