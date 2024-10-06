@@ -15,11 +15,22 @@ class ProductAdditional extends Model
     protected $fillable = [
         'name',
         'price',
-        'picture'
+        'price_text',
+        'picture',
+        'status',
     ];
 
     public function productDisplay()
     {
         return $this->hasMany(ProductDisplay::class, 'id', 'product_additional_id');
+    }
+
+    public function getPicProductAdditional()
+    {
+        if ($this->picture === null) {
+            return asset('template/assets/img/elements/12.jpg');
+        } else {
+            return url('images/picture/products-additional/'.$this->picture);
+        }
     }
 }

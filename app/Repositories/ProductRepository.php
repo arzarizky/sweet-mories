@@ -40,46 +40,6 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
-    public function getAllProductAdditional($search, $page)
-    {
-        $model = ProductBackground::orderBy('updated_at','desc');
-
-        $query = $model;
-
-        // Paginate the results
-        return $query->paginate($page);
-    }
-
-    public function getAllProductBackground($search, $page)
-    {
-        $model = ProductDisplay::orderBy('updated_at','desc');
-
-        $query = $model;
-
-        // Paginate the results
-        return $query->paginate($page);
-    }
-
-    public function getAllProductDisplay($search, $page)
-    {
-        $model = ProductDisplay::with($this->relationsProductDisplay);
-
-        $query = $model;
-
-        // Order the results by updated_at in descending order
-        $query = $query->orderBy('updated_at','desc');
-
-        // Paginate the results
-        return $query->paginate($page);
-    }
-
-
-    public function getById($dataId)
-    {
-        return ProductDisplay::where('book_id', $dataId)->get();
-    }
-
-
     public function createProduct($dataDetails)
     {
         try {
@@ -198,20 +158,151 @@ class ProductRepository implements ProductRepositoryInterface
 
     }
 
+    public function getAllProductAdditional($search, $page)
+    {
+        $model = ProductAdditional::orderBy('updated_at','desc');
+
+        if ($search === null) {
+            $query = $model;
+            return $query->paginate($page);
+        } else {
+            $query = $model->where('name', 'like', '%'.$search.'%');
+            return $query->paginate($page);
+        }
+    }
 
     public function createProductAdditional($dataDetails)
     {
-        $dataDetails['picture'] = $dataDetails['picture'] ?? null;
-        $picture = $dataDetails['picture'];
+        try {
+            $dataDetails['status'] = "DISABLE";
+            $dataDetails['picture'] = $dataDetails['picture'] ?? null;
 
-        if ($picture != null) {
-            $file = $dataDetails['picture'];
-            $filename = $this->generateFilename($file);
-            $file->move(public_path('images/picture/products-additional/'), $filename);
-            $dataDetails['picture'] = $filename;
+            $picture = $dataDetails['picture'];
+
+            if ($picture != null) {
+                $file = $dataDetails['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-additional/'), $filename);
+                $dataDetails['picture'] = $filename;
+            }
+
+            ProductAdditional::create($dataDetails);
+
+            return [
+                'status' => 'success',
+                'message' => 'Product Additional ' . $dataDetails['name'] . ' successfully created.',
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function updateStatusProductAdditional($dataId, $newDetailsData)
+    {
+        try {
+
+            $product = ProductAdditional::findOrFail($dataId);
+            $product->update(['status' => $newDetailsData['status']]);
+
+            return [
+                'status' => 'success',
+                'message' => 'Status Product Additional ' . $product->name .  ' successfully updated ' . $newDetailsData['status'],
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function findByIdProductAdditional($id)
+    {
+        return ProductAdditional::findOrFail($id);
+    }
+
+    public function updateProductAdditional($dataId, $newDetailsData)
+    {
+        try {
+
+            $id = ProductAdditional::findOrFail($dataId);
+
+            $newDetailsData['picture'] = $newDetailsData['picture'] ?? $id->picture;
+
+            if ($newDetailsData['picture'] != $id->picture) {
+
+                $oldImagePath = public_path('images/picture/products-additional/' . $id->picture);
+
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
+
+                $file = $newDetailsData['picture'];
+                $filename = $this->generateFilename($file);
+                $file->move(public_path('images/picture/products-additional'), $filename);
+                $newDetailsData['picture'] = $filename;
+            }
+
+            $id->update($newDetailsData);
+
+            return [
+                'status' => 'success',
+                'message' => 'Additional Product ' . $id->name . ' updated successfully.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
         }
 
-        ProductAdditional::create($dataDetails);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getAllProductBackground($search, $page)
+    {
+        $model = ProductDisplay::orderBy('updated_at','desc');
+
+        $query = $model;
+
+        // Paginate the results
+        return $query->paginate($page);
+    }
+
+    public function getAllProductDisplay($search, $page)
+    {
+        $model = ProductDisplay::with($this->relationsProductDisplay);
+
+        $query = $model;
+
+        // Order the results by updated_at in descending order
+        $query = $query->orderBy('updated_at','desc');
+
+        // Paginate the results
+        return $query->paginate($page);
+    }
+
+    public function getById($dataId)
+    {
+        return ProductDisplay::where('book_id', $dataId)->get();
     }
 
     public function createProductBackground($dataDetails)

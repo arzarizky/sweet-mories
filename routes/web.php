@@ -111,7 +111,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/product-main-update-status/{id}', [ProductController::class, 'updateStatusProductMain'])->name('product-manager-product-main-update-status');
             Route::get('/product-main-edit/{id}', [ProductController::class, 'editProductMain'])->name('product-manager-product-main-edit');
             Route::put('/product-main-edit-update/{id}', [ProductController::class, 'updateProductMain'])->name('product-manager-product-main-edit-update');
-            // Route::get('/product', [ProductController::class, 'indexProduct'])->name('product-manager-product');
+
+            Route::get('/product-additional', [ProductController::class, 'indexProductAddtional'])->name('product-manager-product-addtional');
+            Route::get('/product-additional-add', [ProductController::class, 'addProducAddtional'])->name('product-manager-product-additional-add');
+            Route::post('/product-additional-add-store', [ProductController::class, 'createProductAddtional'])->name('product-manager-product-additional-add-store');
+            Route::post('/product-additional-update-status/{id}', [ProductController::class, 'updateStatusProductAdditional'])->name('product-manager-product-additional-update-status');
+            Route::get('/product-additional-edit/{id}', [ProductController::class, 'editProductAdditional'])->name('product-manager-product-additional-edit');
+            Route::put('/product-additional-edit-update/{id}', [ProductController::class, 'updateProductAdditional'])->name('product-manager-product-additional-edit-update');
+
         });
     });
 

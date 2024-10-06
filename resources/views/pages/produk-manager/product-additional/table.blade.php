@@ -14,14 +14,14 @@
             <div id="table-product-main" class="card">
                 <!-- Image -->
                 <img style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#viewPicture-{{ $data->id }}"
-                    src="{{ $data->getPicProduct() }}" class="card-img-top" alt="Picture Product">
+                    src="{{ $data->getPicProductAdditional() }}" class="card-img-top" alt="Picture Product">
 
                 <!-- Card Body -->
                 <div class="card-body">
                     <h5 class="card-title d-flex justify-content-between align-items-center">
                         <!-- Display Name and Type -->
                         <span>
-                            {{ $data->name ?? 'Tidak Ada Data' }} {{ $data->type ?? 'Tidak Ada Data' }}
+                            {{ $data->name ?? 'Tidak Ada Data' }}
                         </span>
 
                         <div class="d-flex justify-content-between align-items-center">
@@ -35,7 +35,7 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <form method="POST"
-                                            action="{{ route('product-manager-product-main-update-status', $data->id) }}">
+                                            action="{{ route('product-manager-product-additional-update-status', $data->id) }}">
                                             @csrf
                                             <input type="hidden" name="status"
                                                 value="{{ $data->status == 'DISABLE' ? 'ENABLE' : 'DISABLE' }}">
@@ -62,36 +62,13 @@
                     <!-- Card Text and Product Details -->
                     <p class="card-text">
                     <ul>
-                        <li>Type Product: {{ $data->type ?? 'Tidak Ada Data' }}</li>
-                        <li>Sub Title: {{ $data->sub_title ?? 'Tidak Ada Data' }}</li>
-                        <li>Sub Title Promo: {{ $data->sub_title_promo ?? 'Tidak Promo' }}</li>
                         <li>Price Text: {{ $data->price_text ?? 'Tidak Ada Data' }}</li>
-                        <li>Price Promo Text: {{ $data->price_promo_text ?? 'Tidak Ada Data' }}</li>
                         <li>Price: {{ $data->price ?? 'Tidak Ada Data' }}</li>
-                        <li>Price Promo: {{ $data->price_promo ?? 'Tidak Ada Data' }}</li>
-
-                        <li class="collapse" id="collapseExample-{{ $data->id }}" style="">
-                            T&C:
-                            @if (!empty($data->tnc))
-                                <ol>
-                                    @foreach (json_decode($data->tnc, true) as $term)
-                                        <li>{{ $term ?? 'Tidak Ada Data' }}</li>
-                                    @endforeach
-                                </ol>
-                            @else
-                                <span>Tidak Ada Data</span>
-                            @endif
-                        </li>
                     </ul>
                     </p>
 
                     <!-- Edit and Update Buttons -->
-                    <button class="btn btn-info collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample-{{ $data->id }}" aria-expanded="false"
-                        aria-controls="collapseExample-{{ $data->id }}" onclick="toggleTnC(this)">
-                        SHOW T&C
-                    </button>
-                    <a href="{{ route('product-manager-product-main-edit', $data->id) }}"
+                    <a href="{{ route('product-manager-product-additional-edit', $data->id) }}"
                         class="btn btn-primary">EDIT</a>
                 </div>
             </div>
@@ -101,7 +78,7 @@
             <div class="card p-3 text-center">
                 @if (request()->input('search') != null)
                     <h4 class="m-0">
-                        Nama Product <span class="text-danger">{{ request()->input('search') }}</span> Tidak Ada
+                        Nama Product Additional <span class="text-danger">{{ request()->input('search') }}</span> Tidak Ada
                     </h4>
                 @else
                     <h4 class="m-0">
@@ -123,12 +100,3 @@
         </div>
     </div>
 </div>
-
-@push('js-konten')
-    <script>
-        function toggleTnC(button) {
-            const isExpanded = button.getAttribute('aria-expanded') === 'false';
-            button.textContent = isExpanded ? 'Show T&C' : 'CLOSE T&C';
-        }
-    </script>
-@endpush
