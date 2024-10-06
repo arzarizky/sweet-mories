@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'title' => 'Product Addtional',
+    'title' => 'Product Background',
 ])
 
 @section('konten')
