@@ -28,8 +28,8 @@ interface ProductRepositoryInterface
     public function findByIdProductDisplay($id);
     public function updateProductDisplay($dataId, $newDetailsData);
 
-
-
     public function getAllProductType();
+    public function displayProduct();
+    public function productAddtionalLP();
 
 }

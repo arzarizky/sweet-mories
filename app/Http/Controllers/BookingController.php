@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\Booking;
 use Carbon\Carbon;
+use App\Interfaces\ProductRepositoryInterface;
+
 
 
 class BookingController extends Controller
 {
     protected $bookingRepository;
+    protected $productRepository;
 
-    public function __construct(BookingRepositoryInterface $bookingRepository)
+    public function __construct(BookingRepositoryInterface $bookingRepository, ProductRepositoryInterface $productRepository)
     {
         $this->bookingRepository = $bookingRepository;
+        $this->productRepository = $productRepository;
     }
 
     public function index(Request $request)
@@ -130,5 +134,18 @@ class BookingController extends Controller
         $newDetails = Arr::except($request->all(), ['_token', '_method']);
         $dataUpdate = $this->bookingRepository->UpdateReschedule($id, $newDetails);
         return redirect()->back()->with('success',  'Booking Berhasil Di Reschedule Ke Tanggal ' . $dataUpdate['date'] . ' Pukul ' .  $dataUpdate['time']);
+    }
+
+    public function indexBookNow()
+    {
+        $displayProducts = $this->productRepository->displayProduct();
+        return view('pages.landing-page.book-now', compact('displayProducts'));
+    }
+
+    public function indexPriceList()
+    {
+        $displayProducts = $this->productRepository->displayProduct();
+        $productAddtionalLP = $this->productRepository->productAddtionalLP();
+        return view('pages.landing-page.pricelist', compact('displayProducts', 'productAddtionalLP'));
     }
 }

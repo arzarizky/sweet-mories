@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\File;
 class ProductRepository implements ProductRepositoryInterface
 {
     protected $relationsProductDisplay = [
-        'products',
+        'products'
     ];
 
     protected function generateFilename($file)
@@ -480,8 +480,6 @@ class ProductRepository implements ProductRepositoryInterface
 
     }
 
-
-
     public function getAllProductType()
     {
         try {
@@ -504,4 +502,29 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
+    public function displayProduct()
+    {
+        $model = ProductDisplay::with($this->relationsProductDisplay)
+            ->where('status', 'ENABLE')
+            ->orderBy('updated_at', 'desc');
+
+        $datas = $model->get();
+
+        foreach ($datas as $productDisplay) {
+            $productDisplay->additionalProducts = $productDisplay->getProductAdditionals();
+            $productDisplay->backgroundsProducts = $productDisplay->getProductBackground();
+        }
+
+        return $datas;
+    }
+
+    public function productAddtionalLP()
+    {
+        $model = ProductAdditional::orderBy('updated_at','desc')
+                ->where('status', 'ENABLE')
+                ->orderBy('updated_at', 'desc');;
+
+        $datas = $model->get();
+        return $datas;
+    }
 }

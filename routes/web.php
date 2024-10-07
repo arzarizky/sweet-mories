@@ -43,17 +43,10 @@ Route::prefix('/')->group(function () {
         return view('pages.landing-page.gallery');
     })->name('gallery-landing');
 
-    Route::get("/pricelist", function () {
-        return view('pages.landing-page.pricelist');
-    })->name('pricelist-landing');
+    Route::get('/pricelist', [BookingController::class, 'indexPriceList'])->name('pricelist-landing');
 
-    // Route::get("/exhibitions", function(){
-    //     return view('pages.landing-page.exhibitions');
-    // })->name('exhibitions-landing');
 
-    Route::get("/book-now", function () {
-        return view('pages.landing-page.book-now');
-    })->name('book-now-landing');
+    Route::get('/book-now', [BookingController::class, 'indexBookNow'])->name('book-now-landing');
 
     Route::get("/about", function () {
         return view('pages.landing-page.about');

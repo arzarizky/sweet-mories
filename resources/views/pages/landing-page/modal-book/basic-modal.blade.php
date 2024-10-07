@@ -1,47 +1,66 @@
 @if (Auth::check())
-    <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="p-4">
-                    <h3>Package Basic Self Photoshoot</h3>
-                    <ul>
-                        <li>
-                            <h5>TANPA BATASAN ORANG</h5>
-                        </li>
-                        <li>
-                            <h5>15 MENIT FOTO</h5>
-                        </li>
-                        <li>
-                            <h5>5 MENIT PEMILIHAN FOTO</h5>
-                        </li>
-                        <li>
-                            <h5>BEBAS MEMILIH SEMUA WARNA BACKGROUND</h5>
-                        </li>
-                        <li>
-                            <h5>BEBAS MENGGUNAKAN SEMUA KOSTUM DAN PROPERTI</h5>
-                        </li>
-                        <li>
-                            <h5>DAPATKAN SEMUA ALL SOFT FILE RAW & EDITED</h5>
-                        </li>
-                        <li>
-                            <h5>DAPATKAN 1 CETAK 4R</h5>
-                        </li>
-                    </ul>
-                    <h3>Price 67K</h3>
-                    <form id="basic-form" method="get" action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
-                        @csrf
-                        <a onclick="document.getElementById('basic-form').submit();" style="text-decoration: none; cursor: pointer;" class="text-warning">
-                            BOOK NOW
-                            <img class="ms-1"
-                                src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
-                                alt="" />
-                        </a>
-                        <input type="hidden" name="package" value="Basic">
-                    </form>
+    @foreach ($displayProducts as $data)
+        <div class="modal fade" id="modal-book-{{$data->id}}" tabindex="-1" aria-labelledby="modal-book-{{$data->id}}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="p-4">
+                        <h3>
+                            {{ $data->products->name }} {{ $data->products->type }}
+                            @if ($data->products->promo === 'true')
+                                {{ $data->products->sub_title_promo }}
+                            @endif
+                        </h3>
+                        <ul>
+                            @if (!empty($data->products->tnc))
+                                @foreach (json_decode($data->products->tnc, true) as $term)
+                                    <li>
+                                        <h5>{{ $term ?? 'Tidak Ada Data' }}</h5>
+                                    </li>
+                                @endforeach
+                            @else
+                                <span>Tidak Ada Data</span>
+                            @endif
+                        </ul>
+                        @if ($data->products->promo === 'true')
+                            <div class="mb-2">
+                                Syarat & Ketentuan : {{ $data->products->note }}
+                            </div>
+                        @endif
+
+                        @if ($data->products->promo === 'true')
+                            <h3>
+                                Price
+                                <del class="text-warning">
+                                    {{ $data->products->price_text }}
+                                </del>
+                                <span class="text-danger">
+                                    {{ $data->products->price_promo_text }}
+                                </span>
+                            </h3>
+                        @else
+                            <h3>
+                                Price {{ $data->products->price_text }}
+                            </h3>
+                        @endif
+
+
+                        <form id="basic-tnc-form" method="get"
+                            action="{{ route('book-preview', ['email' => Auth::user()->email]) }}">
+                            @csrf
+                            <a onclick="document.getElementById('basic-tnc-form').submit();"
+                                style="text-decoration: none; cursor: pointer;" class="text-warning">
+                                BOOK NOW
+                                <img class="ms-1"
+                                    src="{{ asset('template-landing') }}/public/assets/img/icons/long-arrow.png"
+                                    alt="" />
+                            </a>
+                            <input type="hidden" name="package" value="{{$data->id}}">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
 @else
     <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
