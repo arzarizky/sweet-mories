@@ -1,6 +1,6 @@
 <form action="">
     <div class="row">
-        <div class="col-sm-10 col-lg-10 col-md-10 mb-4">
+        <div class="col-sm-7 col-lg-7 col-md-7">
             <div class="card p-3">
                 <div class="input-group input-group-merge">
                     <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
@@ -8,12 +8,12 @@
                         document.getElementById('submit-search').click();">
                         <i class="bx bx-search"></i>
                     </span>
-                    <input type="search" class="form-control" placeholder="Cari invoice id atau email client" aria-label="Search..."
+                    <input type="search" class="form-control" placeholder="Cari nama display product" aria-label="Search..."
                         aria-describedby="basic-addon-search31" value="{{ request()->input('search') }}" name="search">
                 </div>
             </div>
         </div>
-        <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
+        <div class="col-sm-2 col-lg-2 col-md-2">
             <div class="card p-3">
                 <select id="sort-value" id="defaultSelect" class="form-select" name="per_page">
                     <option value="5" @if (request('per_page') == 5 || request('per_page') == null) selected @endif>5</option>
@@ -22,6 +22,11 @@
                     <option value="50" @if (request('per_page') == 50) selected @endif>50</option>
                     <option value="100" @if (request('per_page') == 100) selected @endif>100
                 </select>
+            </div>
+        </div>
+        <div class="col-sm-3 col-lg-3 col-md-3">
+            <div class="card p-3">
+                <a href="{{route("product-manager-product-display-add")}}" class="btn btn-info">Add Product Display</a>
             </div>
         </div>
     </div>

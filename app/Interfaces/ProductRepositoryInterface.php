@@ -22,11 +22,14 @@ interface ProductRepositoryInterface
     public function findByIdProductBackground($id);
     public function updateProductBackground($dataId, $newDetailsData);
 
-
-
-
-
     public function getAllProductDisplay($search, $page);
     public function createProductDisplay($detailsData);
-    public function getById($dataId);
+    public function updateStatusProductDisplay($id, $newDetails);
+    public function findByIdProductDisplay($id);
+    public function updateProductDisplay($dataId, $newDetailsData);
+
+
+
+    public function getAllProductType();
+
 }

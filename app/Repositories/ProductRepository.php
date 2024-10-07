@@ -14,8 +14,6 @@ class ProductRepository implements ProductRepositoryInterface
 {
     protected $relationsProductDisplay = [
         'products',
-        'products_additional',
-        'products_background',
     ];
 
     protected function generateFilename($file)
@@ -49,6 +47,7 @@ class ProductRepository implements ProductRepositoryInterface
             $picture = $dataDetails['picture'];
 
             $dataDetails['price_promo'] = $dataDetails['price_promo'] ?? null;
+
             $pricePromo = $dataDetails['price_promo'];
 
             if ($picture != null) {
@@ -119,6 +118,10 @@ class ProductRepository implements ProductRepositoryInterface
 
             $id = Product::findOrFail($dataId);
 
+            $newDetailsData['price_promo'] = $newDetailsData['price_promo'] ?? null;
+
+            $pricePromo = $newDetailsData['price_promo'];
+
             $newDetailsData['picture'] = $newDetailsData['picture'] ?? $id->picture;
 
             if ($newDetailsData['picture'] != $id->picture) {
@@ -139,6 +142,12 @@ class ProductRepository implements ProductRepositoryInterface
                 $newDetailsData['tnc'] = json_encode(array_filter($newDetailsData['tnc']));
             } else {
                 $newDetailsData['tnc'] = null;
+            }
+
+            if ($pricePromo != null) {
+                $newDetailsData['promo'] = "true";
+            } else {
+                $newDetailsData['promo'] = "false";
             }
 
             $id->update($newDetailsData);
@@ -317,7 +326,7 @@ class ProductRepository implements ProductRepositoryInterface
 
             return [
                 'status' => 'success',
-                'message' => 'Status Product Background ' . $product->name . ' ' .  $product->name .  ' successfully updated ' . $newDetailsData['status'],
+                'message' => 'Status Product Background ' . $product->name . ' ' .  $product->type .  ' successfully updated ' . $newDetailsData['status'],
             ];
 
         } catch (\Exception $e) {
@@ -372,43 +381,127 @@ class ProductRepository implements ProductRepositoryInterface
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function getAllProductDisplay($search, $page)
+    public function getAllProductDisplay($search, $perPage = 5)
     {
         $model = ProductDisplay::with($this->relationsProductDisplay);
 
-        $query = $model;
+        if ($search) {
+            $model = $model->where('name', 'like', '%' . $search . '%');
+        }
 
-        // Order the results by updated_at in descending order
-        $query = $query->orderBy('updated_at','desc');
+        $datas = $model->orderBy('updated_at', 'desc')->paginate($perPage);
 
-        // Paginate the results
-        return $query->paginate($page);
+        foreach ($datas as $productDisplay) {
+
+            $productDisplay->additionalProducts = $productDisplay->getProductAdditionals();
+
+            $productDisplay->backgroundsProducts = $productDisplay->getProductBackground();
+        }
+
+        return $datas;
     }
-
-    public function getById($dataId)
-    {
-        return ProductDisplay::where('book_id', $dataId)->get();
-    }
-
 
 
     public function createProductDisplay($dataDetails)
     {
-        ProductDisplay::create($dataDetails);
+        try {
+
+            $dataDetails['product_additional_id'] = json_encode($dataDetails['product_additional_id']);
+
+            $dataDetails['status'] = $dataDetails['status'] ?? 'DISABLE';
+
+            ProductDisplay::create($dataDetails);
+
+            return [
+                'status' => 'success',
+                'message' => 'Product Display ' . $dataDetails['name'] . ' successfully created.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function updateStatusProductDisplay($dataId, $newDetailsData)
+    {
+        try {
+
+            $product = ProductDisplay::findOrFail($dataId);
+            $product->update(['status' => $newDetailsData['status']]);
+
+            return [
+                'status' => 'success',
+                'message' => 'Status Product Display ' . $product->name . ' ' .  $product->name .  ' successfully updated ' . $newDetailsData['status'],
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    public function findByIdProductDisplay($id)
+    {
+        return ProductDisplay::findOrFail($id);
+    }
+
+    public function updateProductDisplay($dataId, $newDetailsData)
+    {
+        try {
+
+            $id = ProductDisplay::findOrFail($dataId);
+
+            if (isset($newDetailsData['product_additional_id']) && is_array($newDetailsData['product_additional_id'])) {
+                $newDetailsData['product_additional_id'] = json_encode(($newDetailsData['product_additional_id']));
+            } else {
+                $newDetailsData['product_additional_id'] = null;
+            }
+
+            $id->update($newDetailsData);
+
+            return [
+                'status' => 'success',
+                'message' => 'Product Display ' . $id->name . ' updated successfully.',
+            ];
+
+        } catch (\Exception $e) {
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+
+    }
+
+
+
+    public function getAllProductType()
+    {
+        try {
+
+            $Product = Product::where('status', 'ENABLE')->get();
+            $ProductAdditional = ProductAdditional::where('status', 'ENABLE')->get();
+            $ProductBackground = ProductBackground::where('status', 'ENABLE')->get();
+
+            return [
+                'product' => $Product,
+                'ProductAdditional' => $ProductAdditional,
+                'ProductBackground' => $ProductBackground,
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
     }
 
 }

@@ -20,11 +20,6 @@ class ProductAdditional extends Model
         'status',
     ];
 
-    public function productDisplay()
-    {
-        return $this->hasMany(ProductDisplay::class, 'id', 'product_additional_id');
-    }
-
     public function getPicProductAdditional()
     {
         if ($this->picture === null) {

@@ -19,11 +19,6 @@ class ProductBackground extends Model
         'status'
     ];
 
-    public function productDisplay()
-    {
-        return $this->hasMany(ProductDisplay::class, 'id', 'product_background_id');
-    }
-
     public function getPicProductBackground()
     {
         if ($this->picture === null) {

@@ -1,18 +1,29 @@
 @extends('layouts.app', [
-    'title' => 'Invoice Manager',
+    'title' => 'Product Display',
 ])
 
-@section('konten')
-    {{-- Nav --}}
-    @include('pages.produk-manager.nav-product')
-    {{-- Nav --}}
 
-    {{-- search dan sort --}}
-    @include('pages.produk-manager.product-display.search-sort')
-    {{-- search dan sort --}}
+{{-- @foreach ($datas as $data)
+    {{dd($data->additionalProducts)}}
+@endforeach --}}
+@section('konten')
+<div class="fitur-product-main">
+    <div class="card p-3 mb-4 nav-sticky-top" style="z-index: 1075;">
+        {{-- Nav --}}
+        @include('pages.produk-manager.nav-product')
+        {{-- Nav --}}
+
+        {{-- search dan sort --}}
+        @include('pages.produk-manager.product-display.search-sort')
+        {{-- search dan sort --}}
+    </div>
+
+</div>
 
 
     {{-- data table user --}}
     @include('pages.produk-manager.product-display.table')
     {{-- data table user --}}
+
+    @include("pages.produk-manager.product-display.view-picture")
 @endsection

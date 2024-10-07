@@ -209,4 +209,83 @@ class ProductController extends Controller
             return redirect()->route('product-manager-product-background-edit', $id)->with('error', $updateProductBackground['message']);
         }
     }
+
+    public function indexProductDisplay(Request $request)
+    {
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 5);
+        $page = $request->input('page', 1);
+
+        $datas = $this->productRepository->getAllProductDisplay($search, $perPage);
+
+        if ($datas->isEmpty() && $page > 1) {
+            return redirect()->route('invoice-manager', [
+                'search' => $search,
+                'per_page' => $perPage,
+                'page' => 1
+            ]);
+        }
+
+        return view('pages.produk-manager.product-display.index', compact('datas', 'search', 'perPage', 'page'));
+    }
+
+    public function addProductDisplay()
+    {
+        $getAllProductType = $this->productRepository->getAllProductType();
+        $products = $getAllProductType['product'];
+        $ProductAdditionals = $getAllProductType['ProductAdditional'];
+        $ProductBackgrounds = $getAllProductType['ProductBackground'];
+
+        return view('pages.produk-manager.product-display.add', compact('products', 'ProductAdditionals', 'ProductBackgrounds'));
+    }
+
+    public function createProductDisplay(Request $request)
+    {
+        $createDisplayProduct = $this->productRepository->createProductDisplay($request->all());
+
+        if ($createDisplayProduct['status'] === 'success') {
+            return redirect()->route('product-manager-product-display')->with('success', $createDisplayProduct['message']);
+        } else {
+            return redirect()->route('product-manager-product-display-add')->with('error', $createDisplayProduct['message']);
+        }
+    }
+
+    public function updateStatusProductDisplay(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
+        $updateStatusProductDisplay = $this->productRepository->updateStatusProductDisplay($id, $newDetails);
+
+        if ($updateStatusProductDisplay['status'] === 'success') {
+            return redirect()->route('product-manager-product-display')->with('success', $updateStatusProductDisplay['message']);
+        } else {
+            return redirect()->route('product-manager-product-display')->with('error', $updateStatusProductDisplay['message']);
+        }
+    }
+
+    public function editProductDisplay($id)
+    {
+        $data = $this->productRepository->findByIdProductDisplay($id);
+        $getAllProductType = $this->productRepository->getAllProductType();
+        $products = $getAllProductType['product'];
+        $ProductAdditionals = $getAllProductType['ProductAdditional'];
+        $ProductBackgrounds = $getAllProductType['ProductBackground'];
+
+        return view('pages.produk-manager.product-display.edit', compact('data', 'products', 'ProductAdditionals', 'ProductBackgrounds'));
+
+    }
+
+    public function updateProductDisplay(Request $request, $id)
+    {
+        $newDetails = Arr::except($request->all(), ['_token', '_method']);
+        $updateProductDisplay = $this->productRepository->updateProductDisplay($id, $newDetails);
+
+        if ($updateProductDisplay['status'] === 'success') {
+            return redirect()->route('product-manager-product-display')->with('success', $updateProductDisplay['message']);
+        } else {
+            return redirect()->route('product-manager-product-display-edit', $id)->with('error', $updateProductDisplay['message']);
+        }
+    }
 }
+
+
+

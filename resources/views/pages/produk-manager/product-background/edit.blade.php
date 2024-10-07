@@ -15,8 +15,8 @@
 
                 @if ($data->picture)
                     <div class="d-flex justify-content-center mt-2">
-                        <img id="imagePreview" class="preview-img" src="{{ asset($data->getPicProductBackground()) }}" width="75%"
-                            height="auto">
+                        <img id="imagePreview" class="preview-img" src="{{ asset($data->getPicProductBackground()) }}"
+                            width="75%" height="auto">
                     </div>
                 @else
                     <div class="d-flex justify-content-center mt-2">
@@ -38,7 +38,11 @@
 
             <div class="mb-3">
                 <label for="type" class="form-label">Type Product Background</label>
-                <input class="form-control" type="text" id="type" name="type" value="{{$data->type}}" placeholder="Color" required />
+                <select class="form-select" id="product" name="type" aria-label="select product" required>
+                    <option value="" {{ $data->type == '' ? 'selected' : '' }}>Pilih Type Product Background</option>
+                    <option value="Color" {{ $data->type == 'Color' ? 'selected' : '' }}>Color</option>
+                    <option value="Projector" {{ $data->type == 'Projector' ? 'selected' : '' }}>Projector</option>
+                </select>
             </div>
 
         </div>

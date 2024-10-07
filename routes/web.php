@@ -126,9 +126,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/product-background-edit/{id}', [ProductController::class, 'editProductBackround'])->name('product-manager-product-background-edit');
             Route::put('/product-background-edit-update/{id}', [ProductController::class, 'updateProductBackground'])->name('product-manager-product-background-edit-update');
 
-
-
-
+            Route::get('/product-display', [ProductController::class, 'indexProductDisplay'])->name('product-manager-product-display');
+            Route::get('/product-display-add', [ProductController::class, 'addProductDisplay'])->name('product-manager-product-display-add');
+            Route::post('/product-display-add-store', [ProductController::class, 'createProductDisplay'])->name('product-manager-product-display-add-store');
+            Route::post('/product-display-update-status/{id}', [ProductController::class, 'updateStatusProductDisplay'])->name('product-manager-product-display-update-status');
+            Route::get('/product-display-edit/{id}', [ProductController::class, 'editProductDisplay'])->name('product-manager-product-display-edit');
+            Route::put('/product-display-edit-update/{id}', [ProductController::class, 'updateProductDisplay'])->name('product-manager-product-display-edit-update');
 
 
         });

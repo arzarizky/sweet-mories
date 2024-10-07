@@ -28,7 +28,11 @@
 
             <div class="mb-3">
                 <label for="type" class="form-label">Type Product Background</label>
-                <input class="form-control" type="text" id="type" name="type" placeholder="Color" required />
+                <select class="form-select" id="product" name="type" aria-label="select product" required>
+                    <option selected="" value="">Pilih Type Product Background</option>
+                    <option value="Color">Color</option>
+                    <option value="Projector">Projector</option>
+                </select>
             </div>
         </div>
 
