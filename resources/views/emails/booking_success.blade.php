@@ -29,7 +29,7 @@
         <!-- Header -->
         <div
             style="background: linear-gradient(45deg, #6f42c1, #00aaff); padding: 50px 20px; text-align: center; color: #ffffff;">
-            <img src="https://sweetmoriesstclient-bookingudio.com/template/assets/img/favicon/black-logo.png" alt="Sweet Mories"
+            <img src="https://sweetmoriesstudio.com/template/assets/img/favicon/black-logo.png" alt="Sweet Mories"
                 style="max-width: 120px; margin-bottom: 20px;">
             <h1 style="margin: 0; font-size: 32px; font-weight: bold; letter-spacing: 1px;">Booking Berhasil!</h1>
             <p style="margin-top: 10px; font-size: 16px;">Terima kasih telah mempercayakan momen indahmu pada kami</p>
