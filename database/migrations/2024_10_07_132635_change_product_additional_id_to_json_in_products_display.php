@@ -12,18 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products_display', function (Blueprint $table) {
-            // First, drop the existing column
-            $table->dropColumn('product_additional_id');
-        });
+            // Drop the existing column if it exists
+            if (Schema::hasColumn('products_display', 'product_additional_id')) {
+                $table->dropColumn('product_additional_id');
+            }
 
-        Schema::table('products_display', function (Blueprint $table) {
-            // Then, add it back as a JSON type
+            // Add the new JSON column
             $table->json('product_additional_id')->nullable();
-        });
 
-        Schema::table('products_display', function (Blueprint $table) {
             // Create the generated column and index it
-            $table->string('product_additional_first')->virtualAs('json_unquote(json_extract(product_additional_id, "$[0]"))');
+            $table->string('product_additional_first')
+                ->virtualAs('json_unquote(json_extract(product_additional_id, "$[0]"))')
+                ->nullable(); // Make sure it's nullable
+
             $table->index('product_additional_first');
         });
     }
@@ -38,10 +39,10 @@ return new class extends Migration
             $table->dropIndex(['product_additional_first']);
             $table->dropColumn('product_additional_first');
 
-            // Then, drop the JSON column
+            // Drop the JSON column
             $table->dropColumn('product_additional_id');
 
-            // Finally, add it back as a string (if you want to revert)
+            // Add it back as a string (if you want to revert)
             $table->string('product_additional_id')->nullable();
         });
     }
