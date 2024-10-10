@@ -18,9 +18,21 @@
                                 </span>
                             </h5>
                             <h5 class="hover-1-title text-uppercase font-weight-bold mb-0 text-white">(S&K berlaku)</h5>
-                            <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-warning">
-                                {{ $data->products->price_promo_text }}
-                            </h4>
+                            @if ($data->products->promo === 'true')
+                                <h4>
+
+                                    <del class="text-warning">
+                                        {{ $data->products->price_text }}
+                                    </del>
+                                    <span class="text-danger">
+                                        {{ $data->products->price_promo_text }}
+                                    </span>
+                                </h4>
+                            @else
+                                <h4>
+                                    {{ $data->products->price_text }}
+                                </h4>
+                            @endif
                         @else
                             <h5 class="hover-1-title text-uppercase font-weight-bold mb-0 text-white">(Bebas syarat &
                                 ketentuan)
@@ -29,7 +41,7 @@
                                 </h4>
                         @endif
 
-                        <a data-bs-toggle="modal" data-bs-target="#modal-book-{{$data->id}}"
+                        <a data-bs-toggle="modal" data-bs-target="#modal-book-{{ $data->id }}"
                             style="text-decoration: none; cursor: pointer;" data-bs-toggle="modal"
                             class="hover-1-description font-weight-light mb-0 text-warning">
                             SELECT PACKAGE
