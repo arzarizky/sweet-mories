@@ -46,15 +46,13 @@ class BookingController extends Controller
         return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page', 'date'));
     }
 
-    public function bookPreview(Request $request, $email)
+    public function bookPreview(Request $request, $email, $package)
     {
-        // dd($request);
         $users = Auth::user();
         if ($users->email === $email) {
-
-            // dd($email, $request->package);
-            // Pass parameters to the view
-            return view('pages.client.booking-preview.index', compact('users'));
+            $package = $package;
+            $productDisplay = $this->productRepository->getAllProductDisplayById($package);
+            return view('pages.client.booking-preview.index', compact('users', 'productDisplay'));
         } else {
             Session::flush();
             Auth::logout();

@@ -527,4 +527,20 @@ class ProductRepository implements ProductRepositoryInterface
         $datas = $model->get();
         return $datas;
     }
+
+    public function getAllProductDisplayById($id)
+    {
+        $model = ProductDisplay::with($this->relationsProductDisplay)
+            ->where('status', 'ENABLE')->where('id', $id)
+            ->orderBy('updated_at', 'desc');
+
+        $datas = $model->get();
+
+        foreach ($datas as $productDisplay) {
+            $productDisplay->additionalProducts = $productDisplay->getProductAdditionals();
+            $productDisplay->backgroundsProducts = $productDisplay->getProductBackground();
+        }
+
+        return $datas;
+    }
 }

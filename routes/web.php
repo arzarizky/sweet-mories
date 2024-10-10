@@ -142,7 +142,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/book/check-time', [BookingController::class, 'checkTime'])->name('book.checkTime');
 
         Route::prefix('{email}')->group(function () {
-            Route::get('/book-preview', [BookingController::class, 'bookPreview'])->name('book-preview');
+            Route::get('/book-preview/{package}', [BookingController::class, 'bookPreview'])->name('book-preview');
             Route::get('/', [ClientDashboardController::class, 'index'])->name('client-dashboard');
             Route::post('booking/{id}', [ClientDashboardController::class, 'update'])->name('account-client-update');
             Route::get('/booking', [ClientDashboardController::class, 'booking'])->name('client-booking');

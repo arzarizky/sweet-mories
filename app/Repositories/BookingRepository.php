@@ -10,6 +10,9 @@ use App\Models\ProductBooking;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProductAdditional;
+use App\Models\ProductBackground;
+use App\Models\ProductDisplay;
 
 class BookingRepository implements BookingRepositoryInterface
 {
@@ -44,7 +47,6 @@ class BookingRepository implements BookingRepositoryInterface
 
         try {
 
-            // Gunakan locking untuk mencegah double booking
             if (!$this->canBook($dataDetails['booking_date'], $dataDetails['booking_time'])) {
                 return [
                     "sukses" => false,
@@ -52,53 +54,83 @@ class BookingRepository implements BookingRepositoryInterface
                 ];
             }
 
-            // Proses booking dan update nomor telepon user
-            $user = Auth::user();
-            $noTlp = "+62" . $dataDetails['no_tlp'];
+            $promo = Product::where('id', $dataDetails['id_product'])->first()->promo;
 
-            // Perbarui nomor telepon jika null
+            $user = Auth::user();
+
             if (is_null($user->no_tlp)) {
-                $user->update(['no_tlp' => $noTlp]);
+                $user->update(['no_tlp' => "+62" . $dataDetails['no_tlp']]);
             }
 
-            // Generate booking ID dan kalkulasi total harga
             $bookId = $this->generateBookId();
-            $totalPrice = 0;
 
-            // dd($dataDetails)
-
-            // Buat booking
             $booking = Booking::create([
                 'user_id' => $user->id,
                 'book_id' => $bookId,
                 'alias_name_booking' => $dataDetails['alias_name_booking'],
-                'total_price' => $totalPrice,
+                'total_price' => 0, // Will be updated later
                 'booking_date' => $dataDetails['booking_date'],
                 'booking_time' => $dataDetails['booking_time'],
                 'expired_at' => now()->addMinutes(6)
             ]);
 
-            // Menggunakan eager loading untuk produk booking
-            $products = Product::whereIn('name', array_column($dataDetails['items'], 'product_name'))->get()->keyBy('name');
+            $totalPrice = 0;
 
-            foreach ($dataDetails['items'] as $item) {
-                $product = $products->get($item['product_name']);
-                if ($product) {
-                    $totalPrice += $product->price * $item['quantity'];
+            if (!empty($dataDetails['main_product'])) {
+                $mainProduct = Product::where('name', $dataDetails['main_product']['product_name'])->first();
 
-                    // Insert ke tabel pivot product_booking
+                if ($mainProduct) {
+                    $quantity = $dataDetails['main_product']['quantity'];
+
+                    if ($promo === "true") {
+                        $totalPrice += $mainProduct->price_promo * $quantity;
+                    } else {
+                        $totalPrice += $mainProduct->price * $quantity;
+                    }
+
                     ProductBooking::create([
                         'book_id' => $bookId,
-                        'product_id' => $product->id,
-                        'quantity_product' => $item['quantity'],
+                        'product_id' => $mainProduct->id,
+                        'quantity_product' => $quantity,
                     ]);
                 }
             }
 
-            // Update total price
+            if (!empty($dataDetails['background'])) {
+                $backgroundProduct = ProductBackground::where('name', $dataDetails['background'])->first();
+
+                if ($backgroundProduct) {
+                    ProductBooking::create([
+                        'book_id' => $bookId,
+                        'background_product_id' => $backgroundProduct->id,
+                        'quantity_product' => 1,
+                    ]);
+                }
+            }
+
+            if (!empty($dataDetails['additional_products'])) {
+                $additionalProducts = ProductAdditional::whereIn('name', array_column($dataDetails['additional_products'], 'product_name'))->get()->keyBy('name');
+
+                foreach ($dataDetails['additional_products'] as $additional) {
+                    $product = $additionalProducts->get($additional['product_name']);
+                    if ($product) {
+                        $quantity = $additional['quantity'];
+
+                        $totalPrice += $product->price * $quantity;
+
+                        // Store product in ProductBooking table
+                        ProductBooking::create([
+                            'book_id' => $bookId,
+                            'additional_product_id' => $product->id,
+                            'quantity_product' => $quantity,
+                        ]);
+                    }
+                }
+            }
+
             $booking->update(['total_price' => $totalPrice]);
 
-            DB::commit();  // Commit jika semua berhasil
+            DB::commit();
 
             return [
                 "sukses" => true,
@@ -106,7 +138,7 @@ class BookingRepository implements BookingRepositoryInterface
             ];
 
         } catch (\Exception $e) {
-            DB::rollBack();  // Rollback jika terjadi error
+            DB::rollBack();
 
             return [
                 "sukses" => false,
@@ -114,6 +146,9 @@ class BookingRepository implements BookingRepositoryInterface
             ];
         }
     }
+
+
+
 
     public function updateStatusBook($dataId, $newDetailsData)
     {

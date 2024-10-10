@@ -32,4 +32,5 @@ interface ProductRepositoryInterface
     public function displayProduct();
     public function productAddtionalLP();
 
+    public function getAllProductDisplayById($id);
 }

@@ -8,6 +8,9 @@ use App\Models\PaymentHistory;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
+use App\Mail\BookingSuccessMail;
+use Illuminate\Support\Facades\Mail;
+
 class PaymentController extends Controller
 {
     /**
@@ -31,6 +34,7 @@ class PaymentController extends Controller
 
 
         if ($payload['transaction_status'] == "settlement") {
+
             Invoice::where('invoice_id', $payload['order_id'])->where('status', 'PENDING')->update([
                 'status' => 'PAID',
             ]);
@@ -40,6 +44,19 @@ class PaymentController extends Controller
             Booking::where('book_id', $invoice->book_id)->update([
                 'status' => 'ON PROCESS',
             ]);
+
+            $booking = Booking::with(['users','productBookings.products'])->where('book_id', $invoice->book_id)->first();
+
+            $data = [
+                'alias_name_booking' => $booking->alias_name_booking,
+                'email' => $booking->users->email,
+                'order_id' => $invoice-> invoice_id,
+                'book_id' => $booking->book_id,
+                'booking_date'=> $booking->booking_date,
+                'booking_time' => $booking->booking_time,
+            ];
+
+            Mail::to($booking->users->email)->send(new BookingSuccessMail($data));
         }
 
         return response()->json([
