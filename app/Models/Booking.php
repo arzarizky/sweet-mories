@@ -35,6 +35,16 @@ class Booking extends Model
         return $this->hasMany(ProductBooking::class, 'book_id', 'book_id');
     }
 
+    public function productAdditionalBookings()
+    {
+        return $this->hasMany(ProductBooking::class, 'book_id', 'book_id');
+    }
+
+    public function productBackgroundBookings()
+    {
+        return $this->hasMany(ProductBooking::class, 'book_id', 'book_id');
+    }
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class, 'book_id', 'book_id');

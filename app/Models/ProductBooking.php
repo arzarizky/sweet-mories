@@ -16,6 +16,8 @@ class ProductBooking extends Model
     protected $fillable = [
         'book_id',
         'product_id',
+        'background_product_id',
+        'additional_product_id',
         'quantity_product',
     ];
 
@@ -27,5 +29,15 @@ class ProductBooking extends Model
     public function products()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function productsAdditional()
+    {
+        return $this->belongsTo(ProductAdditional::class, 'additional_product_id', 'id');
+    }
+
+    public function productsBackground()
+    {
+        return $this->belongsTo(ProductBackground::class, 'background_product_id', 'id');
     }
 }

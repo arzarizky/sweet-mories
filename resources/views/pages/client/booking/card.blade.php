@@ -16,7 +16,8 @@
                         border-dark @endif mb-3">
                 <div class="card-header">
                     {{ $data->booking_date }} | {{ $data->booking_time }}
-                    <span class="ms-2 badge rounded-pill badge-bg
+                    <span
+                        class="ms-2 badge rounded-pill badge-bg
                         @if ($data->status === 'PENDING') bg-primary
                         @elseif ($data->status === 'ON PROCESS') bg-warning
                         @elseif ($data->status === 'PAYMENT PROCESS') bg-info
@@ -30,16 +31,33 @@
                     <h5 class="card-title">{{ $data->book_id ?? 'Data Tidak Ada' }}</h5>
                     <p class="card-text">
                     <ul class="pt-2">
+
                         @foreach ($data->productBookings as $product)
                             <li>
-                                {{ $product->products->name ?? 'Data Tidak Ada' }} :
+                                {{ $product->products->name ?? 'Data Tidak Ada' }}
+                                {{ $product->products->type ?? 'Data Tidak Ada' }} :
                                 {{ $product->products->price ?? 'Data Tidak Ada' }} x
                                 {{ $product->quantity_product ?? 'Data Tidak Ada' }}
                             </li>
                         @endforeach
+
+                        @foreach ($data->productAdditionalBookings as $additional)
+                            <li>
+                                {{ $additional->productsAdditional->name ?? 'Data Tidak Ada' }} :
+                                {{ $additional->productsAdditional->price ?? 'Data Tidak Ada' }} x
+                                {{ $additional->quantity_product ?? 'Data Tidak Ada' }}
+                            </li>
+                        @endforeach
+
+                        @foreach ($data->productBackgroundBookings as $background)
+                            <li>
+                                Background : {{ $background->productsBackground->name ?? 'Data Tidak Ada' }}
+                            </li>
+                        @endforeach
                     </ul>
                     <div class="countdown-container">
-                        <p>Sisa Waktu Pembayaran: <b><span class="countdown-timer" data-expired-at="{{ $data->expired_at }}"></span></b></p>
+                        <p>Sisa Waktu Pembayaran: <b><span class="countdown-timer"
+                                    data-expired-at="{{ $data->expired_at }}"></span></b></p>
                     </div>
                     <h5 class="card-title">Total Price : {{ $data->total_price }}</h5>
                     </p>
@@ -96,11 +114,14 @@
 
             countdownElements.forEach(function(element) {
                 const expiredAt = new Date(element.getAttribute('data-expired-at')).getTime();
-                const cardElement = element.closest('.card');  // Get the closest card element
+                const cardElement = element.closest('.card'); // Get the closest card element
                 const bgBadge = cardElement.querySelector('.badge-bg');
-                const statusBadge = cardElement.querySelector('.status-badge');  // Get the status badge element
-                const actionButtons = cardElement.querySelector('.action-buttons');  // Get the action buttons container
-                const countdownContainer = cardElement.querySelector('.countdown-container'); // Get the countdown container
+                const statusBadge = cardElement.querySelector(
+                    '.status-badge'); // Get the status badge element
+                const actionButtons = cardElement.querySelector(
+                    '.action-buttons'); // Get the action buttons container
+                const countdownContainer = cardElement.querySelector(
+                    '.countdown-container'); // Get the countdown container
 
                 const countdownInterval = setInterval(function() {
                     const now = new Date().getTime();
@@ -112,12 +133,16 @@
 
                         // Only modify the card if the status is PENDING
                         if (statusBadge.textContent === "PENDING") {
-                            cardElement.classList.remove('border-primary', 'border-warning', 'border-info', 'border-success', 'border-dark'); // Remove existing border classes
+                            cardElement.classList.remove('border-primary', 'border-warning',
+                                'border-info', 'border-success', 'border-dark'
+                            ); // Remove existing border classes
                             cardElement.classList.add('border-danger'); // Add expired border class
                             statusBadge.textContent = "EXP"; // Update status badge text
-                            statusBadge.classList.remove('bg-primary', 'bg-warning', 'bg-info', 'bg-success', 'bg-dark'); // Remove existing badge classes
+                            statusBadge.classList.remove('bg-primary', 'bg-warning', 'bg-info',
+                                'bg-success', 'bg-dark'); // Remove existing badge classes
                             statusBadge.classList.add('bg-danger'); // Add expired badge class
-                            bgBadge.classList.remove('bg-primary', 'bg-warning', 'bg-info', 'bg-success', 'bg-dark'); // Remove existing badge classes
+                            bgBadge.classList.remove('bg-primary', 'bg-warning', 'bg-info',
+                                'bg-success', 'bg-dark'); // Remove existing badge classes
                             bgBadge.classList.add('bg-danger');
 
 

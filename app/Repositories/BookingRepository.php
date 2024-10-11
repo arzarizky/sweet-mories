@@ -19,7 +19,9 @@ class BookingRepository implements BookingRepositoryInterface
     protected $relations = [
         'users',
         'invoice',
-        'productBookings.products'
+        'productBookings.products',
+        'productAdditionalBookings.productsAdditional',
+        'productBackgroundBookings.productsBackground'
     ];
 
     private static function generateBookId()
@@ -43,10 +45,11 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function create($dataDetails)
     {
+
         DB::beginTransaction();
 
         try {
-
+            // Check if the booking slot is available
             if (!$this->canBook($dataDetails['booking_date'], $dataDetails['booking_time'])) {
                 return [
                     "sukses" => false,
@@ -54,21 +57,23 @@ class BookingRepository implements BookingRepositoryInterface
                 ];
             }
 
-            $promo = Product::where('id', $dataDetails['id_product'])->first()->promo;
-
             $user = Auth::user();
+            $dataDetails['background_qty'] = "1";
 
+            // Update user phone number if not set
             if (is_null($user->no_tlp)) {
                 $user->update(['no_tlp' => "+62" . $dataDetails['no_tlp']]);
             }
 
+            // Generate unique booking ID
             $bookId = $this->generateBookId();
 
+            // Create booking entry
             $booking = Booking::create([
                 'user_id' => $user->id,
                 'book_id' => $bookId,
                 'alias_name_booking' => $dataDetails['alias_name_booking'],
-                'total_price' => 0, // Will be updated later
+                'total_price' => 0, // Updated later
                 'booking_date' => $dataDetails['booking_date'],
                 'booking_time' => $dataDetails['booking_time'],
                 'expired_at' => now()->addMinutes(6)
@@ -76,58 +81,79 @@ class BookingRepository implements BookingRepositoryInterface
 
             $totalPrice = 0;
 
+            // Process main product
             if (!empty($dataDetails['main_product'])) {
                 $mainProduct = Product::where('name', $dataDetails['main_product']['product_name'])->first();
 
                 if ($mainProduct) {
                     $quantity = $dataDetails['main_product']['quantity'];
+                    $price = $mainProduct->promo === "true" ? $mainProduct->price_promo : $mainProduct->price;
+                    $totalPrice += $price * $quantity;
 
-                    if ($promo === "true") {
-                        $totalPrice += $mainProduct->price_promo * $quantity;
-                    } else {
-                        $totalPrice += $mainProduct->price * $quantity;
-                    }
-
+                    // Store main product in ProductBooking table
                     ProductBooking::create([
                         'book_id' => $bookId,
                         'product_id' => $mainProduct->id,
                         'quantity_product' => $quantity,
                     ]);
+                } else {
+                    \Log::warning("Main product not found", ['product_name' => $dataDetails['main_product']['product_name']]);
+                    return [
+                        "sukses" => false,
+                        "pesan" => "Product not found: " . $dataDetails['main_product']['product_name']
+                    ];
                 }
             }
 
+            // Process background product
             if (!empty($dataDetails['background'])) {
                 $backgroundProduct = ProductBackground::where('name', $dataDetails['background'])->first();
-
                 if ($backgroundProduct) {
+                    // Store background product in ProductBooking table
                     ProductBooking::create([
                         'book_id' => $bookId,
                         'background_product_id' => $backgroundProduct->id,
-                        'quantity_product' => 1,
+                        'quantity_product' => $dataDetails['background_qty'],
                     ]);
+                } else {
+                    \Log::warning("Background product not found", ['background_name' => $dataDetails['background']]);
+                    return [
+                        "sukses" => false,
+                        "pesan" => "Background product not found: " . $dataDetails['background']
+                    ];
                 }
             }
 
+            // Process additional products in a batch
             if (!empty($dataDetails['additional_products'])) {
-                $additionalProducts = ProductAdditional::whereIn('name', array_column($dataDetails['additional_products'], 'product_name'))->get()->keyBy('name');
+                $additionalProductNames = array_column($dataDetails['additional_products'], 'product_name');
+                $additionalProducts = ProductAdditional::whereIn('name', $additionalProductNames)->get()->keyBy('name');
 
                 foreach ($dataDetails['additional_products'] as $additional) {
-                    $product = $additionalProducts->get($additional['product_name']);
-                    if ($product) {
+                    $productAdditional = $additionalProducts->get($additional['product_name']);
+
+                    if ($productAdditional) {
                         $quantity = $additional['quantity'];
+                        $totalPrice += $productAdditional->price * $quantity;
 
-                        $totalPrice += $product->price * $quantity;
-
-                        // Store product in ProductBooking table
+                        // Store additional product in ProductBooking table
                         ProductBooking::create([
                             'book_id' => $bookId,
-                            'additional_product_id' => $product->id,
+                            'additional_product_id' => $productAdditional->id,
                             'quantity_product' => $quantity,
                         ]);
+                    } else {
+
+                        \Log::warning("Additional product not found", ['additional_product_name' => $additional['product_name']]);
+                        return [
+                            "sukses" => false,
+                            "pesan" => "Additional product not found: " . $additional['product_name']
+                        ];
                     }
                 }
             }
 
+            // Update total price for the booking
             $booking->update(['total_price' => $totalPrice]);
 
             DB::commit();
@@ -140,14 +166,18 @@ class BookingRepository implements BookingRepositoryInterface
         } catch (\Exception $e) {
             DB::rollBack();
 
+            // Log the exception message for debugging
+            \Log::error("Error during booking creation: " . $e->getMessage(), [
+                'dataDetails' => $dataDetails,
+                'user_id' => $user->id ?? null,
+            ]);
+
             return [
                 "sukses" => false,
-                "pesan" => "Terjadi kesalahan saat melakukan booking, silakan coba lagi."
+                "pesan" => "Additional product not found: " . $e->getMessage()
             ];
         }
     }
-
-
 
 
     public function updateStatusBook($dataId, $newDetailsData)
@@ -157,7 +187,29 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function reschedule($dataId)
     {
-        $model = Booking::with($this->relations);
+        $model = Booking::with([
+            'users',
+            'invoice',
+
+            // Filter 'productBookings' where 'product_id' is not null
+            'productBookings' => function ($query) {
+                $query->whereNotNull('product_id');
+            },
+            'productBookings.products',
+
+            // Filter 'productAdditionalBookings' where 'additional_product_id' is not null
+            'productAdditionalBookings' => function ($query) {
+                $query->whereNotNull('additional_product_id');
+            },
+            'productAdditionalBookings.productsAdditional', // Eager load productsAdditional
+
+            // Filter 'productBackgroundBookings' where 'background_product_id' is not null
+            'productBackgroundBookings' => function ($query) {
+                $query->whereNotNull('background_product_id');
+            },
+            'productBackgroundBookings.productsBackground'
+        ]);
+
         $query = $model->where('id', $dataId)->first();
         return $query;
     }
@@ -179,7 +231,28 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getAll($search, $page, $date)
     {
-        $model = Booking::with($this->relations);
+        $model = Booking::with([
+            'users',
+            'invoice',
+
+            // Filter 'productBookings' where 'product_id' is not null
+            'productBookings' => function ($query) {
+                $query->whereNotNull('product_id');
+            },
+            'productBookings.products',
+
+            // Filter 'productAdditionalBookings' where 'additional_product_id' is not null
+            'productAdditionalBookings' => function ($query) {
+                $query->whereNotNull('additional_product_id');
+            },
+            'productAdditionalBookings.productsAdditional', // Eager load productsAdditional
+
+            // Filter 'productBackgroundBookings' where 'background_product_id' is not null
+            'productBackgroundBookings' => function ($query) {
+                $query->whereNotNull('background_product_id');
+            },
+            'productBackgroundBookings.productsBackground'
+        ]);
 
         $query = $model;
 
@@ -204,7 +277,25 @@ class BookingRepository implements BookingRepositoryInterface
 
     public function getClient($search, $page)
     {
-        $model = Booking::with($this->relations);
+        $model = Booking::with([
+            'users',
+            'invoice',
+
+            'productBookings' => function ($query) {
+                $query->whereNotNull('product_id');
+            },
+            'productBookings.products',
+
+            'productAdditionalBookings' => function ($query) {
+                $query->whereNotNull('additional_product_id');
+            },
+            'productAdditionalBookings.productsAdditional', // Eager load productsAdditional
+
+            'productBackgroundBookings' => function ($query) {
+                $query->whereNotNull('background_product_id');
+            },
+            'productBackgroundBookings.productsBackground'
+        ]);
 
         if ($search === null) {
             $query = $model

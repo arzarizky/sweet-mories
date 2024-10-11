@@ -24,17 +24,45 @@
                             {{ $data->users->email ?? 'Data Tidak Ada' }}
                         </td>
                         <td>
-                            <a href="https://wa.me/{{$data->users->no_tlp ?? 'Data Tidak Ada'}}" target="_balnk">{{ $data->users->no_tlp ?? 'Data Tidak Ada' }}</a>
+                            <a href="https://wa.me/{{ $data->users->no_tlp ?? 'Data Tidak Ada' }}"
+                                target="_balnk">{{ $data->users->no_tlp ?? 'Data Tidak Ada' }}</a>
                         </td>
                         <td>
                             Book Schedule : {{ $data->booking_date }} | {{ $data->booking_time }}
-                            <a href="{{ route('booking-manager-reschedule', $data->id) }}"> <i class='menu-icon tf-icons bx bx-time-five'></i></a>
+                            <a href="{{ route('booking-manager-reschedule', $data->id) }}"> <i
+                                    class='menu-icon tf-icons bx bx-time-five'></i></a>
                             <ul class="pt-2">
                                 @foreach ($data->productBookings as $product)
+                                    @if ($product->products->promo === 'true')
+                                        <li class="text-warning">
+                                            {{ $product->products->name ?? 'Data Tidak Ada' }}
+                                            {{ $product->products->type ?? 'Data Tidak Ada' }} :
+                                            {{ $product->products->price ?? 'Data Tidak Ada' }} x
+                                            {{ $product->quantity_product ?? 'Data Tidak Ada' }}
+                                        </li>
+                                    @else
+                                        <li>
+                                            {{ $product->products->name ?? 'Data Tidak Ada' }}
+                                            {{ $product->products->type ?? 'Data Tidak Ada' }} :
+                                            {{ $product->products->price ?? 'Data Tidak Ada' }} x
+                                            {{ $product->quantity_product ?? 'Data Tidak Ada' }}
+                                        </li>
+                                    @endif
+                                @endforeach
+
+
+
+                                @foreach ($data->productAdditionalBookings as $additional)
                                     <li>
-                                        {{ $product->products->name ?? 'Data Tidak Ada' }} :
-                                        {{ $product->products->price ?? 'Data Tidak Ada' }} x
-                                        {{ $product->quantity_product ?? 'Data Tidak Ada' }}
+                                        {{ $additional->productsAdditional->name ?? 'Data Tidak Ada' }} :
+                                        {{ $additional->productsAdditional->price ?? 'Data Tidak Ada' }} x
+                                        {{ $additional->quantity_product ?? 'Data Tidak Ada' }}
+                                    </li>
+                                @endforeach
+
+                                @foreach ($data->productBackgroundBookings as $background)
+                                    <li>
+                                        Background : {{ $background->productsBackground->name ?? 'Data Tidak Ada' }}
                                     </li>
                                 @endforeach
                             </ul>
@@ -162,9 +190,11 @@
                     <tr>
                         <td colspan="4" class="text-center" style="border: none;">
                             @if (request()->input('date') != null)
-                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }} PADA TANGGAL {{ request()->input('date') }} TIDAK ADA</h5>
+                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }}
+                                    PADA TANGGAL {{ request()->input('date') }} TIDAK ADA</h5>
                             @else
-                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }} TIDAK ADA</h5>
+                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }}
+                                    TIDAK ADA</h5>
                             @endif
                         </td>
                     </tr>
