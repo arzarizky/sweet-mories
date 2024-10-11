@@ -270,7 +270,7 @@
                             const selectedDateTime = new Date(selectedDate);
                             const currentDateTime = new Date();
 
-                            for (let time = start; time <= end; time += 30) {
+                            for (let time = start; time <= end; time += 20) {
                                 const hour = Math.floor(time / 60);
                                 const minute = time % 60;
                                 const timeString = hour.toString().padStart(2, '0') + ':' + minute
