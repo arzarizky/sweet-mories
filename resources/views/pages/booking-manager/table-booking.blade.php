@@ -37,7 +37,7 @@
                                         <li class="text-warning">
                                             {{ $product->products->name ?? 'Data Tidak Ada' }}
                                             {{ $product->products->type ?? 'Data Tidak Ada' }} :
-                                            {{ $product->products->price ?? 'Data Tidak Ada' }} x
+                                            {{ $product->products->price_promo ?? 'Data Tidak Ada' }} x
                                             {{ $product->quantity_product ?? 'Data Tidak Ada' }}
                                         </li>
                                     @else

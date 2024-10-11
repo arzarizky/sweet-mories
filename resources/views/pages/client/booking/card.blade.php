@@ -32,14 +32,21 @@
                     <p class="card-text">
                     <ul class="pt-2">
 
-                        @foreach ($data->productBookings as $product)
+                        @if ($product->products->promo === 'true')
+                            <li>
+                                {{ $product->products->name ?? 'Data Tidak Ada' }}
+                                {{ $product->products->type ?? 'Data Tidak Ada' }} :
+                                {{ $product->products->price_promo ?? 'Data Tidak Ada' }} x
+                                {{ $product->quantity_product ?? 'Data Tidak Ada' }}
+                            </li>
+                        @else
                             <li>
                                 {{ $product->products->name ?? 'Data Tidak Ada' }}
                                 {{ $product->products->type ?? 'Data Tidak Ada' }} :
                                 {{ $product->products->price ?? 'Data Tidak Ada' }} x
                                 {{ $product->quantity_product ?? 'Data Tidak Ada' }}
                             </li>
-                        @endforeach
+                        @endif
 
                         @foreach ($data->productAdditionalBookings as $additional)
                             <li>
