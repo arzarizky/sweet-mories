@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Models\Invoice;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromoController;
 use Illuminate\Http\Request;
 
 
@@ -125,7 +126,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/product-display-update-status/{id}', [ProductController::class, 'updateStatusProductDisplay'])->name('product-manager-product-display-update-status');
             Route::get('/product-display-edit/{id}', [ProductController::class, 'editProductDisplay'])->name('product-manager-product-display-edit');
             Route::put('/product-display-edit-update/{id}', [ProductController::class, 'updateProductDisplay'])->name('product-manager-product-display-edit-update');
+        });
 
+        // prefix promo manager
+        Route::prefix('promo-manager')->group(function () {
+            Route::get('/', [PromoController::class, 'index'])->name('promo-manager');
+            Route::post('/create', [PromoController::class, 'create'])->name('promo-create');
+            Route::put('/update/status/{id}', [PromoController::class, 'updatePromoStatus'])->name('promo-update-status');
+            Route::put('/update/{id}', [PromoController::class, 'updatePromo'])->name('promo-update');
 
         });
     });
