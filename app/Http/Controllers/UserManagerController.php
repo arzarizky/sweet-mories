@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserManager\StoreRequest as UserStore;
 use App\Http\Requests\UserManager\UpdateRequest as UserUpdate;
 use App\Interfaces\UserManagerRepositoryInterface;
+use App\Interfaces\PromoRepositoryInterface;
 use Illuminate\Support\Arr;
 
 class UserManagerController extends Controller
 {
     protected $userManagerRepository;
+    protected $promoRepository;
 
-    public function __construct(UserManagerRepositoryInterface $userManagerRepository)
+    public function __construct(UserManagerRepositoryInterface $userManagerRepository, PromoRepositoryInterface $promoRepository)
     {
         $this->userManagerRepository = $userManagerRepository;
+        $this->promoRepository = $promoRepository;
     }
 
     public function index(Request $request)
@@ -24,6 +27,7 @@ class UserManagerController extends Controller
         $page = $request->input('page', 1);
 
         $users = $this->userManagerRepository->getAll($search, $perPage);
+        $promos = $this->promoRepository->getAll("ENABLE", $perPage);
 
         if ($users->isEmpty() && $page > 1) {
             return redirect()->route('user-manager', [
@@ -34,7 +38,7 @@ class UserManagerController extends Controller
         }
 
         // Pass parameters to the view
-        return view('pages.user-manager.index', compact('users', 'search', 'perPage', 'page'));
+        return view('pages.user-manager.index', compact('users', 'promos', 'search', 'perPage', 'page'));
     }
 
     public function store(UserStore $request)

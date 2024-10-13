@@ -17,6 +17,11 @@
                                     placeholder="Promo Event Akhir Tahun" value="{{ $data->name }}" required>
                             </div>
                             <div class="col-12 mb-2">
+                                <label for="kodePromoWithTitle" class="form-label">Kode Promo</label>
+                                <input type="text" id="kodePromoWithTitle" name="code"  value="{{ $data->code }}" class="form-control"
+                                    placeholder="DARDER">
+                            </div>
+                            <div class="col-12 mb-2">
                                 <label for="discount_percentage" class="form-label">Discount Number</label>
                                 <input type="number" id="discount_percentage" value="{{ $data->discount_value }}" name="discount_value"
                                     class="form-control" placeholder="10000">

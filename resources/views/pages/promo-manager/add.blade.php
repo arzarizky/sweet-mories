@@ -15,6 +15,11 @@
                                 placeholder="Promo Event Akhir Tahun" required>
                         </div>
                         <div class="col-12 mb-2">
+                            <label for="kodePromoWithTitle" class="form-label">Kode Promo</label>
+                            <input type="text" id="kodePromoWithTitle" name="code" class="form-control"
+                                placeholder="DARDER">
+                        </div>
+                        <div class="col-12 mb-2">
                             <label for="discount_percentage" class="form-label">Discount Number</label>
                             <input type="number" id="discount_percentage" name="discount_value" class="form-control"
                                 placeholder="10000">

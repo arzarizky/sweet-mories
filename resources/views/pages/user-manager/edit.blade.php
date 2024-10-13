@@ -73,6 +73,22 @@
                                 value="{{ $user->email }}" placeholder="john.doe@example.com" required />
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="promo_id" class="form-label">Select Promo</label>
+                        <select class="form-select" id="promo_id" name="promo_id"
+                            aria-label="Default select example">
+                            <option value="" disabled {{ is_null($user->promo_id) ? 'selected' : '' }}>Pilih
+                                Promo</option>
+                            <option value="">Lepas Promo</option>
+
+                            @foreach ($promos as $promo)
+                                <option value="{{ $promo->id }}"
+                                    {{ $user->promo_id === $promo->id ? 'selected' : '' }}>
+                                    {{ $promo->code }} | {{ $promo->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

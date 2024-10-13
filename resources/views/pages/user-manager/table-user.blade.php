@@ -4,6 +4,7 @@
             <thead>
                 <tr>
                     <th>Nama</th>
+                    <th>Promo</th>
                     <th>Mail</th>
                     <th>No Tlp</th>
                     <th>Avatar</th>
@@ -15,6 +16,20 @@
                     <tr>
                         <td>
                             {{ $user->name }}
+                        </td>
+                        <td>
+                            @if ($user->promo === null)
+                                Tidak Ada Promo
+                            @else
+                                <ul>
+                                    <li>
+                                        Nama : {{ $user->promo->name }}
+                                    </li>
+                                    <li>
+                                        Kode : {{ $user->promo->code }}
+                                    </li>
+                                </ul>
+                            @endif
                         </td>
                         <td>
                             {{ $user->email }}

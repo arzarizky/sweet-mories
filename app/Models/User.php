@@ -22,6 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'promo_id',
         'google_id',
         'role_id',
         'no_tlp',
@@ -82,5 +83,10 @@ class User extends Authenticatable
     public function invoices()
     {
         return $this->belongsTo(Invoice::class, 'user_id', 'id');
+    }
+
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class, 'promo_id', 'id');
     }
 }

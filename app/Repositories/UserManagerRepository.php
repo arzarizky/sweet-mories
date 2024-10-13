@@ -6,12 +6,17 @@ use App\Interfaces\UserManagerRepositoryInterface;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\File;
+use App\Models\Promo;
+
+use App\Mail\PromoUsersMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class UserManagerRepository implements UserManagerRepositoryInterface
 {
     protected $relations = [
         'role',
+        'promo'
     ];
 
     protected function generateFilename($file)
@@ -77,7 +82,34 @@ class UserManagerRepository implements UserManagerRepositoryInterface
 
     public function update($dataId, $newDetailsData)
     {
-        $id = User::find($dataId);
+        $id = User::with($this->relations)->find($dataId);
+        $newDetailsData['promo_id'] = $newDetailsData['promo_id'] ?? null;
+
+        if ($newDetailsData['promo_id'] === null) {
+
+            $newDetailsData['promo_id'] === null;
+        } else {
+            if ($id->promo === null || $newDetailsData['promo_id'] != $id->promo->id ) {
+
+               $promoModel = Promo::where('id', $newDetailsData['promo_id'])->first();
+
+                if ($promoModel->model === "NUMBER") {
+                    $promo = "Rp. " . number_format($promoModel->discount_value, 0, ',', '.');
+                } else {
+                    $promo = $promoModel->discount_percentage . "%";
+                }
+
+                $data = [
+                    'code' => $promoModel->code,
+                    'start_date' => $promoModel->start_date,
+                    'end_date' => $promoModel->end_date,
+                    'promo' => $promo,
+                    'email' => $id->email
+                ];
+
+                Mail::to($id->email)->send(new PromoUsersMail($data));
+            }
+        }
 
         $newDetailsData['avatar'] = $newDetailsData['avatar'] ?? $id->avatar;
 

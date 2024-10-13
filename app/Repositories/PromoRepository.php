@@ -11,26 +11,35 @@ class PromoRepository implements PromoRepositoryInterface
     public function generateUniquePromoCode()
     {
         $length = 6;
-        $promoCount = Promo::count();
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         $maxCodes = pow(26, $length);
-        $attempts = 0;
-        $maxAttempts = 100;
+        $promoCount = Promo::count();
 
         while ($promoCount >= $maxCodes) {
             $length++;
             $maxCodes = pow(26, $length);
         }
 
+        $usedCodes = Promo::pluck('code')->toArray();
+        $attempts = 0;
+        $maxAttempts = 100;
+
         do {
-            $code = strtoupper(Str::random($length));
-            $exists = Promo::where('code', $code)->exists();
+
+            $code = '';
+            for ($i = 0; $i < $length; $i++) {
+                $code .= $characters[random_int(0, strlen($characters) - 1)];
+            }
+
+            $exists = in_array($code, $usedCodes);
             $attempts++;
         } while ($exists && $attempts < $maxAttempts);
 
         if ($attempts >= $maxAttempts) {
             return [
                 'status' => 'error',
-                'message' => "Unable to generate a unique promo code after " .$maxAttempts. " attempts."
+                'message' => "Unable to generate a unique promo code after " . $maxAttempts . " attempts."
             ];
         }
 
@@ -43,6 +52,11 @@ class PromoRepository implements PromoRepositoryInterface
     public function getAll($search, $page)
     {
         $model = Promo::orderBy('updated_at','desc');
+
+        if ($search === "ENABLE") {
+            $query = $model->where('is_active', $search)->get();
+            return $query;
+        }
 
         if ($search === null) {
             $query = $model;
@@ -58,6 +72,13 @@ class PromoRepository implements PromoRepositoryInterface
     {
         try {
 
+            if ($dataDetails['end_date'] <= $dataDetails['start_date']) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Selesai Promo Tidak Boleh Lebih Awal Atau Sama Dari Mulai Promo'
+                ];
+            }
+
             if ($dataDetails['discount_value'] != null && $dataDetails['discount_percentage'] != null) {
                 return [
                     'status' => 'error',
@@ -65,21 +86,24 @@ class PromoRepository implements PromoRepositoryInterface
                 ];
             }
 
-            if ($dataDetails['discount_value']) {
+            if ($dataDetails['discount_value']  != null) {
                 $dataDetails['model'] = "NUMBER";
             } else {
                 $dataDetails['model'] = "PERCENTAGE";
             }
 
-            $code = $this->generateUniquePromoCode();
-
-            if ($code['status'] === 'error') {
-                return [
-                    'status' => 'error',
-                    'message' => $code['message']
-                ];
+            if($dataDetails['code'] === null) {
+                $code = $this->generateUniquePromoCode();
+                if ($code['status'] === 'error') {
+                    return [
+                        'status' => 'error',
+                        'message' => $code['message']
+                    ];
+                } else {
+                    $dataDetails['code'] = $code['message'];
+                }
             } else {
-                $dataDetails['code'] = $code['message'];
+                $code = $dataDetails['code'];
             }
 
             Promo::create($dataDetails);
@@ -106,6 +130,13 @@ class PromoRepository implements PromoRepositoryInterface
     {
         try {
 
+            if ($newDetails['end_date'] <= $newDetails['start_date']) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Selesai Promo Tidak Boleh Lebih Awal Atau Sama Dari Mulai Promo'
+                ];
+            }
+
             if ($newDetails['discount_value'] != null && $newDetails['discount_percentage'] != null) {
                 return [
                     'status' => 'error',
@@ -113,10 +144,24 @@ class PromoRepository implements PromoRepositoryInterface
                 ];
             }
 
-            if ($newDetails['discount_value']) {
+            if ($newDetails['discount_value'] != null) {
                 $newDetails['model'] = "NUMBER";
             } else {
                 $newDetails['model'] = "PERCENTAGE";
+            }
+
+            if($newDetails['code'] === null) {
+                $code = $this->generateUniquePromoCode();
+                if ($code['status'] === 'error') {
+                    return [
+                        'status' => 'error',
+                        'message' => $code['message']
+                    ];
+                } else {
+                    $newDetails['code'] = $code['message'];
+                }
+            } else {
+                $code = $newDetails['code'];
             }
 
             $query = Promo::where('id', $id);
