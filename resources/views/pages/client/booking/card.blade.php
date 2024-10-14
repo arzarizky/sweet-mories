@@ -63,6 +63,12 @@
                                 Background : {{ $background->productsBackground->name ?? 'Data Tidak Ada' }}
                             </li>
                         @endforeach
+
+                        @if ($data->promo != null)
+                            <li>
+                                Promo : {{ $data->promo->code }}
+                            </li>
+                        @endif
                     </ul>
                     <div class="countdown-container">
                         <p>Sisa Waktu Pembayaran: <b><span class="countdown-timer"

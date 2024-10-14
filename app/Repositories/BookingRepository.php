@@ -21,6 +21,7 @@ class BookingRepository implements BookingRepositoryInterface
     protected $relations = [
         'users',
         'invoice',
+        'promo',
         'productBookings.products',
         'productAdditionalBookings.productsAdditional',
         'productBackgroundBookings.productsBackground'
@@ -281,6 +282,7 @@ class BookingRepository implements BookingRepositoryInterface
         $model = Booking::with([
             'users',
             'invoice',
+            'promo',
 
             // Filter 'productBookings' where 'product_id' is not null
             'productBookings' => function ($query) {
@@ -318,6 +320,7 @@ class BookingRepository implements BookingRepositoryInterface
         // Order the results by updated_at in descending order
         $query = $query->orderBy('booking_time', 'asc');
 
+        // dd($query->paginate($page));
         // Paginate the results
         return $query->paginate($page);
     }
@@ -327,6 +330,7 @@ class BookingRepository implements BookingRepositoryInterface
         $model = Booking::with([
             'users',
             'invoice',
+            'promo',
 
             'productBookings' => function ($query) {
                 $query->whereNotNull('product_id');

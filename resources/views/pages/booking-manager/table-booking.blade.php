@@ -65,6 +65,13 @@
                                         Background : {{ $background->productsBackground->name ?? 'Data Tidak Ada' }}
                                     </li>
                                 @endforeach
+
+                                @if ($data->promo != null)
+                                    <li>
+                                        Promo : {{ $data->promo->code }}
+                                    </li>
+                                @endif
+
                             </ul>
                             Booking Dibuat Di Tanggal : {{ $data->created_at }}
                             <br>
