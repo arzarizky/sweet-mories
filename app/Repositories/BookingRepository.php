@@ -109,7 +109,7 @@ class BookingRepository implements BookingRepositoryInterface
 
             // Process main product
             if (!empty($dataDetails['main_product'])) {
-                $mainProduct = Product::where('name', $dataDetails['main_product']['product_name'])->first();
+                $mainProduct = Product::where('id', $dataDetails['main_product']['product_name'])->first();
 
                 if ($mainProduct) {
                     $quantity = $dataDetails['main_product']['quantity'];

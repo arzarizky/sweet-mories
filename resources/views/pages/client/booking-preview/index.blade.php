@@ -20,7 +20,7 @@
                     @endif
                     <input type="hidden" id="hidden-qty-{{ $display->products->id }}-main" name="main_product[quantity]"
                         value="1">
-                    <input type="hidden" name="main_product[product_name]" value="{{ $display->products->name }}">
+                    <input type="hidden" name="main_product[product_name]" value="{{ $display->products->id }}">
                 @endforeach
             </h2>
 
