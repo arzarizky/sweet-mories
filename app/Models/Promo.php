@@ -21,6 +21,7 @@ class Promo extends Model
         'usage_limit',
         'used_count',
         'model',
+        'type',
         'is_active',
     ];
 }

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Interfaces\PromoRepositoryInterface;
 use Illuminate\Support\Arr;
+use App\Models\Promo;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class PromoController extends Controller
 {
@@ -60,6 +64,53 @@ class PromoController extends Controller
             return redirect()->route('promo-manager')->with('success', $updatePromo['message']);
         } else {
             return redirect()->route('promo-manager')->with('error', $updatePromo['message']);
+        }
+    }
+
+    public function checkPromo($promo)
+    {
+        $checkCode = Promo::where('code', $promo)
+            ->where('is_active', "ENABLE")
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->first(['id', 'type', 'usage_limit', 'used_count', 'model', 'discount_value', 'discount_percentage']);
+
+        if (!$checkCode) {
+            return ['valid' => false];
+        }
+
+        if ($checkCode->usage_limit === $checkCode->used_count) {
+            return ['valid' => false];
+        }
+
+        if ($checkCode->type === "USER") {
+            $userId = Auth::user()->id;
+            $userPromo = User::where('id', $userId)->value('promo_id');
+
+            if ($userPromo && $userPromo === $checkCode->id) {
+                return self::getDiscount($checkCode);
+            }
+
+            return ['valid' => false];
+        }
+
+        return self::getDiscount($checkCode);
+    }
+
+    public function getDiscount($checkCode)
+    {
+        if ($checkCode->model === "NUMBER") {
+            return [
+                'valid' => true,
+                'discount' => $checkCode->discount_value,
+                'model' => $checkCode->model
+            ];
+        } else {
+            return [
+                'valid' => true,
+                'discount' => $checkCode->discount_percentage,
+                'model' => $checkCode->model
+            ];
         }
     }
 }

@@ -16,6 +16,7 @@
                     <th>DATE</th>
                     <th>USED</th>
                     <th>LIMIT</th>
+                    <th>TYPE</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -51,6 +52,9 @@
                         </td>
                         <td>
                             {{ $data->usage_limit }}
+                        </td>
+                        <td>
+                            {{ $data->type }}
                         </td>
                         <td>
                             @if ($data->is_active === 'ENABLE')

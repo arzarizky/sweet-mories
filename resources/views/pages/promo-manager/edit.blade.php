@@ -36,6 +36,15 @@
                                 <input type="number" id="usage_limit" value="{{ $data->usage_limit }}" name="usage_limit" class="form-control"
                                     placeholder="100" required>
                             </div>
+                            <div class="col-12 mb-2">
+                                <label for="type" class="form-label">Pilih Type Promo</label>
+                                <select class="form-select" id="type" name="type" aria-label="select product"
+                                    required>
+                                    <option value="">Pilih Type</option>
+                                    <option value="GLOBAL" {{ $data->type == "GLOBAL" ? 'selected' : '' }}>GLOBAL</option>
+                                    <option value="USER" {{ $data->type == "USER" ? 'selected' : '' }}>USER</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row g-6">
                             <div class="col mb-0">

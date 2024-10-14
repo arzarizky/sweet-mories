@@ -13,7 +13,7 @@
         <div class="card p-4 shadow">
             <h2 class="text-center mb-4">
                 @foreach ($productDisplay as $display)
-                    <input type="hidden" name="id_product" value="{{$display->products->id }}" id="id_product">
+                    <input type="hidden" name="id_product" value="{{ $display->products->id }}" id="id_product">
                     Booking {{ $display->products->name }} {{ $display->products->type }}
                     @if ($display->products->promo === 'true')
                         <small class="text-warning">{{ $display->products->sub_title_promo }}</small>
@@ -91,10 +91,8 @@
                                         </div>
                                     </li>
                                     <input type="hidden" id="hidden-qty-{{ $additional->id }}"
-                                        name="additional_products[{{ $loop->index }}][quantity]"
-                                        value="0">
-                                    <input type="hidden"
-                                        name="additional_products[{{ $loop->index }}][product_name]"
+                                        name="additional_products[{{ $loop->index }}][quantity]" value="0">
+                                    <input type="hidden" name="additional_products[{{ $loop->index }}][product_name]"
                                         value="{{ $additional->name }}">
                                 @endforeach
                             @endforeach
@@ -127,6 +125,17 @@
                                 @endforeach
                             </ul>
                         </div>
+                    @endif
+
+                    @if ($productDisplay->first()->products->promo === 'false')
+                        <div class="form-group mb-3">
+                            <label for="kode_promo">Kode Promo</label>
+                            <input type="text" id="kode_promo" name="kode_promo" placeholder="Masukkan Promo Kamu"
+                                class="form-control" autocomplete="off" style="text-transform: uppercase;"
+                                onblur="this.value = this.value.toUpperCase();">
+                        </div>
+                        <button type="button" class="btn btn-primary w-100 mb-3 promo-check">Gunakan
+                            Promo</button>
                     @endif
 
 
@@ -179,6 +188,7 @@
             $(document).ready(function() {
                 let basePrice = parseFloat('{{ $basePrice }}'); // Use base price with promo consideration
                 let totalPrice = basePrice;
+                let discount = 0; // Initialize discount variable
 
                 function updateTotalPrice() {
                     let additionalTotal = 0;
@@ -187,7 +197,9 @@
                         let price = parseFloat($(this).data('price'));
                         additionalTotal += qty * price;
                     });
-                    totalPrice = basePrice + additionalTotal;
+
+                    // Calculate total price considering the discount
+                    totalPrice = basePrice - discount + additionalTotal;
 
                     // Convert to "K" format without decimal points
                     let formattedPrice = totalPrice >= 1000 ? Math.floor(totalPrice / 1000) + 'K' : totalPrice
@@ -217,7 +229,87 @@
                     updateTotalPrice();
                 });
 
-                // Datepicker configuration
+                // Function to apply the promo discount
+                function applyPromoDiscount(discountValue) {
+                    discount = discountValue; // Set the discount from promo
+                    updateTotalPrice(); // Update the total price with the new discount
+                }
+
+                // Variabel untuk menyimpan status penggunaan promo
+                let isPromoUsed = false;
+
+                // Function to check promo and apply discount
+                $('.promo-check').click(function() {
+
+                    const promoCode = document.getElementById('kode_promo').value;
+
+                    if (!promoCode) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: 'Silakan masukkan kode promo',
+                            position: 'topRight',
+                        });
+                        return;
+                    }
+
+                    // Cek apakah promo sudah digunakan
+                    if (isPromoUsed) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: 'Hanya Dapat Menggunakan 1 Kode Promo',
+                            position: 'topRight',
+                        });
+                        return;
+                    }
+
+                    // Make a POST request to check the promo code
+                    fetch(`/promo/check/${promoCode}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for security
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.valid) {
+
+                                // Set status promo digunakan
+                                isPromoUsed = true;
+
+                                if (data.model === "PERCENTAGE") {
+                                    const discountAmount = (basePrice * data.discount) / 100;
+                                    applyPromoDiscount(discountAmount);
+                                    iziToast.success({
+                                        title: 'Promo berhasil digunakan!',
+                                        message: `Diskon ${data.discount}%`,
+                                        position: 'topRight',
+                                    });
+                                } else {
+                                    applyPromoDiscount(data.discount);
+                                    iziToast.success({
+                                        title: 'Promo berhasil digunakan!',
+                                        message: `Diskon Rp. ${data.discount}`,
+                                        position: 'topRight',
+                                    });
+                                }
+                            } else {
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: 'Kode promo tidak valid atau sudah digunakan.',
+                                    position: 'topRight',
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            iziToast.error({
+                                title: 'Error',
+                                message: error,
+                                position: 'topRight',
+                            });
+                        });
+                });
+
                 // Datepicker configuration
                 $('#booking_date').datepicker({
                     format: 'yyyy-mm-dd',
@@ -274,7 +366,7 @@
                                 const hour = Math.floor(time / 60);
                                 const minute = time % 60;
                                 const timeString = hour.toString().padStart(2, '0') + ':' + minute
-                                .toString().padStart(2, '0');
+                                    .toString().padStart(2, '0');
 
                                 const isBooked = bookedTimes.includes(timeString);
                                 const isCurrent = selectedDateTime.setHours(hour, minute, 0, 0) <=

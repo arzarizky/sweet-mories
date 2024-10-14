@@ -148,6 +148,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/book', [BookingController::class, 'store'])->name('book.store');
         Route::get('/book/check-date', [BookingController::class, 'checkDate'])->name('book.checkDate');
         Route::get('/book/check-time', [BookingController::class, 'checkTime'])->name('book.checkTime');
+        Route::post('/promo/check/{code}', [PromoController::class, 'checkPromo'])->name('promo-check');
+
 
         Route::prefix('{email}')->group(function () {
             Route::get('/book-preview/{package}', [BookingController::class, 'bookPreview'])->name('book-preview');
@@ -160,5 +162,6 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('{email}')->group(function () {
             Route::post('/payment', [InvoiceController::class, 'create'])->name('payment');
         });
+
     });
 });

@@ -8,4 +8,5 @@ interface PromoRepositoryInterface
     public function create($detailsData);
     public function updatePromoStatus($id, $newDetails);
     public function updatePromo($id, $newDetails);
+    public function checkPromo($detailsData);
 }
