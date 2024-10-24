@@ -77,8 +77,16 @@ class AuthController extends Controller
 
     public function logout() {
         if (Auth::check() == true) {
+
+            if (Auth::user()->role->name == "Client") {
+                Session::flush();
+                Auth::logout();
+                return redirect()->route('book-now-landing')->with('belum-login', 'Sukses logout sesi telah dihapus');
+            }
+
             Session::flush();
             Auth::logout();
+
             return redirect()->route('auth.login')->with('success', 'Sukses logout sesi telah dihapus');
         } else {
 

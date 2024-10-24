@@ -38,7 +38,7 @@
 
 <body>
 
-   @include("pages.landing-page.css-card-book")
+    @include('pages.landing-page.css-card-book')
 
     <!-- ===============================================-->
     <!--    Main Content-->
@@ -113,7 +113,7 @@
         <!-- ============================================-->
         <!-- <section> begin ============================-->
         <section class="py-2">
-           @include("pages.landing-page.card-booking")
+            @include('pages.landing-page.card-booking')
 
 
             <!-- end of .container-->
@@ -130,7 +130,8 @@
 
 
     @include('pages.landing-page.footer')
-    @include("pages.landing-page.modal-book.basic-modal")
+    @include('pages.landing-page.modal-book.basic-modal')
+    @include('pages.landing-page.modal-book.modal-login')
 
 
 
@@ -138,6 +139,15 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
+    @if (Session::has('belum-login'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var modalLogin = new bootstrap.Modal(document.getElementById('login-modal'));
+                modalLogin.show();
+            });
+        </script>
+    @endif
+
     <script src="{{ asset('template-landing') }}/public/vendors/popper/popper.min.js"></script>
     <script src="{{ asset('template-landing') }}/public/vendors/bootstrap/bootstrap.min.js"></script>
     <script src="{{ asset('template-landing') }}/public/vendors/anchorjs/anchor.min.js"></script>

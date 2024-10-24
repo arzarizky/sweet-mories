@@ -14,7 +14,7 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         if (!$request->expectsJson()) {
-            session()->flash('error', 'You need to be logged in to access this page.');
+            session()->flash('belum-login', 'You need to be logged in to access this page.');
             return route('book-now-landing');
         } else {
             return response()->json(['error' => 'Unauthenticated.'], 401);
