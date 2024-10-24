@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     {
         if (!$request->expectsJson()) {
             session()->flash('error', 'You need to be logged in to access this page.');
-            return route('auth.login');
+            return route('book-now-landing');
         } else {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }

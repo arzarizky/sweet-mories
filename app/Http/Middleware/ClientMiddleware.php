@@ -27,7 +27,7 @@ class ClientMiddleware
             Session::flush();
             Auth::logout();
 
-            return redirect()->route('auth.login')->with('error', 'Anda bukan client');
+            return redirect()->route('book-now-landing')->with('error', 'Anda bukan client');
 
         } else {
 
@@ -35,7 +35,7 @@ class ClientMiddleware
                 return $next($request);
             }
 
-            return redirect()->route('auth.login')->with('error', 'Anda bukan client');
+            return redirect()->route('book-now-landing')->with('error', 'Anda bukan client');
         }
     }
 }
