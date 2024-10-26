@@ -68,6 +68,7 @@
                         <div class="d-flex justify-content-center mt-4">
                             <form method="gey" action="{{ route('redirectLoginGoogle') }}">
                                 @csrf
+                                <input type="hidden" name="product_id" value="{{$data->id}}">
                                 <button type="submit" class="btn btn-outline-dark">
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg"

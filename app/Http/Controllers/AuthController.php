@@ -32,14 +32,18 @@ class AuthController extends Controller
         return redirect()->route('auth.login')->with('error', 'Email atau password yang anda masukan salah');
     }
 
-    public function redirectLoginOrRegisterWithGoogle() {
+    public function redirectLoginOrRegisterWithGoogle(Request $request) {
+        $request->session()->put('product_id', $request->product_id);
         return Socialite::driver('google')->redirect();
     }
 
     public function handleLoginOrRegisterWithGoogle() {
+        $productId = session()->get('product_id');
         $googleUser = Socialite::driver('google')->user();
         $authUser = User::where('google_id', $googleUser->id)->first();
         $roleId = Role::where('name', 'Client')->first();
+
+
 
         if (!$roleId) {
             return redirect()->route('auth.login')->with('error', 'Role Client tidak ditemukan');
@@ -47,7 +51,10 @@ class AuthController extends Controller
 
         if ($authUser) {
             Auth::login($authUser);
-            return redirect()->route('book-now-landing')->with('success', 'Sukses login dengan Google');
+            return redirect()->route('book-preview', [
+                'email' => $googleUser->email,
+                'package' => $productId
+            ])->with('success', 'Sukses login dengan Google');
         }
 
         $authUser = User::create([
@@ -63,7 +70,10 @@ class AuthController extends Controller
 
         Auth::login($authUser);
 
-        return redirect()->route('book-now-landing')->with('success', 'Akun baru berhasil dibuat dan login dengan Google');
+        return redirect()->route('book-preview', [
+            'email' => $googleUser->email,
+            'package' => $productId
+        ])->with('success', 'Sukses login dengan Google');
     }
 
     public function logout() {
