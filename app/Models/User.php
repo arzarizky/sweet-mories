@@ -24,6 +24,8 @@ class User extends Authenticatable
         'name',
         'promo_id',
         'google_id',
+        'google_token',
+        'google_refresh_token',
         'role_id',
         'no_tlp',
         'avatar',

@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
-use Closure;
 
 class Authenticate extends Middleware
 {
@@ -16,8 +15,8 @@ class Authenticate extends Middleware
         if (!$request->expectsJson()) {
             session()->flash('belum-login', 'You need to be logged in to access this page.');
             return route('book-now-landing');
-        } else {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
+
+        return null; // Laravel akan otomatis mengirim respons JSON untuk permintaan API
     }
 }
