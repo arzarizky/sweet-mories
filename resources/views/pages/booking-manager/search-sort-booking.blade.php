@@ -1,58 +1,103 @@
-<form action="">
+@php
+    $statuses = [
+        'PENDING' => 'bg-primary',
+        'ON PROCESS' => 'bg-warning',
+        'DONE' => 'bg-success',
+    ];
+
+    $currentStatuses = (array) request()->input('status', []);
+    $currentBgClass = $statuses[$currentStatuses[0] ?? ''] ?? 'bg-secondary';
+@endphp
+
+<form action="{{ url()->current() }}" method="GET" style="backdrop-filter: saturate(200%) blur(10px);">
     <div class="row">
-        <div class="col-sm-7 col-lg-7 col-md-7 mb-4">
+        {{-- Input Pencarian --}}
+        <div class="col-sm-4 col-lg-4 col-md-4 mb-4">
             <div class="card p-3">
-                <div class="input-group input-group-merge">
-                    <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
-                        onclick="event.preventDefault();
-                        document.getElementById('submit-search').click();">
+                <div class="input-group">
+                    <span class="input-group-text" style="cursor: pointer;" onclick="triggerSubmit();">
                         <i class="bx bx-search"></i>
                     </span>
                     <input type="search" class="form-control" placeholder="Cari booking id atau email client"
-                        aria-label="Search..." aria-describedby="basic-addon-search31"
-                        value="{{ request()->input('search') }}" name="search">
+                        name="search" value="{{ request('search') }}" aria-label="Search" onchange="triggerSubmit();">
                 </div>
             </div>
         </div>
+
+        {{-- Dropdown Status --}}
         <div class="col-sm-4 col-lg-3 col-md-4 mb-4">
             <div class="card p-3">
-                <div class="input-group input-group-merge">
-                    <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
-                        onclick="event.preventDefault();
-                        document.getElementById('submit-search').click();">
-                        <i class='bx bx-calendar'></i>
+                <span class="badge p-3 rounded-pill {{ $currentBgClass }}" style="cursor: pointer;"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Status Booking {{ implode(', ', $currentStatuses) ?: 'ALL' }}
+                </span>
+                <ul class="dropdown-menu p-3">
+                    @foreach ($statuses as $status => $class)
+                        <li class="mb-2">
+                            <label>
+                                <input type="radio" name="status" value="{{ $status }}"
+                                    onchange="triggerSubmit();"
+                                    {{ in_array($status, $currentStatuses) ? 'checked' : '' }}>
+                                <span class="badge rounded-pill {{ $class }}">{{ $status }}</span>
+                            </label>
+                        </li>
+                    @endforeach
+                    <li class="mt-2">
+                        <label>
+                            <input type="radio" name="status" value="ALL" onchange="triggerSubmit();"
+                                {{ empty($currentStatuses) || in_array('ALL', $currentStatuses) ? 'checked' : '' }}>
+                            <span class="badge rounded-pill bg-secondary">ALL</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        {{-- Input Tanggal --}}
+        <div class="col-sm-4 col-lg-3 col-md-4 mb-4">
+            <div class="card p-3">
+                <div class="input-group">
+                    <span class="input-group-text" style="cursor: pointer;" onclick="triggerSubmit();">
+                        <i class="bx bx-calendar"></i>
                     </span>
-                    <input type="search" placeholder="Cari tanggal" id="date" name="date" value="{{ request()->input('date') }}" class="form-control"
-                    autocomplete="off">
+                    <input type="search" class="form-control" placeholder="Cari tanggal" name="date" id="date"
+                        value="{{ request('date') }}" autocomplete="off" onchange="triggerSubmit();">
                 </div>
             </div>
         </div>
+
+        {{-- Select Jumlah Per Halaman --}}
         <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
             <div class="card p-3">
-                <select id="sort-value" id="defaultSelect" class="form-select" name="per_page">
-                    <option value="5" @if (request('per_page') == 5 || request('per_page') == null) selected @endif>5</option>
-                    <option value="10" @if (request('per_page') == 10) selected @endif>10</option>
-                    <option value="25" @if (request('per_page') == 25) selected @endif>25</option>
-                    <option value="50" @if (request('per_page') == 50) selected @endif>50</option>
-                    <option value="100" @if (request('per_page') == 100) selected @endif>100
+                <select id="sort-value" class="form-select" name="per_page" onchange="triggerSubmit();">
+                    @foreach ([5, 10, 25, 50, 100] as $perPage)
+                        <option value="{{ $perPage }}" @if (request('per_page', 5) == $perPage) selected @endif>
+                            {{ $perPage }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
         </div>
     </div>
+
+    {{-- Hidden Input untuk Pagination --}}
     <input type="hidden" name="page" value="{{ request('page', 1) }}">
     <button type="submit" id="submit-search" hidden></button>
 </form>
 
+{{-- JavaScript --}}
 @push('js-konten')
     <script>
-        $('#sort-value').on('change', function() {
-            $(this).closest('form').submit();
-        });
+        // Fungsi untuk submit form secara umum
+        function triggerSubmit() {
+            document.getElementById('submit-search').click();
+        }
 
-        $('#date').on('change', function() {
-            $(this).closest('form').submit();
-        });
+        // Event Listener
+        document.getElementById('sort-value').addEventListener('change', triggerSubmit);
+        document.getElementById('date').addEventListener('change', triggerSubmit);
 
+        // Datepicker
         $('#date').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true,

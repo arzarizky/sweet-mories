@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 interface BookingRepositoryInterface
 {
-    public function getAll($search, $page, $date);
+    public function getAll($search, $page, $date, $status);
     public function getById($dataId);
     public function getClient($search, $page);
     public function create($detailsData);

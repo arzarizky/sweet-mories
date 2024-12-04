@@ -26,25 +26,27 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->input('search',);
+        $search = $request->input('search', null);
         $date = $request->input('date', null);
-        $perPage = $request->input('per_page', 5);
-        $page = $request->input('page', 1);
+        $perPage = (int) $request->input('per_page', 5);
+        $page = (int) $request->input('page', 1);
+        $status = $request->input('status', null);
 
-        $datas = $this->bookingRepository->getAll($search, $perPage, $date);
+        $datas = $this->bookingRepository->getAll($search, $perPage, $date, $status);
 
         if ($datas->isEmpty() && $page > 1) {
             return redirect()->route('booking-manager', [
                 'search' => $search,
                 'per_page' => $perPage,
                 'page' => 1,
-                'date' => $date
+                'date' => $date,
+                'status' => $status
             ]);
         }
 
-        // Pass parameters to the view
-        return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page', 'date'));
+        return view('pages.booking-manager.index', compact('datas', 'search', 'perPage', 'page', 'date', 'status'));
     }
+
 
     public function bookPreview(Request $request, $email, $package)
     {

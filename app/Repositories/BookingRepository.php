@@ -277,53 +277,37 @@ class BookingRepository implements BookingRepositoryInterface
         ];
     }
 
-    public function getAll($search, $page, $date)
+    public function getAll($search = null, $page = 15, $date = null, $status = null)
     {
-        $model = Booking::with([
+        $query = Booking::with([
             'users',
             'invoice',
             'promo',
-
-            // Filter 'productBookings' where 'product_id' is not null
-            'productBookings' => function ($query) {
-                $query->whereNotNull('product_id');
-            },
-            'productBookings.products',
-
-            // Filter 'productAdditionalBookings' where 'additional_product_id' is not null
-            'productAdditionalBookings' => function ($query) {
-                $query->whereNotNull('additional_product_id');
-            },
-            'productAdditionalBookings.productsAdditional', // Eager load productsAdditional
-
-            // Filter 'productBackgroundBookings' where 'background_product_id' is not null
-            'productBackgroundBookings' => function ($query) {
-                $query->whereNotNull('background_product_id');
-            },
-            'productBackgroundBookings.productsBackground'
+            'productBookings' => fn($q) => $q->whereNotNull('product_id')->with('products'),
+            'productAdditionalBookings' => fn($q) => $q->whereNotNull('additional_product_id')->with('productsAdditional'),
+            'productBackgroundBookings' => fn($q) => $q->whereNotNull('background_product_id')->with('productsBackground'),
         ]);
 
-        $query = $model;
-
-        // Filter by email and book id (if provided)
         if ($search) {
-            $query = $query->whereHas('users', function ($query) use ($search) {
-                $query->where('email', 'like', '%' . $search . '%');
-            })->orWhere('book_id', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('users', fn($q) => $q->where('email', 'like', '%' . $search . '%'))
+                ->orWhere('book_id', 'like', '%' . $search . '%');
+            });
         }
 
-        // Filter by booking_date (if provided)
         if ($date) {
-            $query = $query->where('booking_date', $date);
+            $query->where('booking_date', $date);
         }
 
-        // Order the results by updated_at in descending order
-        $query = $query->orderBy('booking_time', 'asc');
+        if ($status && $status !== 'ALL') {
+            $query->where('status', $status);
+        }
 
-        // dd($query->paginate($page));
-        // Paginate the results
+        $query->orderBy('booking_time', 'asc');
+
         return $query->paginate($page);
     }
+
 
     public function getClient($search, $page)
     {

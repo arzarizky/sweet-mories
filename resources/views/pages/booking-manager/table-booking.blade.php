@@ -195,14 +195,23 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center" style="border: none;">
-                            @if (request()->input('date') != null)
-                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }}
-                                    PADA TANGGAL {{ request()->input('date') }} TIDAK ADA</h5>
-                            @else
-                                <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ request()->input('search') }}
-                                    TIDAK ADA</h5>
-                            @endif
+                        <td colspan="6" class="text-center" style="border: none;">
+                            @php
+                                $search = request()->input('search', 'DATA');
+                                $date = request()->input('date');
+                                $statuses = (array) request()->input('status', []);
+                                $statusMessage = !empty($statuses) ? 'DENGAN STATUS ' . implode(', ', $statuses) : '';
+
+                                if ($date) {
+                                    $message = "$search PADA TANGGAL $date $statusMessage TIDAK ADA";
+                                } elseif (!empty($statuses)) {
+                                    $message = "$search $statusMessage TIDAK ADA";
+                                } else {
+                                    $message = "$search TIDAK ADA";
+                                }
+                            @endphp
+
+                            <h5 class="mt-5 mb-5 text-center text-danger">DATA {{ $message }}</h5>
                         </td>
                     </tr>
                 @endforelse
@@ -217,7 +226,6 @@
     </div>
 
     <div>
-        {{ $datas->appends(['search' => $search, 'per_page' => $perPage, 'date' => $date])->links('layouts.pagination') }}
-
+        {{ $datas->appends(['search' => $search, 'per_page' => $perPage, 'date' => $date, 'status' => $status])->links('layouts.pagination') }}
     </div>
 </div>
