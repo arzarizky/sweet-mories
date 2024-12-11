@@ -1,3 +1,4 @@
+
 <div class="container mb-3">
     <div class="row">
         @forelse ($displayProducts as $data)
@@ -34,8 +35,13 @@
                                 </h4>
                             @endif
                         @else
-                            <h5 class="hover-1-title text-uppercase font-weight-bold mb-0 text-white">(Bebas syarat &
-                                ketentuan)
+                            <h5 class="hover-1-title text-uppercase font-weight-bold mb-0 text-white">
+                                @if ($data->products->promo === 'true')
+                                    {{$data->products->sub_title_promo}}
+                                @else
+                                    {{$data->products->sub_title}}
+                                @endif
+
                                 <h4 class="hover-1-description font-weight-light mb-2 mt-2 text-warning">
                                     {{ $data->products->price_text }}
                                 </h4>
