@@ -132,7 +132,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
     }
 
     // Use $this->createPayment($invId) for create payment
-    private function createPayment($invId)
+    private function createPayment($invId, $item_details)
     {
         $invoice = Invoice::where('invoice_id', $invId)->first();
 
@@ -140,8 +140,9 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $payload = [
             "transaction_details" => [
                 "order_id" => $invId,
-                "gross_amount" => $invoice->amount,
+                "gross_amount" => (int)$invoice->amount,
             ],
+            "item_details"=>$item_details,
             "credit_card" => [
                 "secure" => true,
             ],
@@ -208,8 +209,20 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function create($dataDetails)
     {
+
         $userId = Auth::id();
         $bookId = $dataDetails['book_id'];
+
+        $data_details =[];
+        array_push($data_details,$dataDetails['main_product']);
+        array_push($data_details,$dataDetails['product_background']);
+        foreach ($dataDetails['additional_product']['item_list'] as $key => $value) {
+            array_push($data_details,$value);
+        }
+
+        if ($dataDetails['promo']['price'] != 0) {
+            array_push($data_details,$dataDetails['promo']);
+        }
 
         // Validasi booking
         $validatorBook = $this->validatorBook($userId, $bookId);
@@ -232,11 +245,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
                 'user_id' => $userId,
                 'book_id' => $bookId,
                 'amount' => $validatorBook['price_book'],
-                'payment_due_at' => now()->addMinutes(6),
+                'payment_due_at' => now()->addMinutes(5),
             ]);
 
             // Cek apakah bisa membuat pembayaran
             $invCheck = $this->canCreatePayment($invId);
+
             if ($invCheck['success'] === false) {
                 return [
                     'error_type' => 'apps',
@@ -249,7 +263,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             Booking::where('book_id', $bookId)->update(['expired_at' => now()->addMinutes(5)]);
 
             // Proses pembayaran
-            $paymentResponse = $this->createPayment($invId);
+            $paymentResponse = $this->createPayment($invId,$data_details);
             if ($paymentResponse['success'] === false) {
                 return [
                     'error_type' => 'payment_gateway',

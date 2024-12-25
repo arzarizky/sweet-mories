@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\BookingRepositoryInterface;
+use App\Interfaces\InvoiceRepositoryInterface;
 use App\Models\Booking;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -28,10 +29,12 @@ class BookingRepository implements BookingRepositoryInterface
     ];
 
     protected $promoRepository;
+    protected $invoiceRepository;
 
-    public function __construct(PromoRepository $promoRepository)
+    public function __construct(InvoiceRepositoryInterface $invoiceRepository, PromoRepository $promoRepository)
     {
         $this->promoRepository = $promoRepository;
+        $this->invoiceRepository = $invoiceRepository;
     }
 
     private static function generateBookId()
@@ -53,11 +56,89 @@ class BookingRepository implements BookingRepositoryInterface
             ->doesntExist();
     }
 
+    public function SendDataToPG($dataDetails, $totalPrice, $bookId, $discount, $promoCode)
+    {
+        $mainProduct = Product::where('id', $dataDetails['id_product'])->first();
+
+        if ($mainProduct->promo == true) {
+            $price = $mainProduct->price_promo;
+            $productName = $mainProduct->name . " " . $mainProduct->type . " Promo";
+        } else {
+            $price = $mainProduct->price;
+            $productName = $mainProduct->name . " " . $mainProduct->type;
+        }
+
+        $mainProductData = [
+            "type_product" => "Main Product",
+            "name" => $productName,
+            "price" => (int) $price,
+            "quantity" => 1
+        ];
+
+        $additionalProductNames = array_column($dataDetails["additional_products"], 'product_name');
+
+        $additionalProducts = ProductAdditional::whereIn('name', $additionalProductNames)->get()->keyBy('name');
+
+        $additionalProductData = [
+            "type_product" => "Additional Product",
+            "item_list" => array_filter(array_map(function($product) use ($additionalProducts) {
+                $product['name'] = $product['product_name'];
+                unset($product['product_name']);
+
+                if (isset($additionalProducts[$product['name']])) {
+                    $product['price'] = (int) $additionalProducts[$product['name']]->price;
+                } else {
+                    $product['price'] = 0;
+                }
+
+                $product['quantity'] = (int) $product['quantity'];
+
+                if ($product['quantity'] > 0) {
+                    return $product;
+                }
+
+                return null;
+            }, $dataDetails["additional_products"])),
+        ];
+
+
+
+        if (!empty($dataDetails['background'])) {
+            $background = "Background ". $dataDetails['background'];
+        } else {
+            $background = "Background Projector";
+        }
+
+        $ProductBackgroundData = [
+            "type_product" => "Product Background",
+            "name" => $background,
+            "price" => 0,
+            "quantity" => 1
+        ];
+
+        $promo = [
+            "name" => "Discount dengan kode promo " . $promoCode,
+            "price" => (int) $discount * -1,
+            "quantity" => 1
+        ];
+
+        return [
+            "book_id" => $bookId,
+            "main_product" => $mainProductData,
+            "additional_product" => $additionalProductData,
+            "product_background" => $ProductBackgroundData,
+            "promo" => $promo
+        ];
+
+    }
+
+
     public function create($dataDetails)
     {
         DB::beginTransaction();
 
         try {
+
             // Check if the booking slot is available
             if (!$this->canBook($dataDetails['booking_date'], $dataDetails['booking_time'])) {
                 return [
@@ -103,10 +184,11 @@ class BookingRepository implements BookingRepositoryInterface
                 'total_price' => 0, // Updated later
                 'booking_date' => $dataDetails['booking_date'],
                 'booking_time' => $dataDetails['booking_time'],
-                'expired_at' => now()->addMinutes(6)
             ]);
 
             $totalPrice = 0;
+            $discount = null;
+            $promoCode = null;
 
             // Process main product
             if (!empty($dataDetails['main_product'])) {
@@ -118,18 +200,22 @@ class BookingRepository implements BookingRepositoryInterface
 
                     if($mainProduct->promo === "false") {
                         if ($dataDetails['kode_promo'] != null) {
-                            if ($kodePromo['model'] === "NUMBER") {
-                                $kodePromoPrice = $price - $kodePromo['discount'];
+                            $usagePromo =  Promo::where('id', $dataDetails['kode_promo'])->first();
+                            $promoCode = $usagePromo->code;
+                            if ($usagePromo->model === "NUMBER") {
+                                $kodePromoPrice = $price - $usagePromo->discount_value;
+                                $discount = (int) $usagePromo->discount_value;
                                 $totalPrice += $kodePromoPrice * $quantity;
-                                $usagePromo =  Promo::where('id', $dataDetails['kode_promo'])->first();
                                 $updateUsagePromo = $usagePromo->used_count + 1;
-                                Promo::where('id', $dataDetails['kode_promo'])->update(['used_count' => $updateUsagePromo]);
+                                $usagePromo->used_count=$updateUsagePromo;
+                                $usagePromo->save();
                             } else {
-                                $kodePromoPrice = $price * $kodePromo['discount'] / 100;
+                                $kodePromoPrice = $price * $usagePromo->discount_percentage / 100;
+                                $discount = (int) $kodePromoPrice;
                                 $totalPrice += $price - $kodePromoPrice * $quantity;
-                                $usagePromo =  Promo::where('id', $dataDetails['kode_promo'])->first();
                                 $updateUsagePromo = $usagePromo->used_count + 1;
-                                Promo::where('id', $dataDetails['kode_promo'])->update(['used_count' => $updateUsagePromo]);
+                                $usagePromo->used_count=$updateUsagePromo;
+                                $usagePromo->save();
                             }
                         } else {
                             $totalPrice += $price * $quantity;
@@ -204,12 +290,24 @@ class BookingRepository implements BookingRepositoryInterface
             // Update total price for the booking
             $booking->update(['total_price' => $totalPrice]);
 
+            $dataToPG = $this->SendDataToPG($dataDetails, $totalPrice, $bookId, $discount, $promoCode,);
+
             DB::commit();
 
-            return [
-                "sukses" => true,
-                "pesan" => "Booking " . $user->email . " pada tanggal " . $dataDetails['booking_date'] . " pukul " . $dataDetails['booking_time'] . " berhasil di booking"
-            ];
+            $paymentCreate = $this->invoiceRepository->create($dataToPG);
+
+            if ($paymentCreate['success'] === true) {
+                return [
+                    "sukses" => true,
+                    "pesan" => $paymentCreate['payment_link']
+                ];
+
+            } else {
+                return [
+                    "sukses" => false,
+                    "pesan" => $paymentCreate['success']
+                ];
+            }
 
         } catch (\Exception $e) {
             DB::rollBack();
