@@ -60,10 +60,10 @@ class BookingRepository implements BookingRepositoryInterface
     {
         $mainProduct = Product::where('id', $dataDetails['id_product'])->first();
 
-        if ($mainProduct->promo == true) {
+        if ($mainProduct->promo == "true") {
             $price = $mainProduct->price_promo;
             $productName = $mainProduct->name . " " . $mainProduct->type . " Promo";
-        } else {
+        } else if ($mainProduct->promo == "false"){
             $price = $mainProduct->price;
             $productName = $mainProduct->name . " " . $mainProduct->type;
         }
@@ -290,11 +290,12 @@ class BookingRepository implements BookingRepositoryInterface
             // Update total price for the booking
             $booking->update(['total_price' => $totalPrice]);
 
-            $dataToPG = $this->SendDataToPG($dataDetails, $totalPrice, $bookId, $discount, $promoCode,);
-
             DB::commit();
 
+            $dataToPG = $this->SendDataToPG($dataDetails, $totalPrice, $bookId, $discount, $promoCode);
+
             $paymentCreate = $this->invoiceRepository->create($dataToPG);
+            // dd($paymentCreate);
 
             if ($paymentCreate['success'] === true) {
                 return [
@@ -305,7 +306,7 @@ class BookingRepository implements BookingRepositoryInterface
             } else {
                 return [
                     "sukses" => false,
-                    "pesan" => $paymentCreate['success']
+                    "pesan" => $paymentCreate['message']
                 ];
             }
 
