@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Models\Invoice;
+use App\Models\Booking;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
 use Illuminate\Http\Request;
@@ -23,13 +24,25 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 // prefix landing page
 Route::prefix('/')->group(function () {
     Route::get("/paymentredirect", function (Request $request) {
-        $Invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
+        $invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
+        // dd($invoice);
+        $booking = Booking::where('book_id', $invoice->book_id)->first();
 
-        return redirect()->route('client-invoice', ['email' => $Invoice->users->email])->with('success', "Invoice " . $request->order_id . " berhasil melakukan pembayaran!");
+        if($invoice->status == "PENDING"){
+            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('warning', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " belum melakukan pembayaran");
+        }
+        if($invoice->status == "PAID"){
+            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('success', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " berhasil melakukan pembayaran");
+        }
+        if($invoice->status == "EXP"){
+            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('danger', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " pembayaran kadaluarsa");
+        }
+        if($invoice->status == "CANCELLED"){
+            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('warning', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " pembayaran dibatalkan");
+        }
     });
 
     Route::get("/", function () {

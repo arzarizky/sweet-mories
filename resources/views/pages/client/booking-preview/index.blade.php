@@ -8,7 +8,7 @@
         $currentTime = $now->hour * 60 + $now->minute; // Calculate current time in minutes
     @endphp
 
-    <form action="{{ route('book.store') }}" method="POST">
+    <form action="{{ route('book.store') }}" method="POST" id="bookingForm">
         @csrf
         <div class="card p-4 shadow">
             <h2 class="text-center mb-4">
@@ -175,7 +175,7 @@
                                 <input type="hidden" id="booking_time" name="booking_time">
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Book Now</button>
+                            <button type="submit" class="btn btn-primary w-100" id="submitButton">Book Now</button>
                         </div>
                     </div>
                 </div>
@@ -186,6 +186,12 @@
     @push('js-konten')
         <script>
             $(document).ready(function() {
+
+                $("#bookingForm").submit(function() {
+                    $("#submitButton").prop("disabled", true);
+                    $("#submitButton").text("Loading...");
+                });
+
                 let basePrice = parseFloat('{{ $basePrice }}'); // Use base price with promo consideration
                 let totalPrice = basePrice;
                 let discount = 0; // Initialize discount variable

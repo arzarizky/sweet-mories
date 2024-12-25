@@ -165,6 +165,18 @@
             });
         </script>
     @endif
+
+    @if (Session::has('danger'))
+        <script>
+            iziToast.error({
+                title: 'Error',
+                message: '{{ Session::get('danger') }}',
+                position: 'topRight',
+            });
+        </script>
+    @endif
+
+
     {{-- / Toast Response Session --}}
 
     {{-- Page JS --}}

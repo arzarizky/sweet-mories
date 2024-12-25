@@ -4,8 +4,8 @@
 
 @section('konten')
     @php
-        $now = \Carbon\Carbon::now(); // Mengambil waktu saat ini menggunakan Carbon
-        $currentTime = $now->hour * 60 + $now->minute; // Menghitung waktu sekarang dalam menit
+        $now = \Carbon\Carbon::now(); // Get the current time using Carbon
+        $currentTime = $now->hour * 60 + $now->minute; // Calculate current time in minutes
     @endphp
 
     <form action="{{ route('booking-manager-update-reschedule', $datas->id) }}" method="POST">
@@ -19,14 +19,14 @@
                 <div class="col-lg-8 col-sm-12">
                     <div class="form-group mb-3">
                         <label for="booking_date">Name</label>
-                        <input type="text" value="{{ $datas->users->name }}" class="form-control"
-                            autocomplete="off" required readonly>
+                        <input type="text" value="{{ $datas->users->name }}" class="form-control" autocomplete="off"
+                            required readonly>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="booking_date">Email</label>
-                        <input type="text" value="{{ $datas->users->email }}" class="form-control"
-                            autocomplete="off" required readonly>
+                        <input type="text" value="{{ $datas->users->email }}" class="form-control" autocomplete="off"
+                            required readonly>
                     </div>
 
                     <div class="form-group mb-3">
@@ -42,29 +42,29 @@
 
                     <div class="form-group mb-3">
                         <label for="booking_date">Booking Date</label>
-                        <input type="text" value="{{ $datas->booking_date }}" class="form-control"
-                            autocomplete="off" required readonly>
+                        <input type="text" value="{{ $datas->booking_date }}" class="form-control" autocomplete="off"
+                            required readonly>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="booking_date">Booking Time</label>
-                        <input type="text" value="{{ $datas->booking_time }}" class="form-control"
-                            autocomplete="off" required readonly>
+                        <input type="text" value="{{ $datas->booking_time }}" class="form-control" autocomplete="off"
+                            required readonly>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-sm-12">
-                    <div id="#booking-preview" class="row">
+                    <div id="booking-preview" class="row">
                         <div class="col-md-12">
-
                             <div class="form-group mb-3">
                                 <label for="booking_date">Select Date:</label>
                                 <input type="text" id="booking_date" name="booking_date" class="form-control"
                                     autocomplete="off" required>
                             </div>
+
                             <div class="form-group mb-3">
                                 <label for="booking_time">Select Time:</label>
-                                <div id="time-slots" class="d-flex flex-wrap">
+                                <div id="time-slots" class="d-flex flex-wrap mb-2">
                                     <!-- Time slots will be loaded here -->
                                 </div>
                                 <input type="hidden" id="booking_time" name="booking_time">
@@ -80,8 +80,7 @@
     @push('js-konten')
         <script>
             $(document).ready(function() {
-
-                // Konfigurasi Datepicker
+                // Datepicker configuration
                 $('#booking_date').datepicker({
                     format: 'yyyy-mm-dd',
                     startDate: '0d',
@@ -90,53 +89,6 @@
                 }).on('changeDate', function(e) {
                     checkDate(e.format());
                 });
-
-                // Fungsi untuk memuat slot waktu
-                function loadTimeSlots(selectedDate) {
-                    $('#time-slots').empty();
-
-                    $.ajax({
-                        url: '{{ route('book.checkTime') }}',
-                        type: 'GET',
-                        data: {
-                            date: selectedDate
-                        },
-                        success: function(response) {
-                            const bookedTimes = response.bookedTimes;
-                            const start = 9 * 60; // 09:00
-                            const end = 21 * 60; // 21:00
-
-                            // Menghitung waktu saat ini pada tanggal yang dipilih
-                            const selectedDateTime = new Date(selectedDate);
-                            const now = new Date();
-                            const currentTime = (selectedDateTime.toDateString() === now.toDateString()) ?
-                                (now.getHours() * 60 + now.getMinutes()) :
-                                0; // jika tanggal yang dipilih adalah hari ini, gunakan waktu sekarang
-
-                            for (let time = start; time < end; time += 20) {
-                                const hours = String(Math.floor(time / 60)).padStart(2, '0');
-                                const minutes = String(time % 60).padStart(2, '0');
-                                const timeString = `${hours}:${minutes}`;
-
-                                const timeCard = $('<div class="card m-1 p-2">').text(timeString).css(
-                                    'cursor', 'pointer');
-
-                                if (bookedTimes.includes(timeString) || (selectedDateTime.toDateString() ===
-                                        now.toDateString() && time < currentTime)) {
-                                    timeCard.addClass('bg-danger text-white').css('cursor', 'not-allowed');
-                                } else {
-                                    timeCard.click(function() {
-                                        $('#booking_time').val(timeString);
-                                        $('#time-slots .card').removeClass('bg-success text-white');
-                                        $(this).addClass('bg-success text-white');
-                                    });
-                                }
-
-                                $('#time-slots').append(timeCard);
-                            }
-                        }
-                    });
-                }
 
                 function checkDate(date) {
                     $.ajax({
@@ -156,13 +108,68 @@
                                 $('#time-slots').html(
                                     '<div class="card bg-warning text-white p-3">All time slots for this date are booked. Please select another date.</div>'
                                 );
-
                             } else {
                                 loadTimeSlots(date);
                             }
                         }
                     });
                 }
+
+                function loadTimeSlots(selectedDate) {
+                    $('#time-slots').empty();
+
+                    $.ajax({
+                        url: '{{ route('book.checkTime') }}',
+                        type: 'GET',
+                        data: {
+                            date: selectedDate
+                        },
+                        success: function(response) {
+                            const bookedTimes = response.bookedTimes;
+                            const start = 9 * 60; // 09:00
+
+                            const end = 21 * 60; // 21:00
+
+                            const selectedDateTime = new Date(selectedDate);
+                            const currentDateTime = new Date();
+
+                            for (let time = start; time <= end; time += 20) {
+                                const hour = Math.floor(time / 60);
+                                const minute = time % 60;
+                                const timeString = hour.toString().padStart(2, '0') + ':' + minute
+                                    .toString().padStart(2, '0');
+
+                                const isBooked = bookedTimes.includes(timeString);
+                                const isCurrent = selectedDateTime.setHours(hour, minute, 0, 0) <=
+                                    currentDateTime;
+
+                                // Add different styles for available and booked time slots
+                                if (isBooked || isCurrent) {
+                                    $('#time-slots').append(`
+                        <button type="button" class="btn btn-outline-danger m-1 time-slot" disabled>
+                            ${timeString}
+                        </button>
+                    `);
+                                } else {
+                                    $('#time-slots').append(`
+                        <button type="button" class="btn btn-outline-success m-1 time-slot" data-time="${timeString}">
+                            ${timeString}
+                        </button>
+                    `);
+                                }
+                            }
+
+                            // Click handler for available time slots
+                            $('.time-slot').click(function() {
+                                $('#booking_time').val($(this).data('time'));
+                                $('.time-slot').removeClass('btn-success').addClass(
+                                    'btn-outline-success');
+                                $(this).removeClass('btn-outline-success').addClass('btn-success');
+                            });
+                        }
+                    });
+                }
+
             });
         </script>
     @endpush
