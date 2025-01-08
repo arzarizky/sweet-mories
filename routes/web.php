@@ -35,7 +35,7 @@ Route::prefix('/')->group(function () {
             return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('warning', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " belum melakukan pembayaran");
         }
         if($invoice->status == "PAID"){
-            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('success', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " berhasil melakukan pembayaran");
+            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('sukses-pembayaran', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " berhasil melakukan pembayaran");
         }
         if($invoice->status == "EXP"){
             return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('danger', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " pembayaran kadaluarsa");
