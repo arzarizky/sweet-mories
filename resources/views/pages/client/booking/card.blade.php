@@ -122,7 +122,49 @@
     </div>
 </div>
 
+<div class="modal fade" id="sukses-pembayaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <h1 class="text-center text-success pb-2">
+                        BOOKING BERHASIL
+                    </h1>
+                    <p>
+                        {{ Session::get('sukses-pembayaran') }}
+                    </p>
+                    <p>
+                        Silahkan
+                        <span style="font-size: 16px">
+                            <b>
+                                <strong>
+                                    CEK EMAIL KAMU
+                                </strong>
+                            </b>
+                        </span>
+                        untuk lebih detailnya
+                        <br>
+                        Jika tidak menerima email silahkan hubungi kami
+                    </p>
+                    <p>
+                        Terima kasih
+                    </p>
+                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('js-konten')
+    @if (Session::has('sukses-pembayaran'))
+        <script>
+            const myModal = new bootstrap.Modal(document.getElementById('sukses-pembayaran'));
+            myModal.show();
+        </script>
+    @endif
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const countdownElements = document.querySelectorAll('.countdown-timer');
