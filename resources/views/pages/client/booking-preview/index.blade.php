@@ -361,46 +361,61 @@
                             date: selectedDate
                         },
                         success: function(response) {
-                            const bookedTimes = response.bookedTimes;
-                            const start = 9 * 60; // 09:00
-                            const end = 21 * 60; // 21:00
+                            if (response.closed) {
+                                iziToast.info({
+                                    title: 'Info',
+                                    message: 'Booking untuk tanggal ini sedang ditutup',
+                                    position: 'topCenter',
+                                });
 
-                            const selectedDateTime = new Date(selectedDate);
-                            const currentDateTime = new Date();
+                                $('#time-slots').html(
+                                    '<div class="card bg-warning text-white p-3">Booking untuk tanggal ini sedang ditutup</div>'
+                                );
 
-                            for (let time = start; time <= end; time += 20) {
-                                const hour = Math.floor(time / 60);
-                                const minute = time % 60;
-                                const timeString = hour.toString().padStart(2, '0') + ':' + minute
-                                    .toString().padStart(2, '0');
+                            } else {
 
-                                const isBooked = bookedTimes.includes(timeString);
-                                const isCurrent = selectedDateTime.setHours(hour, minute, 0, 0) <=
-                                    currentDateTime;
+                                const bookedTimes = response.bookedTimes;
+                                const start = 9 * 60; // 09:00
+                                const end = 21 * 60; // 21:00
 
-                                // Add different styles for available and booked time slots
-                                if (isBooked || isCurrent) {
-                                    $('#time-slots').append(`
-                        <button type="button" class="btn btn-outline-danger m-1 time-slot" disabled>
-                            ${timeString}
-                        </button>
-                    `);
-                                } else {
-                                    $('#time-slots').append(`
-                        <button type="button" class="btn btn-outline-success m-1 time-slot" data-time="${timeString}">
-                            ${timeString}
-                        </button>
-                    `);
+                                const selectedDateTime = new Date(selectedDate);
+                                const currentDateTime = new Date();
+
+                                for (let time = start; time <= end; time += 20) {
+                                    const hour = Math.floor(time / 60);
+                                    const minute = time % 60;
+                                    const timeString = hour.toString().padStart(2, '0') + ':' + minute
+                                        .toString().padStart(2, '0');
+
+                                    const isBooked = bookedTimes.includes(timeString);
+                                    const isCurrent = selectedDateTime.setHours(hour, minute, 0, 0) <=
+                                        currentDateTime;
+
+                                    // Add different styles for available and booked time slots
+                                    if (isBooked || isCurrent) {
+                                        $('#time-slots').append(`
+                                            <button type="button" class="btn btn-outline-danger m-1 time-slot" disabled>
+                                                ${timeString}
+                                            </button>
+                                        `);
+                                    } else {
+                                        $('#time-slots').append(`
+                                            <button type="button" class="btn btn-outline-success m-1 time-slot" data-time="${timeString}">
+                                                ${timeString}
+                                            </button>
+                                        `);
+                                    }
                                 }
-                            }
 
-                            // Click handler for available time slots
-                            $('.time-slot').click(function() {
-                                $('#booking_time').val($(this).data('time'));
-                                $('.time-slot').removeClass('btn-success').addClass(
-                                    'btn-outline-success');
-                                $(this).removeClass('btn-outline-success').addClass('btn-success');
-                            });
+                                // Click handler for available time slots
+                                $('.time-slot').click(function() {
+                                    $('#booking_time').val($(this).data('time'));
+                                    $('.time-slot').removeClass('btn-success').addClass(
+                                        'btn-outline-success');
+                                    $(this).removeClass('btn-outline-success').addClass('btn-success');
+                                });
+
+                            }
                         }
                     });
                 }

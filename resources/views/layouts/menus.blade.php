@@ -55,3 +55,12 @@
     </a>
 </li>
 {{-- / User Manager --}}
+
+{{-- User Manager --}}
+<li class="menu-item {{ request()->segment(1) == 'outlet' ? 'active' : '' }}">
+    <a href="{{ route('outlet') }}" class="menu-link">
+        <i class='menu-icon tf-icons bx bxs-user-account'></i>
+        <div data-i18n="User Manager">Outlet Setting</div>
+    </a>
+</li>
+{{-- / User Manager --}}
