@@ -8,5 +8,4 @@ interface OutletRepositoryInterface
     public function create($detailsData);
     public function updateOutletSettingStatus($id, $newDetails);
     public function updateOutletSetting($id, $newDetails);
-    public function checkOutletSetting($detailsData);
 }
