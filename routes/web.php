@@ -12,6 +12,7 @@ use App\Models\Booking;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\OutletController;
 
 
 /*
@@ -149,10 +150,22 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/update/{id}', [PromoController::class, 'updatePromo'])->name('promo-update');
 
         });
+
+        Route::prefix('outlet')->group(function () {
+            Route::get('/', [OutletController::class, 'index'])->name('outlet');
+            Route::post('/create', [OutletController::class, 'createSettingOutlet'])->name('create-setting-outlet');
+            Route::get('/update/{id}', [OutletController::class, 'editOutletSettingStatus'])->name('get-update-setting-outlet');
+            Route::post('/update/{id}', [OutletController::class, 'updateOutletSetting'])->name('update-setting-outlet');
+            Route::put('/update/status/{id}', [OutletController::class, 'updateOutletSettingStatus'])->name('setting-outlet-status');
+
+        });
     });
 
     // middleware client
     Route::middleware(['client'])->group(function () {
+
+        // Route::get('/outlet', [OutletController::class, 'checkStatus']);
+
 
         Route::get('payment-redirect', function () {
             return redirect()->route('client-booking');
