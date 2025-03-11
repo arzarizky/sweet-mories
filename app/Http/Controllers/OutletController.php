@@ -58,6 +58,12 @@ class OutletController extends Controller
         }
     }
 
+    public function editOutletSettingStatus(Request $request, $id)
+    {
+        $datas = $this->outletRepository->editOutletSettingStatus($id);
+        return view('pages.outlet-setting.edit', compact('datas'));
+    }
+
     public function updateOutletSettingStatus(Request $request, $id)
     {
         $newDetails = Arr::except($request->all(), ['_token', '_method']);

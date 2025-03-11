@@ -364,14 +364,15 @@
                             if (response.closed) {
                                 iziToast.info({
                                     title: 'Info',
-                                    message: 'Booking untuk tanggal ini sedang ditutup',
+                                    message: response.message, // Menggunakan pesan dari respons API
                                     position: 'topCenter',
                                 });
 
-                                $('#time-slots').html(
-                                    '<div class="card bg-warning text-white p-3">Booking untuk tanggal ini sedang ditutup</div>'
-                                );
-
+                                $('#time-slots').html(`
+                                    <div class="card bg-warning text-white p-3 text-center">
+                                        ${response.message}
+                                    </div>
+                                `);
                             } else {
 
                                 const bookedTimes = response.bookedTimes;
@@ -412,7 +413,8 @@
                                     $('#booking_time').val($(this).data('time'));
                                     $('.time-slot').removeClass('btn-success').addClass(
                                         'btn-outline-success');
-                                    $(this).removeClass('btn-outline-success').addClass('btn-success');
+                                    $(this).removeClass('btn-outline-success').addClass(
+                                        'btn-success');
                                 });
 
                             }

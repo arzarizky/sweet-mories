@@ -88,69 +88,52 @@ class BookingController extends Controller
             ->where('is_active', 'ENABLE')
             ->first(['start_day', 'start_time', 'end_day', 'end_time']);
 
-        if (!$outletSetting) {
-            $bookedTimes = Booking::where('booking_date', $date)
-                ->where(function ($query) {
-                    $query->where('status', ['PENDING', 'PAYMENT PROCESS', 'ON PROCESS', 'DONE']) // Ambil status EXP
-                        ->orWhere(function ($query) {
-                            // Cek apakah status EXP ada
-                            $query->whereNotIn('status', ['EXP']);
-                        });
-                })
-                ->pluck('booking_time')
-                ->map(function ($time) {
-                    return Carbon::parse($time)->format('H:i');
-                })
-                ->toArray();
-
-            return response()->json(['bookedTimes' => $bookedTimes]);
-        }
-
-        // Tentukan rentang waktu berdasarkan tanggal request
-        if ($date == $outletSetting->start_day) {
-            $startTime = Carbon::parse($outletSetting->start_time)->format('H:i');
-            $endTime = '23:59';
-        } elseif ($date == $outletSetting->end_day) {
-            $startTime = '00:00';
-            $endTime = Carbon::parse($outletSetting->end_time)->format('H:i');
-        } else {
-            $startTime = '00:00';
-            $endTime = '23:59';
-        }
-
-        // Jika outlet tutup penuh untuk tanggal tersebut
-        if ($startTime == '00:00' && $endTime == '23:59') {
-            return response()->json([
-                'closed' => true
-            ]);
-        }
-
-        // Ambil booking yang sesuai dengan rentang waktu tersebut
+        // Ambil semua waktu yang sudah dibooking
         $bookedTimes = Booking::where('booking_date', $date)
-            ->where(function ($query) {
-                $query->whereIn('status', ['PENDING', 'PAYMENT PROCESS', 'ON PROCESS', 'DONE'])
-                    ->orWhereNotIn('status', ['EXP']);
-            })
-            ->whereBetween('booking_time', [$startTime, $endTime])
+            ->whereIn('status', ['PENDING', 'PAYMENT PROCESS', 'ON PROCESS', 'DONE'])
             ->pluck('booking_time')
             ->map(fn($time) => Carbon::parse($time)->format('H:i'))
             ->toArray();
 
-        // Generate semua rentang waktu dalam interval 20 menit
-        $allTimes = [];
-        $currentTime = Carbon::parse($startTime);
-        $endCarbonTime = Carbon::parse($endTime);
-        while ($currentTime <= $endCarbonTime) {
-            $allTimes[] = $currentTime->format('H:i');
-            $currentTime->addMinutes(20);
+        if (!$outletSetting) {
+            return response()->json(['bookedTimes' => $bookedTimes]);
         }
+
+        $startDateTime = Carbon::parse("{$outletSetting->start_day} {$outletSetting->start_time}");
+        $endDateTime = Carbon::parse("{$outletSetting->end_day} {$outletSetting->end_time}");
+
+        // Jika waktu mulai dan selesai sama, anggap semua waktu penuh
+        if ($startDateTime->equalTo($endDateTime)) {
+            return response()->json([
+                'bookedTimes' => array_merge($bookedTimes, [$startDateTime->format('H:i')]),
+            ]);
+        }
+
+         // Tentukan rentang waktu berdasarkan tanggal request
+        $startTime = Carbon::parse(($date == $outletSetting->start_day) ? $outletSetting->start_time : '09:00');
+        $endTime = Carbon::parse(($date == $outletSetting->end_day) ? $outletSetting->end_time : '21:00');
+
+        // Rentang tutup outlet (09:00 - 21:00)
+        $closedStart = Carbon::parse("09:00");
+        $closedEnd = Carbon::parse("21:00");
+
+        // Jika rentang waktu mencakup waktu tutup, return closed
+        if ($startTime->lessThanOrEqualTo($closedStart) && $endTime->greaterThanOrEqualTo($closedEnd)) {
+            return response()->json([
+                'closed'  => true,
+                'message' => "Pada tanggal $date tutup hingga tanggal $outletSetting->end_day pukul $outletSetting->end_time"
+            ]);
+        }
+
+        // Generate semua rentang waktu dalam interval 20 menit
+        $allTimes = collect(range(0, Carbon::parse($startTime)->diffInMinutes(Carbon::parse($endTime)), 20))
+            ->map(fn($minutes) => Carbon::parse($startTime)->addMinutes($minutes)->format('H:i'))
+            ->toArray();
 
         return response()->json([
             'bookedTimes' => array_merge($bookedTimes, $allTimes),
-
         ]);
     }
-
 
     public function store(Request $request)
     {

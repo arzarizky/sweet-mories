@@ -154,7 +154,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('outlet')->group(function () {
             Route::get('/', [OutletController::class, 'index'])->name('outlet');
             Route::post('/create', [OutletController::class, 'createSettingOutlet'])->name('create-setting-outlet');
-            Route::put('/update/{id}', [OutletController::class, 'updateOutletSetting'])->name('update-setting-outlet');
+            Route::get('/update/{id}', [OutletController::class, 'editOutletSettingStatus'])->name('get-update-setting-outlet');
+            Route::post('/update/{id}', [OutletController::class, 'updateOutletSetting'])->name('update-setting-outlet');
             Route::put('/update/status/{id}', [OutletController::class, 'updateOutletSettingStatus'])->name('setting-outlet-status');
 
         });

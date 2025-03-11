@@ -20,11 +20,13 @@
                 @forelse ($datas as $data)
                     <tr>
                         <td>{{ $data->name ?? 'Data Tidak Ada' }}</td>
-                        <td data-bs-toggle="modal" data-bs-target="#updateCloseOutlet-{{ $data->id }}" style="cursor: pointer;">
-                            <ul class="list-unstyled mb-0">
-                                <li>Mulai Tutup Outlet: {{ $data->start_day }} Pukul {{ $data->start_time }}</li>
-                                <li>Selesai Tutup Outlet: {{ $data->end_day }} Pukul {{ $data->end_time }}</li>
-                            </ul>
+                        <td>
+                            <a href="{{ route('get-update-setting-outlet', $data->id) }}">
+                                <ul class="list-unstyled mb-0">
+                                    <li>Mulai Tutup Outlet: {{ $data->start_day }} Pukul {{ $data->start_time }}</li>
+                                    <li>Selesai Tutup Outlet: {{ $data->end_day }} Pukul {{ $data->end_time }}</li>
+                                </ul>
+                            </a>
                         </td>
                         <td>
                             @if (in_array($data->is_active, ['ENABLE', 'DISABLE']))

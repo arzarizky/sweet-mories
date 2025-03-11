@@ -13,5 +13,4 @@
     {{-- data table user --}}
 
     @include('pages.outlet-setting.add')
-    @include('pages.outlet-setting.edit')
 @endsection

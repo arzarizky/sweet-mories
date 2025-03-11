@@ -7,5 +7,6 @@ interface OutletRepositoryInterface
     public function getAll($search, $page);
     public function create($detailsData);
     public function updateOutletSettingStatus($id, $newDetails);
+    public function editOutletSettingStatus($id);
     public function updateOutletSetting($id, $newDetails);
 }
