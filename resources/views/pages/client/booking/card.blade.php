@@ -200,12 +200,12 @@
                                 {{ session('booking_id') }}</p>
                         </div>
 
-                        <p style="margin: 5px 0 20px; font-size: 16px; line-height: 1.6;" class="text-danger">Jangan lupa datang 15 menit lebih awalya!</p>
+                        <p style="margin: 5px 0 20px; font-size: 16px; line-height: 1.6;" class="text-danger">Jangan
+                            lupa datang 15 menit lebih awalya!</p>
 
                         <p>
-                            Waktu akan terpotong otomatis jika terjadi keterlambatan. Reschedule hanya dapat
-                            dilakukan maksimal
-                            3 jam sebelum sesi dimulai dengan cara konfirmasi ke Admin Mories.
+                            Maksimal toleransi keterlambatan 5 menit. Selebihnya agar sesi foto kamu tidak terpotong
+                            atau hangus silahkan Reschedule dengan cara konfirmasi ke admin Mories.
                         </p>
 
                         <p style="margin: 5px 0 20px; font-size: 16px; line-height: 1.6;">Abadikan momen, ciptakan
