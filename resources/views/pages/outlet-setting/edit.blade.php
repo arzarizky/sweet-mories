@@ -8,14 +8,17 @@
         $currentTime = $now->hour * 60 + $now->minute; // Calculate current time in minutes
     @endphp
 
+    <h2 class="text-center mt-2">
+        Update Jadwal Tutup {{ $datas->name }}
+    </h2>
+
     <form action="{{ route('update-setting-outlet', $datas->id) }}" method="POST">
         @csrf
-        <div class="card p-4">
+        <div class="card p-4 mt-3">
+            <h3>
+                Sebelum
+            </h3>
             <div class="row">
-                <h2>
-                    Update Jadwal Tutup {{ $datas->name }}
-                </h2>
-
                 <div class="form-group mb-3">
                     <label for="booking_date">Name</label>
                     <input type="text" value="{{ $datas->name }}" class="form-control" autocomplete="off" required>
@@ -48,11 +51,15 @@
                             required readonly>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div>
 
-                </div>
-
+        <div class="card p-4 mt-3">
+            <div class="row">
+                <h3>
+                    Akan Di Update
+                </h3>
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group mb-3">
                         <label for="start_day">Pilih Tanggal Mulai Tutup:</label>
@@ -89,7 +96,6 @@
     @push('js-konten')
         <script>
             $(document).ready(function() {
-
                 // Konfigurasi datepicker
                 $('#start_day, #end_day').datepicker({
                     format: 'yyyy-mm-dd',
@@ -98,102 +104,45 @@
                     todayHighlight: true,
                 }).on('changeDate', function(e) {
                     let type = $(this).attr('id') === 'start_day' ? 'start' : 'end';
-                    checkDate(e.format(), type);
+                    generateTimeSlots(e.format(), type);
                 });
 
-                function checkDate(date, type) {
-                    $.ajax({
-                        url: '{{ route('book.checkDate') }}',
-                        type: 'GET',
-                        data: {
-                            date: date
-                        },
-                        success: function(response) {
-                            let slotContainer = type === 'start' ? '#start-time-slots' : '#end-time-slots';
-
-                            if (response.allBooked) {
-                                iziToast.info({
-                                    title: 'Info',
-                                    message: 'Semua slot untuk tanggal ini sudah penuh. Silakan pilih tanggal lain.',
-                                    position: 'topCenter',
-                                });
-                                $(slotContainer).html(
-                                    '<div class="card bg-warning text-white p-3">Semua slot sudah penuh. Silakan pilih tanggal lain.</div>'
-                                );
-                            } else {
-                                loadTimeSlots(date, type);
-                            }
-                        }
-                    });
-                }
-
-                function loadTimeSlots(selectedDate, type) {
+                function generateTimeSlots(selectedDate, type) {
                     let slotContainer = type === 'start' ? '#start-time-slots' : '#end-time-slots';
                     let inputField = type === 'start' ? '#start_time' : '#end_time';
 
                     $(slotContainer).empty();
 
-                    $.ajax({
-                        url: '{{ route('book.checkTime') }}',
-                        type: 'GET',
-                        data: {
-                            date: selectedDate
-                        },
-                        success: function(response) {
-                            if (response.closed) {
-                                iziToast.info({
-                                    title: 'Info',
-                                    message: 'Booking untuk tanggal ini sedang ditutup.',
-                                    position: 'topCenter',
-                                });
+                    // Definisi jam kerja (09:00 - 21:00) dengan interval 20 menit
+                    const start = 9 * 60; // 09:00 dalam menit
+                    const end = 21 * 60; // 21:00 dalam menit
+                    const currentDateTime = new Date();
+                    const selectedDateTime = new Date(selectedDate);
 
-                                $(slotContainer).html(
-                                    '<div class="card bg-warning text-white p-3">Booking untuk tanggal ini sedang ditutup.</div>'
-                                );
-                            } else {
-                                const bookedTimes = response.bookedTimes;
-                                const start = 9 * 60; // 09:00
-                                const end = 21 * 60; // 21:00
+                    for (let time = start; time <= end; time += 20) {
+                        const hour = Math.floor(time / 60);
+                        const minute = time % 60;
+                        const timeString = hour.toString().padStart(2, '0') + ':' + minute.toString().padStart(2, '0');
 
-                                const selectedDateTime = new Date(selectedDate);
-                                const currentDateTime = new Date();
+                        const isPast = selectedDateTime.setHours(hour, minute, 0, 0) <= currentDateTime;
 
-                                for (let time = start; time <= end; time += 20) {
-                                    const hour = Math.floor(time / 60);
-                                    const minute = time % 60;
-                                    const timeString = hour.toString().padStart(2, '0') + ':' + minute
-                                        .toString().padStart(2, '0');
+                        let buttonClass = isPast ? 'btn-outline-danger' : 'btn-outline-success';
+                        let disabledAttr = isPast ? 'disabled' : '';
 
-                                    const isBooked = bookedTimes.includes(timeString);
-                                    const isCurrent = selectedDateTime.setHours(hour, minute, 0, 0) <=
-                                        currentDateTime;
+                        $(slotContainer).append(`
+                <button type="button" class="btn ${buttonClass} m-1 time-slot" data-time="${timeString}" ${disabledAttr}>
+                    ${timeString}
+                </button>
+            `);
+                    }
 
-                                    if (isBooked || isCurrent) {
-                                        $(slotContainer).append(`
-                                        <button type="button" class="btn btn-outline-danger m-1 time-slot" disabled>
-                                            ${timeString}
-                                        </button>
-                                    `);
-                                    } else {
-                                        $(slotContainer).append(`
-                                        <button type="button" class="btn btn-outline-success m-1 time-slot" data-time="${timeString}">
-                                            ${timeString}
-                                        </button>
-                                    `);
-                                    }
-                                }
-
-                                // Event handler untuk memilih waktu
-                                $(slotContainer).off('click', '.time-slot').on('click', '.time-slot',
-                                    function() {
-                                        $(inputField).val($(this).data('time'));
-                                        $(slotContainer + ' .time-slot').removeClass('btn-success')
-                                            .addClass('btn-outline-success');
-                                        $(this).removeClass('btn-outline-success').addClass(
-                                            'btn-success');
-                                    }
-                                );
-                            }
+                    // Event handler untuk memilih waktu
+                    $(slotContainer).off('click', '.time-slot').on('click', '.time-slot', function() {
+                        if (!$(this).is(':disabled')) {
+                            $(inputField).val($(this).data('time'));
+                            $(slotContainer + ' .time-slot').removeClass('btn-success').addClass(
+                                'btn-outline-success');
+                            $(this).removeClass('btn-outline-success').addClass('btn-success');
                         }
                     });
                 }

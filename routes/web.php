@@ -28,15 +28,31 @@ use App\Http\Controllers\OutletController;
 // prefix landing page
 Route::prefix('/')->group(function () {
     Route::get("/paymentredirect", function (Request $request) {
+
         $invoice = Invoice::with(['users'])->where('invoice_id', $request->order_id)->first();
-        // dd($invoice);
+
         $booking = Booking::where('book_id', $invoice->book_id)->first();
+
 
         if($invoice->status == "PENDING"){
             return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('warning', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " belum melakukan pembayaran");
         }
-        if($invoice->status == "PAID"){
-            return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('sukses-pembayaran', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " berhasil melakukan pembayaran");
+        if ($invoice->status == "PAID") {
+            $email = $invoice->users->email;
+            $date = $booking->booking_date;
+            $time = $booking->booking_time;
+            $name = $booking->alias_name_booking;
+
+            return redirect()->route('client-booking', ['email' => $email])
+                ->with([
+                    'sukses-pembayaran' => "Booking $email pada tanggal $date pukul $time berhasil melakukan pembayaran",
+                    'name' => $name,
+                    'email' => $email,
+                    'date' => $date,
+                    'time' => $time,
+                    'invoice_id' => $request->order_id,
+                    'booking_id' => $booking->id,
+                ]);
         }
         if($invoice->status == "EXP"){
             return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('danger', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " pembayaran kadaluarsa");
