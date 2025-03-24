@@ -33,7 +33,6 @@ Route::prefix('/')->group(function () {
 
         $booking = Booking::where('book_id', $invoice->book_id)->first();
 
-
         if($invoice->status == "PENDING"){
             return redirect()->route('client-booking', ['email' => $invoice->users->email])->with('warning', "Booking " . $invoice->users->email . " pada tanggal " . $booking->booking_date . " pukul " . $booking->booking_time . " belum melakukan pembayaran");
         }
@@ -51,7 +50,7 @@ Route::prefix('/')->group(function () {
                     'date' => $date,
                     'time' => $time,
                     'invoice_id' => $request->order_id,
-                    'booking_id' => $booking->id,
+                    'booking_id' => $booking->book_id,
                 ]);
         }
         if($invoice->status == "EXP"){
