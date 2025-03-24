@@ -97,7 +97,19 @@ class OutletRepository implements OutletRepositoryInterface
 
     public function updateOutletSetting($id, $newDetails)
     {
+
+        // Cari data berdasarkan ID
+        $outletSetting = OutletSetting::find($id);
+
         try {
+
+            if ($newDetails['start_time'] === null) {
+                $newDetails['start_time'] = $outletSetting->start_time;
+            }
+
+            if ($newDetails['end_time'] === null) {
+                $newDetails['end_time'] = $outletSetting->end_time;
+            }
 
             // Pastikan semua data yang dibutuhkan tersedia
             if (!isset($newDetails['start_day'], $newDetails['start_time'], $newDetails['end_day'], $newDetails['end_time'])) {
@@ -119,8 +131,6 @@ class OutletRepository implements OutletRepositoryInterface
                 ];
             }
 
-            // Cari data berdasarkan ID
-            $outletSetting = OutletSetting::find($id);
             if (!$outletSetting) {
                 return [
                     'status' => 'error',
