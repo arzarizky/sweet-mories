@@ -119,11 +119,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('update-status/{id}', [BookingController::class, 'updateBookStatus'])->name('booking-manager-update-status');
             Route::get('reschedule/{id}', [BookingController::class, 'reschedule'])->name('booking-manager-reschedule');
             Route::post('reschedule/{id}', [BookingController::class, 'UpdateReschedule'])->name('booking-manager-update-reschedule');
+            Route::get('export-booking', [BookingController::class, 'exportBooking'])->name('export-booking');;
+
         });
 
         // prefix invoice manager
         Route::prefix('invoice-manager')->group(function () {
             Route::get('/', [InvoiceController::class, 'index'])->name('invoice-manager');
+            Route::get('export-invoice', [InvoiceController::class, 'exportInvoice'])->name('export-invoice');
+
         });
 
         // prefix product manager

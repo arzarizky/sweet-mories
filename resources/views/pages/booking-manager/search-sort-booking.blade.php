@@ -25,7 +25,7 @@
         </div>
 
         {{-- Dropdown Status --}}
-        <div class="col-sm-4 col-lg-3 col-md-4 mb-4">
+        <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
             <div class="card p-3">
                 <span class="badge p-3 rounded-pill {{ $currentBgClass }}" style="cursor: pointer;"
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,7 +67,7 @@
         </div>
 
         {{-- Select Jumlah Per Halaman --}}
-        <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
+        <div class="col-sm-1 col-lg-1 col-md-1 mb-4">
             <div class="card p-3">
                 <select id="sort-value" class="form-select" name="per_page" onchange="triggerSubmit();">
                     @foreach ([5, 10, 25, 50, 100] as $perPage)
@@ -76,6 +76,15 @@
                         </option>
                     @endforeach
                 </select>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
+            <div class="card p-2">
+                <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#exportBooking">
+                    <span class="icon-base bx bxs-file-export icon-sm me-2"></span>
+                    Export Excel
+                </button>
             </div>
         </div>
     </div>

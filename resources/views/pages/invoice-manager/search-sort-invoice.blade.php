@@ -1,6 +1,6 @@
 <form action="">
     <div class="row">
-        <div class="col-sm-10 col-lg-10 col-md-10 mb-4">
+        <div class="col-sm-8 col-lg-8 col-md-8 mb-4">
             <div class="card p-3">
                 <div class="input-group input-group-merge">
                     <span class="input-group-text" id="basic-addon-search31" style="cursor: pointer;"
@@ -22,6 +22,14 @@
                     <option value="50" @if (request('per_page') == 50) selected @endif>50</option>
                     <option value="100" @if (request('per_page') == 100) selected @endif>100
                 </select>
+            </div>
+        </div>
+        <div class="col-sm-2 col-lg-2 col-md-2 mb-4">
+            <div class="card p-2">
+                <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#exportInvoice">
+                    <span class="icon-base bx bxs-file-export icon-sm me-2"></span>
+                    Export Excel
+                </button>
             </div>
         </div>
     </div>

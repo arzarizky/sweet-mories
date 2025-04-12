@@ -7,10 +7,15 @@ use App\Interfaces\BookingRepositoryInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\ProductBooking;
 use App\Models\Booking;
 use Carbon\Carbon;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Models\OutletSetting;
+use App\Exports\BookingExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class BookingController extends Controller
 {
@@ -182,4 +187,46 @@ class BookingController extends Controller
         $productAddtionalLP = $this->productRepository->productAddtionalLP();
         return view('pages.landing-page.pricelist', compact('displayProducts', 'productAddtionalLP'));
     }
+
+    public function exportBooking(Request $request)
+    {
+        $validated = $request->validate([
+            'from' => 'required|date',
+            'to' => 'required|date|after_or_equal:from',
+            'name' => 'required|string|max:255',
+            'delete_after_export' => 'nullable|boolean',
+        ]);
+
+        $from = $validated['from'];
+        $to = $validated['to'];
+        $name = auth()->user()->name;
+        $nameExport = $validated['name'];
+        $shouldDelete = $request->boolean('delete_after_export');
+
+        $query = Booking::with([
+            'users',
+            'invoice',
+            'promo',
+            'productBookings' => fn($q) => $q->whereNotNull('product_id')->with('products'),
+            'productAdditionalBookings' => fn($q) => $q->whereNotNull('additional_product_id')->with('productsAdditional'),
+            'productBackgroundBookings' => fn($q) => $q->whereNotNull('background_product_id')->with('productsBackground'),
+        ])->whereBetween('booking_date', [$from, $to])
+          ->orderBy('booking_time', 'asc');
+
+        $bookings = $query->get();
+
+        $response = Excel::download(new BookingExport($bookings, $from, $to, $name), $nameExport.' Booking.xlsx');
+
+         if ($shouldDelete) {
+
+            $bookingIds = $bookings->pluck('book_id')->toArray();
+
+            ProductBooking::whereIn('book_id', $bookingIds)->delete();
+
+            Booking::whereIn('book_id', $bookingIds)->delete();
+        }
+
+        return $response;
+    }
+
 }
