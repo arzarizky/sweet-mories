@@ -229,3 +229,58 @@
         {{ $datas->appends(['search' => $search, 'per_page' => $perPage, 'date' => $date, 'status' => $status])->links('layouts.pagination') }}
     </div>
 </div>
+
+<div class="modal fade" id="exportBooking" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{ route('export-booking') }}" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCloseOutletTitle">Export Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="name" class="form-label">Nama Dokumen</label>
+                            <input type="text" id="name" name="name" class="form-control"
+                                placeholder="Contoh: Dokumen Booking Bulan 04 Sampai 05 Tahun 2025">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="from">Mulai Tanggal</label>
+                                <input type="date" class="form-control" name="from" id="from">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="to">Selesai Tanggal</label>
+                                <input type="date" class="form-control" name="to" id="to">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="form-group mb-3">
+                                <label>
+                                    <input type="checkbox" name="delete_after_export" value="1">
+                                    Hapus data setelah export
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Export Excel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

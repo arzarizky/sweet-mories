@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\InvoiceExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Invoice;
+
 
 
 class InvoiceController extends Controller
@@ -62,4 +66,48 @@ class InvoiceController extends Controller
             return redirect()->route('client-booking', ['email' =>  Auth::user()->email])->with('error', $request->book_id . " Sudah dibuat invoice");
         }
     }
+
+    public function exportInvoice(Request $request)
+    {
+        $validated = $request->validate([
+            'from' => 'required|date',
+            'to' => 'required|date|after_or_equal:from',
+            'name' => 'required|string|max:255',
+            'delete_after_export' => 'nullable|boolean',
+        ]);
+
+        $from = $validated['from'];
+        $to = $validated['to'];
+        $name = auth()->user()->name;
+        $nameExport = $validated['name'];
+        $shouldDelete = $request->boolean('delete_after_export');
+
+        // Query invoice yang memiliki bookings pada rentang tanggal
+        $query = Invoice::with(['users', 'bookings' => function ($q) use ($from, $to) {
+            $q->whereBetween('booking_date', [$from, $to]);
+        }])->whereHas('bookings', function ($q) use ($from, $to) {
+            $q->whereBetween('booking_date', [$from, $to]);
+        });
+
+        // Ambil data lalu urutkan berdasarkan booking_time pertama
+        $invoices = $query->get()->sortBy(function ($invoice) {
+            return optional($invoice->bookings->first())->booking_time;
+        })->values();
+
+        // Export ke Excel
+        $response = Excel::download(
+            new InvoiceExport($invoices, $from, $to, $name),
+            $nameExport . ' Invoice.xlsx'
+        );
+
+        // Hapus data invoice dan bookings jika checkbox dicentang
+        if ($shouldDelete) {
+            // Hapus invoice yang terkait bookings di range
+            $invoiceIds = $query->pluck('id');
+            Invoice::whereIn('id', $invoiceIds)->delete();
+        }
+
+        return $response;
+    }
+
 }
